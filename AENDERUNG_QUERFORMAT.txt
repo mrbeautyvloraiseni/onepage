@@ -1,6 +1,0 @@
-Basis: MR_Beauty_Webseite_BEREINIGT_RICHTIG(2).zip
-Geändert wurde nur index.html.
-Hochformat wurde nicht verändert.
-Es wurde nur eine separate CSS-Regel für iPhone-Querformat ergänzt: @media screen and (orientation: landscape) and (max-width: 932px).
-Fonts sind nicht enthalten, weil sie bereits auf GitHub im Ordner fonts liegen.
-Hochladen: index.html, impressum.html, datenschutz.html. Fonts-Ordner auf GitHub unverändert lassen.
