@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>MR Beauty – Zwei getrennte Menüs Rotationstest</title>
+<style>
+@font-face{
+  font-family:Montserrat;
+  src:url('fonts/Montserrat-Regular.otf') format('opentype');
+  font-weight:400;
+  font-display:swap;
+}
+@font-face{
+  font-family:Montserrat;
+  src:url('fonts/Montserrat-Bold.otf') format('opentype');
+  font-weight:700;
+  font-display:swap;
+}
+
+:root{
+  --lime:#C8CF04;
+  --paper:#f3ebe1;
+  --portrait-h:96px;
+  --landscape-h:76px;
+  --side:20px;
+}
+
+*{box-sizing:border-box}
+
+html{
+  background:#000;
+  scroll-behavior:auto;
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:#111;
+  font-family:Montserrat,Arial,sans-serif;
+  overflow-x:hidden;
+}
+
+a{color:inherit;text-decoration:none}
+
+/* Zwei komplett getrennte Header.
+   Keiner wird beim Drehen umgebaut oder verkleinert. */
+.nav-portrait,
+.nav-landscape{
+  position:fixed;
+  inset:0 0 auto 0;
+  z-index:1000;
+  background:#000;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+
+.nav-portrait{height:var(--portrait-h)}
+.nav-landscape{height:var(--landscape-h)}
+
+.nav-landscape{display:none}
+.nav-portrait{display:block}
+
+.page-spacer{
+  height:var(--portrait-h);
+}
+
+.navin{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-left:calc(env(safe-area-inset-left,0px) + var(--side));
+  padding-right:calc(env(safe-area-inset-right,0px) + var(--side));
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+}
+
+.nav-portrait .brand img{
+  display:block;
+  width:85px;
+  height:85px;
+  object-fit:contain;
+}
+
+.nav-landscape .brand img{
+  display:block;
+  width:67px;
+  height:67px;
+  object-fit:contain;
+}
+
+.hamb{
+  position:relative;
+  display:block;
+  margin:0;
+  padding:0;
+  border-radius:50%;
+  background:#000;
+  color:transparent;
+  font-size:0;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.nav-portrait .hamb{
+  flex:0 0 58px;
+  width:58px;
+  height:58px;
+  border:2px solid var(--lime);
+}
+
+.nav-landscape .hamb{
+  flex:0 0 46px;
+  width:46px;
+  height:46px;
+  border:1.6px solid var(--lime);
+}
+
+.hamb::before,
+.hamb::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  border-radius:2px;
+  background:#fff;
+  transform-origin:center;
+}
+
+.nav-portrait .hamb::before,
+.nav-portrait .hamb::after{
+  width:20px;
+  height:2px;
+}
+
+.nav-portrait .hamb::before{
+  transform:translate(-50%,-7px);
+  box-shadow:0 7px 0 #fff;
+}
+
+.nav-portrait .hamb::after{
+  transform:translate(-50%,7px);
+}
+
+.nav-landscape .hamb::before,
+.nav-landscape .hamb::after{
+  width:16px;
+  height:1.6px;
+}
+
+.nav-landscape .hamb::before{
+  transform:translate(-50%,-5.5px);
+  box-shadow:0 5.5px 0 #fff;
+}
+
+.nav-landscape .hamb::after{
+  transform:translate(-50%,5.5px);
+}
+
+.hamb[aria-expanded="true"]::before{
+  box-shadow:none;
+  transform:translate(-50%,-50%) rotate(45deg);
+}
+
+.hamb[aria-expanded="true"]::after{
+  transform:translate(-50%,-50%) rotate(-45deg);
+}
+
+.nav-portrait .hamb[aria-expanded="true"]::before,
+.nav-portrait .hamb[aria-expanded="true"]::after{
+  width:26px;
+}
+
+.nav-landscape .hamb[aria-expanded="true"]::before,
+.nav-landscape .hamb[aria-expanded="true"]::after{
+  width:21px;
+}
+
+.mobile-menu{
+  position:absolute;
+  top:100%;
+  left:env(safe-area-inset-left,0px);
+  right:env(safe-area-inset-right,0px);
+  display:none;
+  padding:0 var(--side);
+  background:#000;
+  overflow:hidden;
+}
+
+.mobile-menu.show{
+  display:flex;
+  flex-direction:column;
+}
+
+.nav-portrait .mobile-menu{
+  height:322px;
+  border-radius:0 0 24px 24px;
+}
+
+.nav-landscape .mobile-menu{
+  height:255px;
+  border-radius:0 0 19px 19px;
+}
+
+.mobile-menu a{
+  display:flex;
+  align-items:center;
+  border-bottom:1px solid rgba(255,255,255,.12);
+  color:#fff;
+  line-height:1;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.nav-portrait .mobile-menu a{
+  height:46px;
+  min-height:46px;
+  font-size:13px;
+}
+
+.nav-landscape .mobile-menu a{
+  height:36.4px;
+  min-height:36.4px;
+  font-size:10.3px;
+}
+
+.mobile-menu a:last-child{border-bottom:0}
+
+/* Nur Sichtbarkeit umschalten – kein Element wird neu dimensioniert. */
+@media (orientation:landscape) and (max-height:600px) and (max-width:1000px){
+  .nav-portrait{display:none}
+  .nav-landscape{display:block}
+  .page-spacer{height:var(--landscape-h)}
+}
+
+.guide{
+  position:fixed;
+  z-index:900;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:#187bff;
+  pointer-events:none;
+}
+
+.guide.left{left:calc(env(safe-area-inset-left,0px) + 20px)}
+.guide.right{right:calc(env(safe-area-inset-right,0px) + 20px)}
+
+section,
+footer{
+  min-height:100svh;
+  padding:44px max(36px,calc(env(safe-area-inset-left,0px) + 36px));
+}
+
+section:nth-of-type(odd){background:var(--paper)}
+section:nth-of-type(even){background:#fff}
+
+h1{
+  margin:0 0 28px;
+  font-size:clamp(42px,9vw,92px);
+  line-height:.95;
+}
+
+p{
+  max-width:760px;
+  font-size:20px;
+  line-height:1.6;
+}
+
+.marker{
+  display:inline-block;
+  margin-bottom:24px;
+  padding:8px 12px;
+  background:var(--lime);
+  font-weight:700;
+}
+
+footer{
+  min-height:85svh;
+  background:#000;
+  color:#fff;
+  padding-bottom:calc(44px + env(safe-area-inset-bottom,0px));
+}
+</style>
+</head>
+<body id="top">
+
+<div class="guide left" aria-hidden="true"></div>
+<div class="guide right" aria-hidden="true"></div>
+
+<nav class="nav-portrait" aria-label="Hauptnavigation Hochformat">
+  <div class="navin">
+    <a class="brand" href="#top">
+      <img src="images/logo.png" alt="MR Beauty Logo">
+    </a>
+    <button class="hamb"
+            id="hambPortrait"
+            aria-label="Menü öffnen"
+            aria-expanded="false"
+            aria-controls="menuPortrait">Menü</button>
+  </div>
+  <div class="mobile-menu" id="menuPortrait">
+    <a href="#top">Startseite</a>
+    <a href="#about">Über uns</a>
+    <a href="#services">Leistungen</a>
+    <a href="#gallery">Galerie</a>
+    <a href="#prices">Preise</a>
+    <a href="#standort">Standort</a>
+    <a href="#kontakt">Kontakt</a>
+  </div>
+</nav>
+
+<nav class="nav-landscape" aria-label="Hauptnavigation Querformat">
+  <div class="navin">
+    <a class="brand" href="#top">
+      <img src="images/logo.png" alt="MR Beauty Logo">
+    </a>
+    <button class="hamb"
+            id="hambLandscape"
+            aria-label="Menü öffnen"
+            aria-expanded="false"
+            aria-controls="menuLandscape">Menü</button>
+  </div>
+  <div class="mobile-menu" id="menuLandscape">
+    <a href="#top">Startseite</a>
+    <a href="#about">Über uns</a>
+    <a href="#services">Leistungen</a>
+    <a href="#gallery">Galerie</a>
+    <a href="#prices">Preise</a>
+    <a href="#standort">Standort</a>
+    <a href="#kontakt">Kontakt</a>
+  </div>
+</nav>
+
+<div class="page-spacer" aria-hidden="true"></div>
+
+<section>
+  <span class="marker">OBEN LEICHT SCROLLEN UND DREHEN</span>
+  <h1>Zwei getrennte Menüs</h1>
+  <p>Hochformat und Querformat besitzen jetzt vollständig unabhängige Menüelemente mit eigenen festen Grössen.</p>
+</section>
+
+<section id="about">
+  <span class="marker">MITTE 1</span>
+  <h1>Über uns</h1>
+</section>
+
+<section id="services">
+  <span class="marker">MITTE 2</span>
+  <h1>Leistungen</h1>
+</section>
+
+<section id="gallery">
+  <span class="marker">MITTE 3</span>
+  <h1>Galerie</h1>
+</section>
+
+<section id="prices">
+  <span class="marker">MITTE 4</span>
+  <h1>Preise</h1>
+</section>
+
+<section id="standort">
+  <span class="marker">MITTE 5</span>
+  <h1>Standort</h1>
+</section>
+
+<section id="kontakt">
+  <span class="marker">VOR FOOTER</span>
+  <h1>Kontakt</h1>
+</section>
+
+<footer>
+  <span class="marker">FOOTER TEST</span>
+  <h1>Footer</h1>
+</footer>
+
+<script>
+(()=>{
+  function setup(buttonId, menuId){
+    const button=document.getElementById(buttonId);
+    const menu=document.getElementById(menuId);
+
+    const close=()=>{
+      menu.classList.remove('show');
+      button.setAttribute('aria-expanded','false');
+      button.setAttribute('aria-label','Menü öffnen');
+    };
+
+    button.addEventListener('click',()=>{
+      const open=!menu.classList.contains('show');
+      menu.classList.toggle('show',open);
+      button.setAttribute('aria-expanded',String(open));
+      button.setAttribute('aria-label',open ? 'Menü schliessen' : 'Menü öffnen');
+    });
+
+    menu.addEventListener('click',event=>{
+      if(event.target.closest('a')) close();
+    });
+
+    document.addEventListener('click',event=>{
+      if(!event.target.closest('.nav-portrait') &&
+         !event.target.closest('.nav-landscape')) close();
+    });
+  }
+
+  setup('hambPortrait','menuPortrait');
+  setup('hambLandscape','menuLandscape');
+})();
+</script>
+</body>
+</html>
