@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+  <title>MR Beauty – Menü Rotation Test</title>
+  <style>
+    :root{
+      --black:#000000;
+      --footer:#050505;
+      --yellow:#C8CF04;
+      --white:#FFFFFF;
+      --beige:#EEE3D6;
+    }
+
+    *{box-sizing:border-box}
+
+    html{
+      width:100%;
+      min-height:100%;
+      margin:0;
+      padding:0;
+      background:var(--footer);
+      overflow-x:hidden;
+    }
+
+    body{
+      width:100%;
+      min-height:100%;
+      margin:0;
+      padding:0;
+      overflow-x:hidden;
+      background:#fff;
+      color:#111;
+      font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+      -webkit-text-size-adjust:100%;
+    }
+
+    /* =========================================================
+       TEST-MENÜLEISTE
+       - fixed
+       - konstante 96 px in Hoch- UND Querformat
+       - KEIN resize/orientationchange/visualViewport JavaScript
+       - KEIN transform / sticky / GPU trick
+       ========================================================= */
+    nav.nav{
+      position:fixed;
+      z-index:1000;
+      top:0;
+      left:0;
+      right:0;
+      width:100%;
+      height:96px;
+      min-height:96px;
+      max-height:96px;
+      margin:0;
+      padding:0;
+      background:#000;
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
+
+    .navin{
+      width:100%;
+      height:96px;
+      margin:0;
+      padding:0 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background:#000;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      text-decoration:none;
+    }
+
+    .brand img{
+      display:block;
+      width:85px;
+      height:85px;
+      min-width:85px;
+      min-height:85px;
+      object-fit:contain;
+      border:0;
+    }
+
+    .hamb{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:58px;
+      height:58px;
+      min-width:58px;
+      min-height:58px;
+      margin:0;
+      padding:0;
+      border:2px solid var(--yellow);
+      border-radius:999px;
+      background:#000;
+      color:transparent;
+      font-size:0;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    .hamb::before,
+    .hamb::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:20px;
+      height:2px;
+      border-radius:2px;
+      background:#fff;
+      transform-origin:center;
+    }
+
+    .hamb::before{
+      transform:translate(-50%,-7px);
+      box-shadow:0 7px 0 #fff;
+    }
+
+    .hamb::after{
+      transform:translate(-50%,7px);
+    }
+
+    .hamb[aria-expanded="true"]::before{
+      width:26px;
+      transform:translate(-50%,-50%) rotate(45deg);
+      box-shadow:none;
+    }
+
+    .hamb[aria-expanded="true"]::after{
+      width:26px;
+      transform:translate(-50%,-50%) rotate(-45deg);
+    }
+
+    /*
+      Menü-Overlay liegt separat fixed unter der Leiste.
+      Öffnen verändert weder Headerhöhe noch Dokumenthöhe.
+    */
+    .mobileMenu{
+      position:fixed;
+      z-index:999;
+      top:96px;
+      left:0;
+      right:0;
+      display:none;
+      width:100%;
+      margin:0;
+      padding:0 20px;
+      background:#000;
+      border-bottom-left-radius:24px;
+      border-bottom-right-radius:24px;
+      overflow:hidden;
+    }
+
+    .mobileMenu.show{display:block}
+
+    .mobileMenu a{
+      display:flex;
+      align-items:center;
+      width:100%;
+      height:46px;
+      margin:0;
+      padding:0;
+      border-bottom:1px solid rgba(255,255,255,.12);
+      color:#fff;
+      font-size:13px;
+      font-weight:400;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      text-decoration:none;
+    }
+
+    .mobileMenu a:last-child{border-bottom:0}
+
+    /* Der Inhalt reserviert exakt die feste Headerhöhe. */
+    main{
+      width:100%;
+      margin:0;
+      padding:96px 0 0;
+      background:#fff;
+    }
+
+    .intro,
+    .block{
+      width:100%;
+      margin:0;
+      padding:42px 24px;
+    }
+
+    .intro{
+      min-height:620px;
+      background:var(--beige);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .intro .eyebrow{
+      margin:0 0 12px;
+      color:#777;
+      font-size:15px;
+      font-weight:700;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+    }
+
+    .intro h1{
+      margin:0;
+      max-width:760px;
+      font-size:clamp(50px,10vw,104px);
+      font-weight:400;
+      line-height:.92;
+      letter-spacing:-.05em;
+    }
+
+    .intro p{
+      max-width:620px;
+      margin:24px 0 0;
+      font-size:18px;
+      line-height:1.55;
+      color:#666;
+    }
+
+    .block{
+      min-height:620px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+    }
+
+    .block.one{
+      background:#fff;
+    }
+
+    .block.two{
+      background:#111;
+      color:#fff;
+    }
+
+    .testbox{
+      width:min(100%,720px);
+      padding:34px 24px;
+      border:2px solid var(--yellow);
+      border-radius:24px;
+    }
+
+    .testbox h2{
+      margin:0 0 16px;
+      font-size:30px;
+    }
+
+    .testbox p{
+      margin:0;
+      font-size:17px;
+      line-height:1.6;
+    }
+
+    footer{
+      position:relative;
+      width:100%;
+      min-height:300px;
+      margin:0;
+      padding:55px 24px 70px;
+      background:var(--footer);
+      color:#fff;
+      text-align:center;
+      border-top:1px solid rgba(255,255,255,.12);
+    }
+
+    footer strong{
+      display:block;
+      margin-bottom:14px;
+      color:var(--yellow);
+      font-size:22px;
+      letter-spacing:.08em;
+    }
+
+    footer p{
+      margin:0 auto;
+      max-width:620px;
+      color:rgba(255,255,255,.75);
+      line-height:1.6;
+    }
+
+    /* Unter dem Footer bleibt der Dokumenthintergrund ebenfalls schwarz. */
+    .bottomBlack{
+      width:100%;
+      height:140px;
+      background:var(--footer);
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav" aria-label="Hauptnavigation">
+    <div class="navin">
+      <a class="brand" href="#top" aria-label="MR Beauty">
+        <img src="images/logo.png" alt="MR Beauty Logo" width="85" height="85">
+      </a>
+      <button class="hamb" id="hamb" aria-label="Menü" aria-expanded="false">Menü</button>
+    </div>
+  </nav>
+
+  <div class="mobileMenu" id="mobileMenu">
+    <a href="#top">Startseite</a>
+    <a href="#eins">Über uns</a>
+    <a href="#zwei">Leistungen</a>
+    <a href="#footer">Kontakt</a>
+  </div>
+
+  <main id="top">
+    <section class="intro">
+      <p class="eyebrow">MR Beauty – Rotationstest</p>
+      <h1>Menüleiste ohne Onepage-Logik.</h1>
+      <p>
+        Bitte genau hier oben mehrmals Hochformat ↔ Querformat drehen.
+        Die schwarze Menüleiste darf dabei nicht sichtbar nach unten oder in die Mitte springen.
+      </p>
+    </section>
+
+    <section class="block one" id="eins">
+      <div class="testbox">
+        <h2>Test in der Seitenmitte</h2>
+        <p>
+          Auch hier mehrmals drehen. Auf dieser Testseite gibt es kein Resize-,
+          Orientation- oder Visual-Viewport-Script.
+        </p>
+      </div>
+    </section>
+
+    <section class="block two" id="zwei">
+      <div class="testbox">
+        <h2>Zweiter Farbblock</h2>
+        <p>
+          Der Hintergrund läuft immer über die gesamte Displaybreite.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer">
+    <strong>MR BEAUTY – TESTFOOTER</strong>
+    <p>
+      Bitte auch ganz unten Hochformat ↔ Querformat drehen.
+      Der Footer muss schwarz, über die volle Breite und an derselben Stelle bleiben.
+    </p>
+  </footer>
+  <div class="bottomBlack" aria-hidden="true"></div>
+
+  <script>
+    /*
+      Einziges JavaScript dieser Seite:
+      Menü öffnen/schliessen. Keine Rotation, kein Resize, kein visualViewport.
+    */
+    (function(){
+      var button=document.getElementById('hamb');
+      var menu=document.getElementById('mobileMenu');
+
+      function setOpen(open){
+        button.setAttribute('aria-expanded', open ? 'true' : 'false');
+        menu.classList.toggle('show', open);
+      }
+
+      button.addEventListener('click', function(){
+        setOpen(button.getAttribute('aria-expanded') !== 'true');
+      });
+
+      menu.addEventListener('click', function(e){
+        if(e.target.closest('a')) setOpen(false);
+      });
+    })();
+  </script>
+</body>
+</html>
