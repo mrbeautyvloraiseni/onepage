@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>MR Beauty – Geräte-Test</title>
+<style>
+:root{--bg:#0a0a0a;--card:#151515;--line:#2d2d2d;--yellow:#C8CF04;--muted:#a8a8a8}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{min-height:100vh;padding-bottom:max(18px,env(safe-area-inset-bottom))}
+header{position:sticky;top:0;z-index:10;background:rgba(10,10,10,.96);border-bottom:1px solid var(--line);padding:max(14px,env(safe-area-inset-top)) 14px 12px;backdrop-filter:blur(12px)}
+h1{margin:0 0 4px;font-size:19px;line-height:1.2}
+.sub{font-size:12px;line-height:1.35;color:var(--muted)}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 14px 10px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+button{flex:0 0 auto;border:1px solid #3a3a3a;background:#181818;color:#fff;border-radius:999px;padding:10px 13px;font-size:12px;font-weight:650}
+button.active{background:var(--yellow);border-color:var(--yellow);color:#000}
+.info{margin:0 14px 10px;padding:10px 12px;border:1px solid var(--line);background:var(--card);border-radius:14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.info strong{font-size:13px}.info span{font-size:11px;color:var(--muted)}
+.stage{width:calc(100vw - 20px);margin:0 10px 18px;padding:10px;overflow:hidden;background:#101010;border:1px solid var(--line);border-radius:18px}
+.holder{position:relative;margin:0 auto}
+.device{position:absolute;left:0;top:0;background:#fff;border:2px solid #444;overflow:hidden;transform-origin:0 0;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.device.phone{border-radius:38px}.device.tablet{border-radius:24px}.device.desktop{border-radius:10px}
+iframe{display:block;width:100%;height:100%;border:0;background:#fff}
+.note{margin:0 14px;color:var(--muted);font-size:11px;line-height:1.45}
+</style>
+</head>
+<body>
+<header>
+  <h1>MR Beauty – Geräte-Test</h1>
+  <div class="sub">Auf deinem iPhone Gerät auswählen und die responsive Ansicht prüfen.</div>
+</header>
+<div class="tabs" id="tabs"></div>
+<div class="info">
+  <div><strong id="deviceName">–</strong><br><span id="deviceSize">–</span></div>
+  <span id="scaleText">–</span>
+</div>
+<div class="stage" id="stage">
+  <div class="holder" id="holder">
+    <div class="device" id="device">
+      <iframe id="preview" title="MR Beauty Geräte-Vorschau"></iframe>
+    </div>
+  </div>
+</div>
+<div class="note">Die Vorschau simuliert CSS-Breite und Ausrichtung. Echte Safari-Leisten und Safe-Areas können auf dem realen Gerät minimal abweichen.</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var devices=[
+    {id:'iphone-p',label:'iPhone Hoch',name:'iPhone – Hochformat',w:393,h:852,type:'phone',phone:true,tablet:false,o:'portrait'},
+    {id:'iphone-l',label:'iPhone Quer',name:'iPhone – Querformat',w:852,h:393,type:'phone',phone:true,tablet:false,o:'landscape'},
+    {id:'iphone-max',label:'iPhone Max',name:'iPhone Max – Hochformat',w:430,h:932,type:'phone',phone:true,tablet:false,o:'portrait'},
+    {id:'ipad-p',label:'iPad Hoch',name:'iPad 10.9" – Hochformat',w:820,h:1180,type:'tablet',phone:false,tablet:true,o:'portrait'},
+    {id:'ipad-l',label:'iPad Quer',name:'iPad 10.9" – Querformat',w:1180,h:820,type:'tablet',phone:false,tablet:true,o:'landscape'},
+    {id:'ipadpro-p',label:'iPad Pro Hoch',name:'iPad Pro 11" – Hochformat',w:834,h:1194,type:'tablet',phone:false,tablet:true,o:'portrait'},
+    {id:'ipadpro-l',label:'iPad Pro Quer',name:'iPad Pro 11" – Querformat',w:1194,h:834,type:'tablet',phone:false,tablet:true,o:'landscape'},
+    {id:'android-p',label:'Android',name:'Android-Handy – Hochformat',w:412,h:915,type:'phone',phone:true,tablet:false,o:'portrait'},
+    {id:'android-tab-p',label:'Android Tab Hoch',name:'Android-Tablet – Hochformat',w:800,h:1280,type:'tablet',phone:false,tablet:true,o:'portrait'},
+    {id:'android-tab-l',label:'Android Tab Quer',name:'Android-Tablet – Querformat',w:1280,h:800,type:'tablet',phone:false,tablet:true,o:'landscape'},
+    {id:'desktop',label:'Desktop',name:'Desktop – 1280 × 800',w:1280,h:800,type:'desktop',desktop:true,phone:false,tablet:false,o:'landscape'}
+  ];
+
+  var tabs=document.getElementById('tabs');
+  var holder=document.getElementById('holder');
+  var device=document.getElementById('device');
+  var iframe=document.getElementById('preview');
+  var stage=document.getElementById('stage');
+  var nameEl=document.getElementById('deviceName');
+  var sizeEl=document.getElementById('deviceSize');
+  var scaleEl=document.getElementById('scaleText');
+  var current=null;
+
+  function initial(){
+    var id=new URLSearchParams(location.search).get('device');
+    return devices.find(function(d){return d.id===id;}) || devices[0];
+  }
+
+  devices.forEach(function(d){
+    var b=document.createElement('button');
+    b.type='button';
+    b.textContent=d.label;
+    b.dataset.id=d.id;
+    b.addEventListener('click',function(){select(d,true)});
+    tabs.appendChild(b);
+  });
+
+  function srcFor(d){
+    if(d.desktop) return 'index.html?desktop=1&devicepreview=1';
+    return 'index.html?simphone='+(d.phone?'1':'0')+
+      '&simtablet='+(d.tablet?'1':'0')+
+      '&simorientation='+d.o+
+      '&devicepreview=1';
+  }
+
+  function resize(){
+    if(!current) return;
+    var available=Math.max(240,stage.clientWidth-20);
+    var scale=Math.min(available/current.w,1);
+
+    device.style.width=current.w+'px';
+    device.style.height=current.h+'px';
+    device.style.transform='scale('+scale+')';
+
+    holder.style.width=(current.w*scale)+'px';
+    holder.style.height=(current.h*scale)+'px';
+    scaleEl.textContent=Math.round(scale*100)+' %';
+  }
+
+  function select(d,push){
+    current=d;
+
+    Array.prototype.forEach.call(tabs.querySelectorAll('button'),function(b){
+      b.classList.toggle('active',b.dataset.id===d.id);
+    });
+
+    nameEl.textContent=d.name;
+    sizeEl.textContent=d.w+' × '+d.h+' CSS-px';
+    device.className='device '+d.type;
+    iframe.src=srcFor(d);
+
+    if(push){
+      var u=new URL(location.href);
+      u.searchParams.set('device',d.id);
+      history.replaceState(null,'',u.pathname+'?'+u.searchParams.toString());
+    }
+
+    resize();
+  }
+
+  window.addEventListener('resize',resize,{passive:true});
+  select(initial(),false);
+})();
+</script>
+</body>
+</html>
