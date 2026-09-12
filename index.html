@@ -11053,5 +11053,155 @@ window.__mrWebsiteBuildV116=
   'V116_IPAD_MENU_UNTEN_RUND_V115_ANKER_ERHALTEN_2026-09-12';
 </script>
 
+
+
+<style id="mr-v117-responsive-visual-fixes-final">
+/*
+  V117 – gezielte Korrekturen aus der Sichtprüfung vom 12.09.2026.
+  1) Kompaktes PC-/Mac-Querformat: Hero beginnt direkt unter der 76px-Navigation.
+  2) Geöffnetes Hamburger-Menü: beide unteren Ecken sichtbar rund (Tablet + kompakter Desktop).
+  3) Gelbe Inhalts-Hilfslinien laufen beim Scrollen nicht mehr über die fixe Navigation.
+  4) Tablet/kompakte Portraitansicht: Galerie- und Standortbilder kleiner.
+  5) Desktop-Maus: Galeriebilder bekommen denselben Hover-Zoom wie das Gebäudebild.
+*/
+
+/* Das 20px-Leerband entstand aus 96px Hero-Reserve bei einer 76px Landscape-Navigation. */
+html[data-mr-menu-layout="landscape"]:not([data-mr-v109-tablet="1"]) body header.hero{
+  padding-top:76px!important;
+}
+
+/* Rundung des kompletten offenen Menüs. Nicht auf den iPhone-Scroll-Shell anwenden,
+   weil dort das Menü absolut unter der Navigation liegt und overflow:visible braucht. */
+html:not([data-mr-phone-shell="1"])[data-mr-menu-layout="portrait"] body > nav.nav.mobileMenuOpen{
+  border-bottom-left-radius:24px!important;
+  border-bottom-right-radius:24px!important;
+  overflow:hidden!important;
+  background:#000!important;
+}
+html:not([data-mr-phone-shell="1"])[data-mr-menu-layout="portrait"] body > nav.nav.mobileMenuOpen > .mobile.show{
+  border-bottom-left-radius:24px!important;
+  border-bottom-right-radius:24px!important;
+  overflow:hidden!important;
+}
+html:not([data-mr-phone-shell="1"])[data-mr-menu-layout="landscape"] body > nav.nav.mobileMenuOpen{
+  border-bottom-left-radius:19px!important;
+  border-bottom-right-radius:19px!important;
+  overflow:hidden!important;
+  background:#000!important;
+}
+html:not([data-mr-phone-shell="1"])[data-mr-menu-layout="landscape"] body > nav.nav.mobileMenuOpen > .mobile.show{
+  border-bottom-left-radius:19px!important;
+  border-bottom-right-radius:19px!important;
+  overflow:hidden!important;
+}
+
+/* Kompaktes PC-/Mac-Fenster verwendet intern den Phone-Scroll-Shell.
+   Dort bleibt overflow:visible nötig. Der rechte Eckfehler kam von width:100vw
+   (100vw reicht unter Windows bis unter die Scrollbar). Mit left/right + width:auto
+   endet das Menü exakt an beiden sichtbaren Viewportkanten. */
+@media (hover:hover) and (pointer:fine) and (max-width:1000px){
+  html[data-mr-phone-shell="1"] body > nav.nav > .mobile{
+    left:0!important;
+    right:0!important;
+    width:auto!important;
+    max-width:none!important;
+  }
+  html[data-mr-phone-shell="1"][data-mr-menu-layout="portrait"] body > nav.nav > .mobile.show{
+    border-bottom-left-radius:24px!important;
+    border-bottom-right-radius:24px!important;
+  }
+  html[data-mr-phone-shell="1"][data-mr-menu-layout="landscape"] body > nav.nav > .mobile.show{
+    border-bottom-left-radius:19px!important;
+    border-bottom-right-radius:19px!important;
+  }
+}
+
+/* Die eigentliche Logogelb-Linie bleibt exakt an der Unterkante. */
+body > nav.nav::after{
+  top:auto!important;
+  bottom:0!important;
+}
+
+/* #FFD400 ist eine Inhalts-Hilfslinie, nicht die Menülinie. Sie darf beim Scrollen
+   nicht über der festen Navigation liegen. Die echte Menülinie #C8CF04 bleibt sichtbar. */
+.mr-yellow-text-window-guide{
+  z-index:40!important;
+}
+
+/* Tablet + kompakter Desktop: nicht mehr zwei riesige Galerie-Spalten. */
+@media (min-width:600px) and (max-width:920px){
+  #gallery .gallery{
+    width:min(780px,calc(100vw - 64px))!important;
+    max-width:780px!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:12px!important;
+  }
+  #gallery .shot,
+  #gallery .shot.wide{
+    width:100%!important;
+    max-width:none!important;
+    aspect-ratio:1/1!important;
+  }
+  #standort .location{
+    width:min(620px,calc(100vw - 80px))!important;
+    max-width:620px!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    grid-template-columns:1fr!important;
+  }
+  #standort .buildingPreview,
+  #standort .locCard.mapOnly{
+    width:100%!important;
+    max-width:100%!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+}
+
+/* Echte Tablets dürfen auch oberhalb 920 CSS-px nicht wieder in die riesige Desktop-Geometrie fallen. */
+html[data-mr-v109-tablet="1"] #gallery .gallery{
+  width:min(780px,calc(100vw - 64px))!important;
+  max-width:780px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:12px!important;
+}
+html[data-mr-v109-tablet="1"] #gallery .shot,
+html[data-mr-v109-tablet="1"] #gallery .shot.wide{
+  width:100%!important;
+  max-width:none!important;
+  aspect-ratio:1/1!important;
+}
+html[data-mr-v109-tablet="1"] #standort .location{
+  width:min(660px,calc(100vw - 80px))!important;
+  max-width:660px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  grid-template-columns:1fr!important;
+}
+html[data-mr-v109-tablet="1"] #standort .buildingPreview,
+html[data-mr-v109-tablet="1"] #standort .locCard.mapOnly{
+  width:100%!important;
+  max-width:100%!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+/* Maus-Hover in der Galerie = derselbe 1.06-Zoom wie beim Gebäudebild. */
+@media (hover:hover) and (pointer:fine){
+  #gallery .shot:hover img{
+    transform:scale(1.06)!important;
+  }
+}
+</style>
+<script id="mr-v117-build-marker-final">
+window.__mrWebsiteBuildV117=
+  'V117_MENU_RUND_GAP_GUIDE_GALLERY_LOCATION_HOVER_2026-09-12';
+</script>
+
 </body>
 </html>
