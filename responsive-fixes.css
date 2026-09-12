@@ -1,0 +1,56 @@
+/* V116 – Ergänzungen zur gelieferten V114. Originalgestaltung bleibt erhalten. */
+html{--mr-anchor-gap:20px;scroll-padding-top:120px}
+html body nav.nav a.brand>span{display:none!important}
+html body #mr-page-scroll{scroll-padding-top:120px}
+html body #about,html body #services,html body #gallery,html body #prices,html body #standort,html body #kontakt{scroll-margin-top:120px}
+/* Geometrie aus der Fensterbreite; keine starren Mindestbreiten am Tablet. */
+html[data-mr-v109-tablet="1"] body .wrap,
+html[data-mr-v109-tablet="1"] body .navin{min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
+html[data-mr-v109-tablet="1"] body .serviceGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+html[data-mr-v109-tablet="1"] body .serviceCard{width:auto!important;min-width:0!important;max-width:100%!important}
+html body .navin{min-width:0!important}
+html body .gallery .shot{min-width:0!important}
+html body .gallery .shot img:focus-visible{outline:3px solid #C8CF04!important;outline-offset:-5px!important}
+/* Nur die Grossansicht wird begrenzt; Vorschaubilder bleiben unverändert. */
+html body #lightbox.lightbox{box-sizing:border-box!important;overflow-y:auto!important;padding:48px 20px 24px!important}
+html body #lightbox .lightboxInner{width:min(640px,calc(100vw - 48px))!important;max-width:min(640px,calc(100vw - 48px))!important;max-height:calc(100dvh - 72px)!important}
+html body #lightbox .lightImgClip{width:auto!important;height:auto!important;max-width:100%!important;max-height:min(55dvh,560px)!important;flex:0 1 auto!important}
+html body #lightbox .lightImgClip>img#lightImg{width:auto!important;height:auto!important;max-width:min(640px,calc(100vw - 48px))!important;max-height:min(55dvh,560px)!important;object-fit:contain!important}
+html body #lightbox .galleryInfoBox{width:100%!important;max-width:100%!important;box-sizing:border-box!important;flex-shrink:0!important}
+html body #lightbox .galleryInfoTitle{font-size:14px!important;line-height:1.4!important}
+html body #lightbox .galleryInfoText{font-size:14px!important;line-height:1.55!important}
+html body #lightbox #mr-lightbox-close{display:block!important;position:fixed!important;top:max(10px,env(safe-area-inset-top))!important;right:max(16px,env(safe-area-inset-right))!important;z-index:5!important;background:#000!important;border:1px solid #C8CF04!important;color:#fff!important;border-radius:6px!important;width:auto!important;height:auto!important;padding:9px 14px!important;font:500 14px/1.4 Montserrat,sans-serif!important;cursor:pointer!important}
+/* Desktop-Preise: Nägel links durchgehend, rechts Beauty und Lehrlinge. */
+@media(min-width:1101px){
+ html body #prices .priceTabs{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:auto auto!important;align-items:stretch!important;gap:14px!important}
+ html body #prices .priceTabs>.priceCard.priceOpen{height:auto!important;min-height:0!important;max-height:none!important;align-self:stretch!important;display:flex!important;flex-direction:column!important}
+ html body #prices .priceTabs>.priceCard.priceOpen:nth-child(1){grid-area:1/1/3/2!important}
+ html body #prices .priceTabs>.priceCard.priceOpen:nth-child(2){grid-area:1/2/2/3!important}
+ html body #prices .priceTabs>.priceCard.priceOpen:nth-child(3){grid-area:2/2/3/3!important}
+ html body #prices .priceTabs>.priceCard.priceOpen>.priceOpenBody{flex:1!important;display:flex!important;flex-direction:column!important}
+ html body #prices .priceTabs>.priceCard.priceOpen>.priceOpenBody>.priceRow{flex:1!important;height:auto!important;min-height:38px!important;max-height:none!important}
+}
+/* Beschriftungen dürfen bei schmalen Fenstern umbrechen statt abgeschnitten werden. */
+html body #prices .priceRow>span:first-child{white-space:normal!important;overflow:visible!important;text-overflow:initial!important;min-width:0!important}
+@media(min-width:601px) and (max-width:1100px){
+ html body #prices .priceTabs{grid-template-columns:1fr!important;grid-template-rows:auto!important;max-width:680px!important}
+ html body #prices .priceTabs>.priceCard.priceOpen{grid-column:1!important;grid-row:auto!important;width:100%!important;max-width:100%!important;height:auto!important;max-height:none!important}
+ html body #prices .priceRow{height:auto!important;min-height:42px!important;max-height:none!important}
+ html body #prices .priceRow>span:first-child,html body #prices .priceCurrency,html body #prices .priceAmount{font-size:14px!important;line-height:1.5!important}
+}
+@media(max-width:600px){
+ html body #lightbox .lightboxInner{width:calc(100vw - 56px)!important;max-width:calc(100vw - 56px)!important}
+ html body #lightbox .lightImgClip>img#lightImg{max-width:calc(100vw - 56px)!important;max-height:50dvh!important}
+ html body #prices .priceRow{height:auto!important;min-height:42px!important;max-height:none!important}
+ html body #prices .priceRow>span:first-child{font-size:13px!important;line-height:1.45!important}
+}
+@media(orientation:landscape) and (max-height:600px) and (max-width:1000px){
+ html body header.hero .heroMedia,html body header.hero .mainPhoto{left:0!important;right:auto!important;width:100vw!important;max-width:100vw!important;margin-left:0!important;margin-right:0!important}
+ html body header.hero .mainPhoto img{width:100%!important;height:100%!important;object-fit:cover!important}
+ html body #lightbox.lightbox{padding:45px max(20px,env(safe-area-inset-right)) 10px max(20px,env(safe-area-inset-left))!important}
+ html body #lightbox .lightboxInner{width:min(560px,80vw)!important;max-width:min(560px,80vw)!important;max-height:none!important}
+ html body #lightbox .lightImgClip>img#lightImg{max-height:40dvh!important;max-width:75vw!important}
+ html body #lightbox .galleryInfoBox{margin-top:8px!important;padding:8px 12px!important}
+ html body #lightbox .galleryInfoTitle,html body #lightbox .galleryInfoText{font-size:12px!important;line-height:1.4!important}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.reveal,.aboutTextAnim{animation:none!important;transition:none!important}}
