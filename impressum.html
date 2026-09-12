@@ -126,8 +126,25 @@ body{
 
   function compactLayout(){
     if(window.__mrForceDesktop) return false;
-    var w=document.documentElement.clientWidth||window.innerWidth;
-    return w<=1100 || ((navigator.maxTouchPoints||0)>0 && w<=1366);
+
+    var sw=(window.screen&&screen.width)||0;
+    var sh=(window.screen&&screen.height)||0;
+    var shortSide=Math.min(sw||9999,sh||9999);
+    var longSide=Math.max(sw||0,sh||0);
+    var touch=(navigator.maxTouchPoints||0)>0;
+
+    /* Handy + Tablet */
+    if(touch){
+      return shortSide<=1100 && longSide<=1400;
+    }
+
+    /* Normales PC/Mac-Fenster: echte Responsive-Breakpoints */
+    return window.innerWidth<=920 ||
+      (
+        window.innerWidth<=1000 &&
+        window.innerHeight<=600 &&
+        window.innerWidth>window.innerHeight
+      );
   }
 
   function measuredMode(){
@@ -318,7 +335,7 @@ html{background:#000000!important;}
 body{position:relative!important;}
 </style>
 <style id="startseite-text-sharper">
-a[href="index.html#top"]{font-family:Montserrat, sans-serif!important;font-weight:500!important;letter-spacing:0.08em!important;}
+a[href="index.html?mrsection=top"]{font-family:Montserrat, sans-serif!important;font-weight:500!important;letter-spacing:0.08em!important;}
 </style>
 <style id="legal-body-18px-155">
 main p,
@@ -453,8 +470,8 @@ footer > p:first-of-type a[href*="Datenschutz"]{position:relative!important;top:
 <script id="mr-legal-ios-scroll-shell-detect-final">
 (function(){
   'use strict';
-  var sw=document.documentElement.clientWidth||window.innerWidth||0;
-  var sh=window.innerHeight||document.documentElement.clientHeight||0;
+  var sw=(window.screen&&screen.width)||0;
+  var sh=(window.screen&&screen.height)||0;
   var shortSide=Math.min(sw||9999,sh||9999);
   if(!window.__mrForceDesktop && (navigator.maxTouchPoints||0)>0 && shortSide<=600){
     document.documentElement.setAttribute('data-mr-phone-shell','1');
@@ -666,17 +683,16 @@ body > nav.nav a.brand > span{
 }
 </style>
 
-<link rel="stylesheet" href="responsive-fixes.css"/>
 </head>
 <body>
 <nav class="nav">
 <div class="navin">
-<a class="brand" href="index.html#top"><img alt="MR Beauty Logo" src="images/logo.png"/></a>
-<div class="links"><a href="index.html#top">Startseite</a><a href="index.html#about">Über uns</a><a href="index.html#services">Leistungen</a><a href="index.html#gallery">Galerie</a><a href="index.html#prices">Preise</a><a href="index.html#standort">Standort</a><a href="index.html#kontakt">Kontakt</a></div>
+<a class="brand" href="index.html?mrsection=top"><img alt="MR Beauty Logo" src="images/logo.png"/></a>
+<div class="links"><a href="index.html?mrsection=top">Startseite</a><a href="index.html?mrsection=about">Über uns</a><a href="index.html?mrsection=services">Leistungen</a><a href="index.html?mrsection=gallery">Galerie</a><a href="index.html?mrsection=prices">Preise</a><a href="index.html?mrsection=standort">Standort</a><a href="index.html?mrsection=kontakt">Kontakt</a></div>
 <a class="navbtn" href="https://wa.me/41763235996">Termin</a>
 <button aria-label="Menü" class="hamb" id="hamb">☰</button>
 </div>
-<div class="mobile" id="mobileMenu"><a href="index.html#top">Startseite</a><a href="index.html#about">Über uns</a><a href="index.html#services">Leistungen</a><a href="index.html#gallery">Galerie</a><a href="index.html#prices">Preise</a><a href="index.html#standort">Standort</a><a href="index.html#kontakt">Kontakt</a></div>
+<div class="mobile" id="mobileMenu"><a href="index.html?mrsection=top">Startseite</a><a href="index.html?mrsection=about">Über uns</a><a href="index.html?mrsection=services">Leistungen</a><a href="index.html?mrsection=gallery">Galerie</a><a href="index.html?mrsection=prices">Preise</a><a href="index.html?mrsection=standort">Standort</a><a href="index.html?mrsection=kontakt">Kontakt</a></div>
 </nav>
 <div id="mr-page-scroll" class="mr-page-scroll" role="document">
 
@@ -687,7 +703,7 @@ body > nav.nav a.brand > span{
 
 <main class="legalPage">
 <div class="legalWrap">
-<a class="legalBack" href="index.html#top"><span aria-hidden="true" class="backArrow"><svg focusable="false" viewbox="0 0 24 24"><path d="M14 6L8 12l6 6"></path><path d="M9 12h11"></path></svg></span><span class="backText">ZUR STARTSEITE</span></a>
+<a class="legalBack" href="index.html?mrsection=top"><span aria-hidden="true" class="backArrow"><svg focusable="false" viewbox="0 0 24 24"><path d="M14 6L8 12l6 6"></path><path d="M9 12h11"></path></svg></span><span class="backText">ZUR STARTSEITE</span></a>
 <div class="legalEyebrow">Rechtliches</div>
 <h1>Impressum</h1>
 <section class="legalCard">
@@ -2466,6 +2482,5 @@ window.__mrWebsiteBuildV111='V111_TEST_GELBE_MENU_FOOTER_LINIEN_2PX_2026-08-22';
 window.__mrWebsiteBuildV114='V114_ECHT_RESPONSIV_NAV_NUR_LOGO_2026-08-22';
 </script>
 
-<script src="responsive-fixes.js"></script>
 </body>
 </html>

@@ -3,7 +3,6 @@
 <html class="mr-layout-clean" lang="de">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <link as="font" crossorigin="" href="fonts/Montserrat-Regular.otf" rel="preload" type="font/otf"/>
 <link as="font" crossorigin="" href="fonts/Montserrat-Medium.otf" rel="preload" type="font/otf"/>
 <link as="font" crossorigin="" href="fonts/Montserrat-SemiBold.otf" rel="preload" type="font/otf"/>
@@ -56,42 +55,48 @@
     document.documentElement.style.setProperty('--mr-v112-sim-safe-right',mrV112SafeRight+'px');
   }
 
-  function viewportSize(){
-    return {w:document.documentElement.clientWidth||window.innerWidth,
-            h:window.innerHeight||document.documentElement.clientHeight};
-  }
+  window.__mrV109IsTabletHardware=function(){
+    if(window.__mrForceDesktop) return false;
+    if(window.__mrSimTablet===true) return true;
+    if(window.__mrSimTablet===false) return false;
+    if(window.__mrSimPhone===true) return false;
+
+    var sw=(window.screen&&screen.width)||0;
+    var sh=(window.screen&&screen.height)||0;
+    var shortSide=Math.min(sw||9999,sh||9999);
+    var longSide=Math.max(sw||0,sh||0);
+
+    return (navigator.maxTouchPoints||0)>0 &&
+           shortSide>600 &&
+           shortSide<=1100 &&
+           longSide<=1400;
+  };
+
   window.__mrV108IsPhoneHardware=function(){
     if(window.__mrForceDesktop) return false;
     if(typeof window.__mrSimPhone==='boolean') return window.__mrSimPhone;
-    var v=viewportSize();
-    return v.w<=600 || (v.w<=1000 && v.h<=600 && v.w>v.h);
+
+    var sw=(window.screen&&screen.width)||0;
+    var sh=(window.screen&&screen.height)||0;
+    var shortSide=Math.min(sw||9999,sh||9999);
+    var touch=(navigator.maxTouchPoints||0)>0;
+
+    /* Echtes Handy */
+    if(touch) return shortSide<=600;
+
+    /*
+      V114: normales PC/Mac-Browserfenster.
+      Sobald das Fenster in die vorhandenen Handy-Breakpoints fällt,
+      wird auch die JS-Layoutlogik kompakt. Dadurch ist Resize wirklich
+      responsiv und nicht mehr an die physische Monitorgrösse gebunden.
+    */
+    return window.innerWidth<=920 ||
+      (
+        window.innerWidth<=1000 &&
+        window.innerHeight<=600 &&
+        window.innerWidth>window.innerHeight
+      );
   };
-  window.__mrV109IsTabletHardware=function(){
-    if(window.__mrForceDesktop || window.__mrSimPhone===true) return false;
-    if(typeof window.__mrSimTablet==='boolean') return window.__mrSimTablet;
-    if(window.__mrV108IsPhoneHardware()) return false;
-    var v=viewportSize();
-    return v.w<=1100 || ((navigator.maxTouchPoints||0)>0 && v.w<=1366);
-  };
-  function syncViewportMode(){
-    var root=document.documentElement;
-    var wasShell=root.getAttribute('data-mr-phone-shell')==='1';
-    var isPhone=window.__mrV108IsPhoneHardware();
-    var shell=document.getElementById('mr-page-scroll');
-    var y=wasShell && shell ? shell.scrollTop : (window.scrollY||0);
-    root.toggleAttribute('data-mr-v109-tablet',false);
-    if(window.__mrV109IsTabletHardware()) root.setAttribute('data-mr-v109-tablet','1');
-    if(isPhone) root.setAttribute('data-mr-phone-shell','1');
-    else root.removeAttribute('data-mr-phone-shell');
-    if(wasShell!==isPhone && shell){
-      requestAnimationFrame(function(){
-        if(window.__mrPageScrollTo) window.__mrPageScrollTo(0,y);
-      });
-    }
-  }
-  syncViewportMode();
-  window.addEventListener('resize',syncViewportMode,{passive:true});
-  document.addEventListener('DOMContentLoaded',syncViewportMode,{once:true});
 
   if(window.__mrSimPhone!==null){
     document.documentElement.setAttribute(
@@ -127,11 +132,11 @@
     Test mode creates a real desktop CSS viewport, so @media(min-width:921px)
     is used even on an iPhone. Safari then scales the 1280px layout to fit.
   */
-  var viewport=document.querySelector('meta[name="viewport"]');
+  var viewport=document.createElement('meta');
   viewport.name='viewport';
   viewport.content=forceDesktop
     ? 'width=1280, viewport-fit=cover'
-    : 'width=device-width, initial-scale=1.0, viewport-fit=cover';
+    : 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';
   document.head.appendChild(viewport);
 })();
 </script>
@@ -254,8 +259,8 @@ html[data-mr-force-desktop="1"] body > nav.nav > .navin > .links{
   var lastCommittedPhoneState='';
 
   function phone(){
-    var sw=document.documentElement.clientWidth||window.innerWidth||0;
-    var sh=window.innerHeight||document.documentElement.clientHeight||0;
+    var sw=(window.screen&&screen.width)||0;
+    var sh=(window.screen&&screen.height)||0;
     var shortSide=Math.min(sw||9999,sh||9999);
     return window.__mrV108IsPhoneHardware();
   }
@@ -271,6 +276,20 @@ html[data-mr-force-desktop="1"] body > nav.nav > .navin > .links{
     */
     if((navigator.maxTouchPoints||0)===0){
       return window.innerWidth>window.innerHeight
+        ? 'landscape'
+        : 'portrait';
+    }
+
+    try{
+      if(screen.orientation && screen.orientation.type){
+        return screen.orientation.type.indexOf('landscape')===0
+          ? 'landscape'
+          : 'portrait';
+      }
+    }catch(err){}
+
+    if(typeof window.orientation==='number'){
+      return Math.abs(window.orientation)%180===90
         ? 'landscape'
         : 'portrait';
     }
@@ -501,8 +520,8 @@ html[data-mr-external-parser-lock="1"] #mr-page-scroll{
   var frame=0;
 
   function phoneHardware(){
-    var sw=document.documentElement.clientWidth||window.innerWidth||0;
-    var sh=window.innerHeight||document.documentElement.clientHeight||0;
+    var sw=(window.screen&&screen.width)||0;
+    var sh=(window.screen&&screen.height)||0;
     var shortSide=Math.min(sw||9999,sh||9999);
     return window.__mrV108IsPhoneHardware();
   }
@@ -756,6 +775,17 @@ html[data-mr-menu-layout="landscape"] nav.nav .hamb[aria-expanded="true"]::after
     var anchorTop=anchorAbsoluteTop(id);
     if(!isFinite(anchorTop)) return NaN;
     var nav=document.querySelector('nav.nav,.nav');
+
+    /* V115: Desktop und Tablet verwenden denselben semantischen Zielpunkt
+       wie das Handy. Der Zielinhalt liegt exakt 20px unter der Unterkante
+       der festen oberen Navigationsleiste. Bei geöffnetem Hamburger-Menü
+       zählt bewusst nur .navin, nicht die ausgeklappte Menühöhe. */
+    if(!phoneLayout()){
+      var navin=nav ? nav.querySelector('.navin') : null;
+      var fixedBottom=navin ? navin.getBoundingClientRect().bottom : 96;
+      return Math.max(0,anchorTop-(fixedBottom+PORTRAIT_GAP));
+    }
+
     if(!nav) return Math.max(0,anchorTop-((landscapePhone()?76:96)+anchorGap()));
 
     /* iOS Safari kann den eigentlichen Scrollwert auf ein CSS-Pixel runden.
@@ -785,6 +815,12 @@ html[data-mr-menu-layout="landscape"] nav.nav .hamb[aria-expanded="true"]::after
   function viewportError(id){
     var anchorTop=anchorAbsoluteTop(id);
     if(!isFinite(anchorTop)) return NaN;
+    if(!phoneLayout()){
+      var nav=document.querySelector('nav.nav,.nav');
+      var navin=nav ? nav.querySelector('.navin') : null;
+      var fixedBottom=navin ? navin.getBoundingClientRect().bottom : 96;
+      return (anchorTop-pageTop())-(fixedBottom+PORTRAIT_GAP);
+    }
     return (anchorTop-pageTop())-(navBottom()+anchorGap());
   }
 
@@ -1940,8 +1976,8 @@ footer::before{left:50%!important;right:auto!important;width:100vw!important;tra
 <script id="mr-ios-scroll-shell-detect-final">
 (function(){
   'use strict';
-  var sw=document.documentElement.clientWidth||window.innerWidth||0;
-  var sh=window.innerHeight||document.documentElement.clientHeight||0;
+  var sw=(window.screen&&screen.width)||0;
+  var sh=(window.screen&&screen.height)||0;
   var shortSide=Math.min(sw||9999,sh||9999);
   if(window.__mrV108IsPhoneHardware()){
     document.documentElement.setAttribute('data-mr-phone-shell','1');
@@ -2642,12 +2678,6 @@ body > nav.nav a.brand > span{
 }
 </style>
 
-<style id="mr-v116-stable-first-paint">
-html:not([data-mr-v104-first-paint-geometry="committed"]) .heroTextIntro{visibility:hidden!important;animation:mrHeroFallback 0s 2s forwards!important;}
-@keyframes mrHeroFallback{to{visibility:visible}}
-.heroTextIntro,.heroTextIntro.reveal{transition:none!important;transform:none!important;}
-</style>
-<link rel="stylesheet" href="responsive-fixes.css"/>
 </head>
 <body id="top">
 <nav class="nav">
@@ -2731,8 +2761,6 @@ html:not([data-mr-v104-first-paint-geometry="committed"]) .heroTextIntro{visibil
 <div class="shot wide"><img alt="Bordeaux Gelnägel mit Glitzer" src="images/gelnaegel-glitzer-bordeaux.jpg" width="1600" height="1000" loading="lazy" decoding="async"/></div>
 <div class="shot"><img alt="Weisse French Nägel" src="images/french-naegel-weiss-design.jpg" width="900" height="1200" loading="lazy" decoding="async"/></div>
 <div class="shot"><img alt="Babyblaue Gelnägel mit Glitzer" src="images/gelnaegel-babyblau-glitzer-design.png" width="1189" height="1401" loading="lazy" decoding="async"/></div>
-<div class="shot"><img alt="Babyblau Mit Glitzerakzenten" src="images/gelnaegel-babyblau-glitzer-square.jpg" width="1206" height="1596" loading="lazy" decoding="async" data-gallery-title="BABYBLAU MIT GLITZERAKZENTEN" data-gallery-description="Babyblaue Gelnägel in langer Square-Form, kombiniert mit roséfarbenen und milchig-weissen Akzentnägeln sowie feinen, mehrfarbigen Glitzerpartikeln."/></div>
-<div class="shot"><img alt="Rosé-Nude In Square-Form" src="images/gelnaegel-rose-nude-square.jpg" width="1206" height="1576" loading="lazy" decoding="async" data-gallery-title="ROSÉ-NUDE IN SQUARE-FORM" data-gallery-description="Gleichmässiges Rosé-Nude mit glänzendem Finish und klarer, eckiger Form. Ein schlichter, gepflegter Look ohne zusätzliche Muster."/></div>
 </div>
 <div class="gallery-instagram-final"><span>Für mehr Inspiration &amp; aktuelle Arbeiten folge uns auf <a href="https://www.instagram.com/mrbeauty.ch/" target="_blank" rel="noopener noreferrer"><strong>Instagram</strong></a>.</span></div>
 </div>
@@ -2912,7 +2940,7 @@ html:not([data-mr-v104-first-paint-geometry="committed"]) .heroTextIntro{visibil
     ['ROTE GELNÄGEL MIT HERZDESIGN','Kräftiges Rot kombiniert mit feinem Herzdesign – modern, feminin und mit besonderem Detail.'],
     ['ZARTE NUDE GELNÄGEL','Natürlich gepflegte Nude Nails in sanftem Rosa – schlicht, elegant und ideal für jeden Tag.'],
     ['BORDEAUX GLITZER GELNÄGEL','Ein edler Bordeaux-Look mit feinem Glitzer – elegant, glänzend und perfekt für einen stilvollen Auftritt.'],
-    ['WEISSES FRENCH MIT SCHIMMER','Klassische weisse French Nails mit zarten schimmernden Akzenten – sauber, feminin und zeitlos schön.'],
+    ['FRENCH NAILS MIT SCHNEEFLOCKE','Klassische weisse French Nails mit zartem Schneeflocken-Detail – sauber, feminin und zeitlos schön.'],
     ['BABYBLAUE GELNÄGEL MIT GLITZER','Babyblaue Gelnägel mit zarten Glitzerakzenten – frisch, feminin und harmonisch kombiniert.']
   ];
 
@@ -2920,9 +2948,8 @@ html:not([data-mr-v104-first-paint-geometry="committed"]) .heroTextIntro{visibil
     return Array.from(document.querySelectorAll('.shot img, .gallery img, #galerie img')).filter(x=>!x.closest('#lightbox'));
   }
   function openImg(img,i){
-    const item=img.dataset.galleryTitle ? [img.dataset.galleryTitle,img.dataset.galleryDescription] : (galleryTexts[i]||[img.alt,'']);
+    const item=galleryTexts[i%galleryTexts.length]||galleryTexts[0];
     li.src=img.currentSrc||img.src;
-    li.alt=img.alt||item[0];
     titleEl.textContent=item[0];
     textEl.textContent=item[1];
     lb.classList.add('open');
@@ -2942,10 +2969,6 @@ html:not([data-mr-v104-first-paint-geometry="committed"]) .heroTextIntro{visibil
 
   imgs().forEach((img,i)=>{
     img.style.cursor='pointer';
-    img.tabIndex=0;
-    img.setAttribute('role','button');
-    img.setAttribute('aria-label',img.alt+' – gross ansehen');
-    img.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openImg(img,i);}});
     img.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openImg(img,i);},true);
   });
   li.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeImg();},true);
@@ -6483,6 +6506,20 @@ window.__mrOnepageBuild='V36_ROTATION_SAME_CONTENT_ANCHOR_2026-08-13';
         : 'portrait';
     }
 
+    try{
+      if(screen.orientation && screen.orientation.type){
+        return screen.orientation.type.indexOf('landscape')===0
+          ? 'landscape'
+          : 'portrait';
+      }
+    }catch(error){}
+
+    if(typeof window.orientation==='number'){
+      return Math.abs(window.orientation)%180===90
+        ? 'landscape'
+        : 'portrait';
+    }
+
     return window.innerWidth>window.innerHeight
       ? 'landscape'
       : 'portrait';
@@ -6491,8 +6528,8 @@ window.__mrOnepageBuild='V36_ROTATION_SAME_CONTENT_ANCHOR_2026-08-13';
   function landscape(){
     if(actualOrientation()!=='landscape') return false;
 
-    var sw=document.documentElement.clientWidth||window.innerWidth||0;
-    var sh=window.innerHeight||document.documentElement.clientHeight||0;
+    var sw=(window.screen&&screen.width)||0;
+    var sh=(window.screen&&screen.height)||0;
     var shortSide=Math.min(sw||9999,sh||9999);
 
     return window.__mrV108IsPhoneHardware();
@@ -8651,8 +8688,8 @@ window.__mrDesktopGuideBuild=
   var lastFocus=null;
 
   function phoneHardware(){
-    var sw=document.documentElement.clientWidth||window.innerWidth||0;
-    var sh=window.innerHeight||document.documentElement.clientHeight||0;
+    var sw=(window.screen&&screen.width)||0;
+    var sh=(window.screen&&screen.height)||0;
     var shortSide=Math.min(sw||9999,sh||9999);
     return window.__mrV108IsPhoneHardware();
   }
@@ -10213,8 +10250,8 @@ window.__mrWebsiteBuildV98=
   */
 
   function phoneHardware(){
-    var sw=document.documentElement.clientWidth||window.innerWidth||0;
-    var sh=window.innerHeight||document.documentElement.clientHeight||0;
+    var sw=(window.screen&&screen.width)||0;
+    var sh=(window.screen&&screen.height)||0;
     var shortSide=Math.min(sw||9999,sh||9999);
     return window.__mrV108IsPhoneHardware();
   }
@@ -10980,6 +11017,41 @@ window.__mrWebsiteBuildV114=
   'V114_ECHT_RESPONSIV_NAV_NUR_LOGO_2026-08-22';
 </script>
 
-<script src="responsive-fixes.js"></script>
+<style id="mr-v116-ipad-menu-rounding-final">
+/*
+  V116 – iPad/Tablet Hamburger-Menü unten sichtbar rund.
+  Der Tablet-Modus hatte einen schwarzen nav-Hintergrund hinter den bereits
+  gerundeten .mobile-Ecken. Dadurch wirkten die unteren Ecken – besonders im
+  Querformat – optisch eckig. Im offenen Zustand wird nun der komplette
+  Navigationsblock sauber geclippt. iPhone und Desktop bleiben unverändert.
+*/
+html[data-mr-v109-tablet="1"] body > nav.nav.mobileMenuOpen{
+  border-bottom-left-radius:24px!important;
+  border-bottom-right-radius:24px!important;
+  overflow:hidden!important;
+}
+html[data-mr-v109-tablet="1"] body > nav.nav.mobileMenuOpen > .mobile.show{
+  border-bottom-left-radius:24px!important;
+  border-bottom-right-radius:24px!important;
+  overflow:hidden!important;
+}
+@media (orientation:landscape){
+  html[data-mr-v109-tablet="1"] body > nav.nav.mobileMenuOpen,
+  html[data-mr-v109-tablet="1"] body > nav.nav.mobileMenuOpen > .mobile.show{
+    border-bottom-left-radius:19px!important;
+    border-bottom-right-radius:19px!important;
+  }
+}
+</style>
+
+<script id="mr-v115-build-marker-restored">
+window.__mrWebsiteBuildV115=
+  'V115_ALLE_MENUANKER_EXAKT_LEGALSEITEN_FIX_2026-08-22';
+</script>
+<script id="mr-v116-build-marker-final">
+window.__mrWebsiteBuildV116=
+  'V116_IPAD_MENU_UNTEN_RUND_V115_ANKER_ERHALTEN_2026-09-12';
+</script>
+
 </body>
 </html>
