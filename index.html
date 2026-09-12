@@ -6616,9 +6616,9 @@ window.__mrOnepageBuild='V36_ROTATION_SAME_CONTENT_ANCHOR_2026-08-13';
     return text.getBoundingClientRect().left;
   }
 
-  function targetViolet(){
+  function targetBlue(){
     var guide=document.querySelector(
-      '.mr-debug-line-left-100-violet'
+      '.mr-debug-line-left-20'
     );
     if(!guide) return null;
 
@@ -6680,10 +6680,10 @@ window.__mrOnepageBuild='V36_ROTATION_SAME_CONTENT_ANCHOR_2026-08-13';
     /*
       PREISE + KONTAKT:
       sichtbarer erster Buchstaben-Pixel exakt auf der linken
-      violetten Hilfslinie. Die Fenster selbst sind bereits exakt
-      violett-zu-violett und werden NICHT verändert.
+      BLAUEN Hilfslinie (Safe-Area + 20px). Wichtig: Diese ältere
+      V42-Routine darf nicht mehr auf die violette Linie zurückschieben.
     */
-    var violet=targetViolet();
+    var blue=targetBlue();
 
     [
       '#prices .galleryIntro .eyebrow',
@@ -6693,7 +6693,7 @@ window.__mrOnepageBuild='V36_ROTATION_SAME_CONTENT_ANCHOR_2026-08-13';
       '#kontakt .contactIntroHead h2',
       '#kontakt .contactIntroHead > p'
     ].forEach(function(selector){
-      alignElement(document.querySelector(selector),violet);
+      alignElement(document.querySelector(selector),blue);
     });
   }
 
@@ -11728,3 +11728,5 @@ window.__mrWebsiteBuildV121='V121_IPHONE_LANDSCAPE_BLUE_GUIDES_TEXT_GALLERY_2026
 </style>
 <script id="mr-v124-build-marker-final">window.__mrWebsiteBuildV124='V124_IPHONE_LANDSCAPE_PREISE_KONTAKT_TRUE_BLUE_LEFT_2026-09-12';
 window.__mrWebsiteBuildV125='V125_IPHONE_LANDSCAPE_REMOVE_VIOLET_OFFSET_PLUS_INK_ALIGN_2026-09-12';</script>
+
+<script id="mr-v126-build-marker-final">window.__mrWebsiteBuildV126='V126_IPHONE_LANDSCAPE_BLUE_INK_CONFLICT_FIX_2026-09-12';</script>
