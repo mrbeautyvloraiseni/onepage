@@ -11648,3 +11648,54 @@ window.__mrWebsiteBuildV120=
 <script id="mr-v121-build-marker-final">
 window.__mrWebsiteBuildV121='V121_IPHONE_LANDSCAPE_BLUE_GUIDES_TEXT_GALLERY_2026-09-12';
 </script>
+
+<style id="mr-v122-iphone-landscape-rotation-price-bottom-final">
+/* V122: iPhone quer – Preisblock rechts endet exakt mit Nägel links. */
+@media screen and (orientation:landscape) and (max-height:600px) and (max-width:1000px){
+  html[data-mr-v23-phone="1"] #prices .priceTabs{
+    grid-template-rows:repeat(2,minmax(0,1fr))!important;
+    align-items:stretch!important;
+  }
+  html[data-mr-v23-phone="1"] #prices .priceTabs > .priceCard.priceOpen:nth-child(1){
+    grid-column:1!important;
+    grid-row:1 / span 2!important;
+    align-self:stretch!important;
+  }
+  html[data-mr-v23-phone="1"] #prices .priceTabs > .priceCard.priceOpen:nth-child(2){
+    grid-column:2!important;
+    grid-row:1!important;
+    height:100%!important;
+    align-self:stretch!important;
+  }
+  html[data-mr-v23-phone="1"] #prices .priceTabs > .priceCard.priceOpen:nth-child(3){
+    grid-column:2!important;
+    grid-row:2!important;
+    height:100%!important;
+    align-self:stretch!important;
+  }
+}
+</style>
+<script id="mr-v122-ios-rotation-settle-final">
+(function(){
+  'use strict';
+  var root=document.documentElement, timers=[];
+  function sync(){
+    if(root.getAttribute('data-mr-v23-phone')!=='1') return;
+    var o=window.innerWidth>window.innerHeight?'landscape':'portrait';
+    root.setAttribute('data-mr-v23-orientation',o);
+    void root.offsetWidth;
+    if(window.__mrSingleFinalLayoutRunNow) window.__mrSingleFinalLayoutRunNow();
+    if(window.__mrGuidesSyncNow) window.__mrGuidesSyncNow();
+    if(window.__mrGalleryGapSyncNow) window.__mrGalleryGapSyncNow();
+    if(window.__mrLeftInkAlignFlush) window.__mrLeftInkAlignFlush();
+  }
+  function settle(){
+    timers.forEach(clearTimeout); timers=[];
+    requestAnimationFrame(function(){requestAnimationFrame(sync);});
+    [80,180,350,650].forEach(function(ms){timers.push(setTimeout(sync,ms));});
+  }
+  window.addEventListener('orientationchange',settle,{passive:true});
+  window.addEventListener('resize',settle,{passive:true});
+  window.addEventListener('pageshow',settle,{passive:true});
+})();
+</script>
