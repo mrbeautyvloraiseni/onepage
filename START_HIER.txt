@@ -1,0 +1,8 @@
+MR BEAUTY – VERSION 123 · LUXURY EDITORIAL
+
+1. Öffne index.html zum Testen.
+2. Auf GitHub erst nach deiner Freigabe hochladen.
+3. Beim späteren Hochladen den gesamten Inhalt dieses Ordners übernehmen.
+
+Neu: vollständig neues Konzept, mehr Inhalt, responsive Navigation, Scroll-Animationen,
+Bildzoom/Lightbox sowie WhatsApp- und Instagram-QR-Fenster auf Desktop und iPad.
