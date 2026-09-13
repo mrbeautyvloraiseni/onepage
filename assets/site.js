@@ -84,7 +84,7 @@ function positionMrBeautyMapNoZoom(){
  // Kein leerer Bereich oben/unten. Falls ein sehr schmales Layout physikalisch
  // nicht exakt zentriert werden kann, wird nur bis zur Bildkante verschoben.
  const minTop=Math.min(0,cardH-renderedH);
- top=Math.max(minTop,Math.min(0,top)) - 30;
+ top=Math.max(minTop,Math.min(0,top));
 
  mrMapImage.style.width='100%';
  mrMapImage.style.height='auto';
