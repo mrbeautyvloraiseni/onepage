@@ -61,36 +61,29 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&imageLightbox&&!ima
 
 
 // Google Maps – KEIN ZOOM.
-// Das Bild bleibt immer exakt 100% breit wie das bestehende Kartenfenster.
-// Nur die Y-Position wird verschoben.
-// MR Beauty wird in der Mitte des eigentlichen Kartenbereichs (.pic)
-// oberhalb des Route-Buttons zentriert – nicht in der Mitte des gesamten Cards.
+// Das Bild bleibt immer exakt so breit wie das bestehende Kartenfenster.
+// Nur die Y-Position wird verändert, damit MR Beauty vertikal mittig sitzt.
 const mrMapCard=document.querySelector('#standort .mapOnly');
-const mrMapPic=mrMapCard&&mrMapCard.querySelector('.pic');
-const mrMapImage=mrMapPic&&mrMapPic.querySelector('img');
+const mrMapImage=mrMapCard&&mrMapCard.querySelector('.pic img');
 
 function positionMrBeautyMapNoZoom(){
- if(!mrMapCard||!mrMapPic||!mrMapImage||!mrMapImage.naturalWidth||!mrMapImage.naturalHeight)return;
+ if(!mrMapCard||!mrMapImage||!mrMapImage.naturalWidth||!mrMapImage.naturalHeight)return;
 
  const cardW=mrMapCard.clientWidth;
- const picH=mrMapPic.clientHeight;
- if(!cardW||!picH)return;
+ const cardH=mrMapCard.clientHeight;
+ if(!cardW||!cardH)return;
 
- // Kein Zoom: Breite bleibt exakt Kartenfensterbreite.
- const scale=cardW/mrMapImage.naturalWidth;
-
- // Vertikale Mitte des MR-Beauty-Bereichs im Original googlemap.jpg.
- const mrBeautyY=590;
-
- // Ziel: Mitte des sichtbaren Kartenbereichs OBERHALB des Buttons.
- const targetY=picH/2;
- let top=targetY-(mrBeautyY*scale);
-
+ const scale=cardW/mrMapImage.naturalWidth; // exakt 100% Breite, niemals mehr
  const renderedH=mrMapImage.naturalHeight*scale;
 
- // Nur begrenzen, damit nie leerer Hintergrund sichtbar wird.
- const fullCardH=mrMapCard.clientHeight;
- const minTop=Math.min(0,fullCardH-renderedH);
+ // Vertikale Mitte des MR-Beauty-Bereichs im Originalbild.
+ const mrBeautyY=590;
+
+ let top=(cardH/2)-(mrBeautyY*scale);
+
+ // Kein leerer Bereich oben/unten. Falls ein sehr schmales Layout physikalisch
+ // nicht exakt zentriert werden kann, wird nur bis zur Bildkante verschoben.
+ const minTop=Math.min(0,cardH-renderedH);
  top=Math.max(minTop,Math.min(0,top));
 
  mrMapImage.style.width='100%';
@@ -108,7 +101,6 @@ if(mrMapImage){
      ()=>requestAnimationFrame(positionMrBeautyMapNoZoom)
    );
    mrMapNoZoomResizeObserver.observe(mrMapCard);
-   mrMapNoZoomResizeObserver.observe(mrMapPic);
  }else{
    addEventListener('resize',positionMrBeautyMapNoZoom,{passive:true});
  }
