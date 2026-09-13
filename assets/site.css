@@ -238,3 +238,44 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
     height:calc(260px + 80px)!important;
   }
 }
+
+/* ABSCHNITT-TEXTE – ruhig neben dem Titel, nicht oben angeklebt */
+.serviceHead,
+.galleryIntro{
+  align-items:end;
+}
+.serviceHead>p,
+.galleryIntro>p{
+  align-self:end;
+  max-width:500px;
+  margin:0 0 8px 0;
+  line-height:1.75;
+}
+.galleryTitleLine{
+  white-space:nowrap;
+}
+
+/* Kontakttext ebenfalls ruhiger unter/neben dem Titelblock */
+.contactIntroHead p{
+  line-height:1.75;
+}
+
+/* Keine erzwungenen Textumbrüche in den Begleittexten */
+.serviceHead>p br,
+.galleryIntro>p br,
+.contactIntroHead p br{
+  display:none;
+}
+
+@media(max-width:1100px){
+  .galleryTitleLine{
+    white-space:normal;
+  }
+}
+@media(max-width:600px){
+  .serviceHead>p,
+  .galleryIntro>p{
+    margin-bottom:0;
+    max-width:none;
+  }
+}
