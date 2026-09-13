@@ -52,7 +52,7 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   height:100%!important;
   display:block!important;
   object-fit:cover!important;
-  object-position:50% calc(50% + 20px)!important;
+  object-position:50% calc(50% - 20px)!important;
   opacity:1!important;
   transform:none!important;
   transition:none!important;
