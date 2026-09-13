@@ -279,3 +279,44 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
     max-width:none;
   }
 }
+
+/* MOBILE MENU – 3 Linien animieren beim Öffnen zu einem X */
+.hamb{
+  position:relative;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:6px;
+  padding:0;
+}
+.hambLine{
+  display:block;
+  width:24px;
+  height:2px;
+  border-radius:2px;
+  background:#fff;
+  transform-origin:center;
+  transition:
+    transform .28s ease,
+    opacity .20s ease,
+    background-color .20s ease;
+}
+.hamb[aria-expanded="true"] .hambLine:nth-child(1){
+  transform:translateY(8px) rotate(45deg);
+}
+.hamb[aria-expanded="true"] .hambLine:nth-child(2){
+  opacity:0;
+}
+.hamb[aria-expanded="true"] .hambLine:nth-child(3){
+  transform:translateY(-8px) rotate(-45deg);
+}
+.hamb[aria-expanded="true"] .hambLine{
+  background:var(--accent);
+}
+
+@media(max-width:920px){
+  .hamb{
+    display:flex;
+  }
+}
