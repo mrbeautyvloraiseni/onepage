@@ -50,7 +50,7 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
 #standort .mapOnly .pic img{
   position:absolute!important;
   left:0!important;
-  top:-30px!important;
+  top:0;
   width:100%!important;
   height:auto!important;
   min-width:0!important;
