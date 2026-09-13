@@ -30,15 +30,16 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
 @media(max-height:500px) and (orientation:landscape){.navin{min-height:54px}.brand img{width:46px;height:46px}.hamb{width:40px;height:40px}.hero{padding-top:80px}.mainPhoto{height:260px}.waDialog .qr{width:120px;margin:14px auto}.waDialog{padding:38px 24px 20px}.waDialog h2{font-size:26px}.waDialog .eyebrow{display:none}.waDialog p{font-size:11px}.imageLightbox img{max-height:calc(100dvh - 145px)}.imageLightbox{padding:16px 24px}.floatWhats{padding:9px 14px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.reveal.isPending{opacity:1;transform:none}}
 
-/* GOOGLE MAP RESPONSIVE FINAL V3
-   Gesamter MR-Beauty-Bereich (Pin + Name) mittig in der sichtbaren Kartenfläche.
-   Fenster, Spalten und Button bleiben unverändert. */
+/* GOOGLE MAP FINAL – KEIN ZOOM
+   Bildbreite immer exakt 100% des bestehenden Kartenfensters.
+   Nur die vertikale Position wird verschoben. */
 #standort .mapOnly{
   position:relative!important;
   overflow:hidden!important;
   background:var(--surface)!important;
 }
-#standort .mapOnly::before{
+#standort .mapOnly::before,
+#standort .mapOnly::after{
   content:none!important;
   display:none!important;
 }
@@ -48,9 +49,9 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
 }
 #standort .mapOnly .pic img{
   position:absolute!important;
-  left:0;
-  top:0;
-  width:auto!important;
+  left:0!important;
+  top:-30px!important;
+  width:100%!important;
   height:auto!important;
   min-width:0!important;
   min-height:0!important;
@@ -66,7 +67,7 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
 }
 #standort .mapButtonOnly{
   position:relative!important;
-  z-index:3!important;
+  z-index:2!important;
 }
 #standort .mapButtonOnly a.maps-button-two-line{
   width:100%!important;

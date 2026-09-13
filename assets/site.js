@@ -59,63 +59,50 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&imageLightbox&&!ima
 
 
 
-// MR Beauty Google map – responsive Zentrierung des GESAMTEN MR-Beauty-Bereichs.
-// Originalbild: 873 x 1076 px.
-// Mittelpunkt von Pin + "MR Beauty Vlora Iseni": ca. X=525, Y=590.
-// Ziel: Mitte der sichtbaren Kartenfläche (.pic), NICHT Mitte des ganzen Cards.
+
+// Google Maps – KEIN ZOOM.
+// Das Bild bleibt immer exakt so breit wie das bestehende Kartenfenster.
+// Nur die Y-Position wird verändert, damit MR Beauty vertikal mittig sitzt.
 const mrMapCard=document.querySelector('#standort .mapOnly');
-const mrMapPic=mrMapCard&&mrMapCard.querySelector('.pic');
-const mrMapImage=mrMapPic&&mrMapPic.querySelector('img');
+const mrMapImage=mrMapCard&&mrMapCard.querySelector('.pic img');
 
-function positionMrBeautyMap(){
- if(!mrMapCard||!mrMapPic||!mrMapImage||!mrMapImage.naturalWidth||!mrMapImage.naturalHeight)return;
+function positionMrBeautyMapNoZoom(){
+ if(!mrMapCard||!mrMapImage||!mrMapImage.naturalWidth||!mrMapImage.naturalHeight)return;
 
- const cw=mrMapCard.clientWidth;
- const ch=mrMapCard.clientHeight;
- const ph=mrMapPic.clientHeight;
- if(!cw||!ch||!ph)return;
+ const cardW=mrMapCard.clientWidth;
+ const cardH=mrMapCard.clientHeight;
+ if(!cardW||!cardH)return;
 
- const nw=mrMapImage.naturalWidth;
- const nh=mrMapImage.naturalHeight;
+ const scale=cardW/mrMapImage.naturalWidth; // exakt 100% Breite, niemals mehr
+ const renderedH=mrMapImage.naturalHeight*scale;
 
- // Mittelpunkt des kompletten MR-Beauty-Bereichs (Pin + Schrift)
- const fx=525;
- const fy=590;
+ // Vertikale Mitte des MR-Beauty-Bereichs im Originalbild.
+ const mrBeautyY=590;
 
- // Exakte Zielposition: horizontal Mitte der Karte,
- // vertikal Mitte der sichtbaren Kartenfläche oberhalb des Buttons.
- const tx=cw/2;
- const ty=ph/2;
+ let top=(cardH/2)-(mrBeautyY*scale);
 
- // So weit zoomen wie nötig, damit trotz Zentrierung keine leeren Ränder entstehen.
- const scale=Math.max(
-   tx/fx,
-   (cw-tx)/(nw-fx),
-   ty/fy,
-   (ch-ty)/(nh-fy)
- );
+ // Kein leerer Bereich oben/unten. Falls ein sehr schmales Layout physikalisch
+ // nicht exakt zentriert werden kann, wird nur bis zur Bildkante verschoben.
+ const minTop=Math.min(0,cardH-renderedH);
+ top=Math.max(minTop,Math.min(0,top));
 
- const w=nw*scale;
- const h=nh*scale;
- const left=tx-(fx*scale);
- const top=ty-(fy*scale);
-
- mrMapImage.style.width=`${w}px`;
- mrMapImage.style.height=`${h}px`;
- mrMapImage.style.left=`${left}px`;
+ mrMapImage.style.width='100%';
+ mrMapImage.style.height='auto';
+ mrMapImage.style.left='0px';
  mrMapImage.style.top=`${top}px`;
 }
 
 if(mrMapImage){
- if(mrMapImage.complete)requestAnimationFrame(positionMrBeautyMap);
- else mrMapImage.addEventListener('load',positionMrBeautyMap,{once:true});
+ if(mrMapImage.complete)requestAnimationFrame(positionMrBeautyMapNoZoom);
+ else mrMapImage.addEventListener('load',positionMrBeautyMapNoZoom,{once:true});
 
  if('ResizeObserver'in window){
-   const mrMapResizeObserver=new ResizeObserver(()=>requestAnimationFrame(positionMrBeautyMap));
-   mrMapResizeObserver.observe(mrMapCard);
-   mrMapResizeObserver.observe(mrMapPic);
+   const mrMapNoZoomResizeObserver=new ResizeObserver(
+     ()=>requestAnimationFrame(positionMrBeautyMapNoZoom)
+   );
+   mrMapNoZoomResizeObserver.observe(mrMapCard);
  }else{
-   addEventListener('resize',positionMrBeautyMap,{passive:true});
+   addEventListener('resize',positionMrBeautyMapNoZoom,{passive:true});
  }
 }
 
