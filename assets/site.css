@@ -59,7 +59,7 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   object-fit:initial!important;
   object-position:initial!important;
   opacity:1!important;
-  transform:translateY(calc(-50% - 20px))!important;
+  transform:translateY(calc(-50% - 40px))!important;
   transition:none!important;
   z-index:0!important;
   pointer-events:none!important;
