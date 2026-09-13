@@ -30,30 +30,31 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
 @media(max-height:500px) and (orientation:landscape){.navin{min-height:54px}.brand img{width:46px;height:46px}.hamb{width:40px;height:40px}.hero{padding-top:80px}.mainPhoto{height:260px}.waDialog .qr{width:120px;margin:14px auto}.waDialog{padding:38px 24px 20px}.waDialog h2{font-size:26px}.waDialog .eyebrow{display:none}.waDialog p{font-size:11px}.imageLightbox img{max-height:calc(100dvh - 145px)}.imageLightbox{padding:16px 24px}.floatWhats{padding:9px 14px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.reveal.isPending{opacity:1;transform:none}}
 
-
-/* GOOGLE MAP FINAL V5 – sichtbarer Kartenausschnitt exakt 20px nach oben */
+/* GOOGLE MAP FINAL – FESTES FENSTER, NUR AUSSCHNITT 20PX NACH OBEN */
 #standort .mapOnly{
   position:relative!important;
-  background:none!important;
+  overflow:hidden!important;
+  background:var(--surface)!important;
 }
-#standort .mapOnly::before{
+#standort .mapOnly::before,
+#standort .mapOnly::after{
   content:none!important;
   display:none!important;
 }
 #standort .mapOnly .pic{
-  position:static!important;
-  z-index:auto!important;
+  height:310px!important;
+  overflow:hidden!important;
 }
 #standort .mapOnly .pic img{
   position:absolute!important;
-  left:0!important;
-  top:0!important;
+  inset:0!important;
   width:100%!important;
-  height:calc(100% + 40px)!important;
+  height:100%!important;
+  display:block!important;
   object-fit:cover!important;
-  object-position:center center!important;
+  object-position:50% calc(50% + 20px)!important;
   opacity:1!important;
-  transform:translateY(-40px)!important;
+  transform:none!important;
   transition:none!important;
   z-index:0!important;
   pointer-events:none!important;
@@ -61,8 +62,11 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
 #standort .mapButtonOnly{
   position:relative!important;
   z-index:2!important;
+  padding:16px!important;
+  text-align:center!important;
 }
 #standort .mapButtonOnly a.maps-button-two-line{
+  width:100%!important;
   background:#fff!important;
   border:3px solid #fff!important;
   color:#000!important;
@@ -74,8 +78,12 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
 }
 #standort .mapButtonOnly a.maps-button-two-line:hover{
   background:#fff!important;
-  border-color:var(--accent)!important;
+  border-color:#c8cf04!important;
   color:#000!important;
   box-shadow:none!important;
 }
-
+@media(max-width:600px){
+  #standort .mapOnly .pic{
+    height:280px!important;
+  }
+}
