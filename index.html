@@ -11523,5 +11523,34 @@ html:not([data-mr-v23-phone="1"]) #standort .mapButtonOnly{
 window.__mrWebsiteBuildV120='V120_STANDORT_TEXT_KARTE_GANZES_FENSTER_2026-09-13';
 </script>
 
+
+<style id="mr-v121-location-map-really-full-card-final">
+/*
+  V121 – Google-Maps-Bild füllt jetzt wirklich das komplette Kartenfenster.
+  Das Fenster selbst und der "ROUTE AUF GOOGLE MAPS ÖFFNEN"-Button bleiben
+  in Grösse und Position unverändert.
+*/
+#standort .locCard.mapOnly{
+  background-image:url("images/googlemap.jpg")!important;
+  background-size:cover!important;
+  background-position:center 68%!important;
+  background-repeat:no-repeat!important;
+  overflow:hidden!important;
+}
+#standort .locCard.mapOnly .pic img{
+  opacity:0!important;
+}
+#standort .locCard.mapOnly::after{
+  display:none!important;
+  content:none!important;
+}
+#standort .mapButtonOnly{
+  z-index:5!important;
+}
+</style>
+<script id="mr-v121-build-marker-final">
+window.__mrWebsiteBuildV121='V121_GOOGLEMAP_KOMPLETTES_FENSTER_2026-09-13';
+</script>
+
 </body>
 </html>
