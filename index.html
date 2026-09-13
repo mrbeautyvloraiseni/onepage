@@ -3069,7 +3069,7 @@ footer p:last-child{margin-bottom:0!important;}
       li.src = img.currentSrc || img.src;
 
       if(titleEl) titleEl.textContent = 'STUDIO EINGANG';
-      if(textEl) textEl.innerHTML = 'Studioeingang im 1. Stock.<span class="standortParkingLine">Besucherparkplätze sind direkt vor dem Gebäude verfügbar.</span>';
+      if(textEl) textEl.textContent = 'Studioeingang im 1. Stock. Besucherparkplätze sind direkt vor dem Gebäude verfügbar.';
 
       lb.classList.remove('buildingOpen');
       lb.classList.add('open');
@@ -11550,6 +11550,65 @@ window.__mrWebsiteBuildV120='V120_STANDORT_TEXT_KARTE_GANZES_FENSTER_2026-09-13'
 </style>
 <script id="mr-v121-build-marker-final">
 window.__mrWebsiteBuildV121='V121_GOOGLEMAP_KOMPLETTES_FENSTER_2026-09-13';
+</script>
+
+
+<style id="mr-v122-location-map-full-entire-card-final">
+/*
+  V122 – Google-Maps-Bild füllt das GESAMTE Kartenfenster, inklusive
+  des Bereichs hinter dem bestehenden Routen-Button. Die Position,
+  Grösse und Gestaltung des Buttons werden nicht verändert.
+*/
+html body #standort .locCard.mapOnly{
+  position:relative!important;
+  overflow:hidden!important;
+}
+html body #standort .locCard.mapOnly .pic{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:100%!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  background:transparent!important;
+  border-radius:inherit!important;
+  overflow:hidden!important;
+  z-index:0!important;
+}
+html body #standort .locCard.mapOnly .pic img{
+  position:absolute!important;
+  inset:0!important;
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:100%!important;
+  min-height:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  aspect-ratio:auto!important;
+  object-fit:cover!important;
+  object-position:center center!important;
+  margin:0!important;
+  padding:0!important;
+  opacity:1!important;
+  transform:none!important;
+  border-radius:0!important;
+  z-index:0!important;
+}
+html body #standort .locCard.mapOnly::before,
+html body #standort .locCard.mapOnly::after{
+  display:none!important;
+  content:none!important;
+}
+html body #standort .mapButtonOnly{
+  z-index:5!important;
+  background:transparent!important;
+}
+</style>
+<script id="mr-v122-build-marker-final">
+window.__mrWebsiteBuildV122='V122_KARTE_GESAMTES_FENSTER_CAPTION_EXAKT_2026-09-13';
 </script>
 
 </body>
