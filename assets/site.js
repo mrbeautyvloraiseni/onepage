@@ -60,37 +60,50 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&imageLightbox&&!ima
 
 
 
-// Google Maps – KEIN ZOOM.
-// Das Bild bleibt immer exakt 100% breit wie das bestehende Kartenfenster.
-// Nur die Y-Position wird verschoben.
-// MR Beauty wird in der Mitte des eigentlichen Kartenbereichs (.pic)
-// oberhalb des Route-Buttons zentriert – nicht in der Mitte des gesamten Cards.
+// Google Maps – KEIN ZOOM, KEINE ABDECKUNG.
+// Das Bild bleibt immer exakt 100% breit.
+// Es wird nur nach oben verschoben, bis der gelbe Pfeil vollständig
+// oberhalb des weissen ROUTE-Buttons endet.
 const mrMapCard=document.querySelector('#standort .mapOnly');
-const mrMapPic=mrMapCard&&mrMapCard.querySelector('.pic');
-const mrMapImage=mrMapPic&&mrMapPic.querySelector('img');
+const mrMapImage=mrMapCard&&mrMapCard.querySelector('.pic img');
+const mrMapRouteButton=mrMapCard&&mrMapCard.querySelector('.maps-button-two-line');
 
 function positionMrBeautyMapNoZoom(){
- if(!mrMapCard||!mrMapPic||!mrMapImage||!mrMapImage.naturalWidth||!mrMapImage.naturalHeight)return;
+ if(!mrMapCard||!mrMapImage||!mrMapRouteButton||
+    !mrMapImage.naturalWidth||!mrMapImage.naturalHeight)return;
 
  const cardW=mrMapCard.clientWidth;
- const picH=mrMapPic.clientHeight;
- if(!cardW||!picH)return;
+ const cardH=mrMapCard.clientHeight;
+ if(!cardW||!cardH)return;
 
- // Kein Zoom: Breite bleibt exakt Kartenfensterbreite.
+ // Niemals zoomen: Bildbreite = exakt Fensterbreite.
  const scale=cardW/mrMapImage.naturalWidth;
-
- // Vertikale Mitte des MR-Beauty-Bereichs im Original googlemap.jpg.
- const mrBeautyY=590;
-
- // Ziel: Mitte des sichtbaren Kartenbereichs OBERHALB des Buttons.
- const targetY=picH/2;
- let top=targetY-(mrBeautyY*scale);
-
  const renderedH=mrMapImage.naturalHeight*scale;
 
- // Nur begrenzen, damit nie leerer Hintergrund sichtbar wird.
- const fullCardH=mrMapCard.clientHeight;
- const minTop=Math.min(0,fullCardH-renderedH);
+ // Original googlemap.jpg:
+ // MR-Beauty-Bereich ca. Y=590
+ // unterstes sichtbares Ende des gelben Pfeils ca. Y=940
+ const mrBeautyY=590;
+ const arrowBottomY=940;
+
+ const cardRect=mrMapCard.getBoundingClientRect();
+ const buttonRect=mrMapRouteButton.getBoundingClientRect();
+ const buttonTop=buttonRect.top-cardRect.top;
+
+ // Wunsch 1: MR Beauty möglichst mittig im Kartenbereich oberhalb des Buttons.
+ const centreTarget=buttonTop/2;
+ const centreTop=centreTarget-(mrBeautyY*scale);
+
+ // Wunsch 2: Pfeilende muss vollständig oberhalb des Buttons liegen.
+ const gap=8;
+ const arrowTop=(buttonTop-gap)-(arrowBottomY*scale);
+
+ // Falls beides gleichzeitig nicht möglich ist, hat "kein Pfeil unter dem Button"
+ // Vorrang. Es wird ausschließlich nach oben verschoben.
+ let top=Math.min(centreTop,arrowTop)+30;
+
+ // Das Bild ist hoch genug; trotzdem verhindern wir vorsichtshalber leere Flächen.
+ const minTop=Math.min(0,cardH-renderedH);
  top=Math.max(minTop,Math.min(0,top));
 
  mrMapImage.style.width='100%';
@@ -108,7 +121,7 @@ if(mrMapImage){
      ()=>requestAnimationFrame(positionMrBeautyMapNoZoom)
    );
    mrMapNoZoomResizeObserver.observe(mrMapCard);
-   mrMapNoZoomResizeObserver.observe(mrMapPic);
+   mrMapNoZoomResizeObserver.observe(mrMapRouteButton);
  }else{
    addEventListener('resize',positionMrBeautyMapNoZoom,{passive:true});
  }
