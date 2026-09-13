@@ -30,7 +30,9 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
 @media(max-height:500px) and (orientation:landscape){.navin{min-height:54px}.brand img{width:46px;height:46px}.hamb{width:40px;height:40px}.hero{padding-top:80px}.mainPhoto{height:260px}.waDialog .qr{width:120px;margin:14px auto}.waDialog{padding:38px 24px 20px}.waDialog h2{font-size:26px}.waDialog .eyebrow{display:none}.waDialog p{font-size:11px}.imageLightbox img{max-height:calc(100dvh - 145px)}.imageLightbox{padding:16px 24px}.floatWhats{padding:9px 14px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.reveal.isPending{opacity:1;transform:none}}
 
-/* GOOGLE MAP FINAL – FESTES FENSTER, NUR AUSSCHNITT 20PX NACH OBEN */
+/* GOOGLE MAP FINAL V6
+   Fenster + Button bleiben exakt stehen.
+   Das echte JPG selbst wird 20px nach oben verschoben. */
 #standort .mapOnly{
   position:relative!important;
   overflow:hidden!important;
@@ -44,17 +46,20 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
 #standort .mapOnly .pic{
   height:310px!important;
   overflow:hidden!important;
+  position:static!important;
 }
 #standort .mapOnly .pic img{
   position:absolute!important;
-  inset:0!important;
+  left:0!important;
+  top:50%!important;
   width:100%!important;
-  height:100%!important;
-  display:block!important;
-  object-fit:cover!important;
-  object-position:50% calc(50% - 20px)!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  object-fit:initial!important;
+  object-position:initial!important;
   opacity:1!important;
-  transform:none!important;
+  transform:translateY(calc(-50% - 20px))!important;
   transition:none!important;
   z-index:0!important;
   pointer-events:none!important;
