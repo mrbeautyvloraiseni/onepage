@@ -684,3 +684,18 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
 #kontakt .contactAddress>.contactAddressLabel{
   color:#fff!important;
 }
+/* V84 – iPhone Hochformat: Adresse auf erste Anschriftszeile */
+@media (max-width:600px) and (orientation:portrait){
+  #kontakt .contactAddress{
+    align-items:start!important;
+    padding:10px 0 12px!important;
+  }
+  #kontakt .contactAddress>.contactAddressLabel{
+    align-self:start!important;
+    line-height:1.35!important;
+  }
+  #kontakt .contactAddress>.contactAddressValue{
+    align-self:start!important;
+    line-height:1.35!important;
+  }
+}
