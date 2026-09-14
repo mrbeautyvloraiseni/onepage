@@ -196,5 +196,49 @@ if(mrServiceCards.length){
   addEventListener('orientationchange',runServiceCardSync,{passive:true});
 }
 
+
+// Querformat: Öffnungszeiten bestimmt EXAKT die Höhe.
+// Kontaktmöglichkeiten übernimmt nur diese gemessene Referenzhöhe.
+const mrContactBoxV63=document.querySelector('#kontakt .contactBox');
+const mrHoursBoxV63=document.querySelector('#kontakt .hours');
+
+function syncContactHeightV63(){
+  if(!mrContactBoxV63||!mrHoursBoxV63)return;
+
+  // Alte Inline-Werte immer zuerst lösen.
+  [mrContactBoxV63,mrHoursBoxV63].forEach(box=>{
+    box.style.removeProperty('height');
+    box.style.removeProperty('min-height');
+    box.style.removeProperty('max-height');
+  });
+
+  const landscape=matchMedia('(max-width:920px) and (orientation:landscape)').matches;
+  if(!landscape)return;
+
+  requestAnimationFrame(()=>{
+    // Öffnungszeiten ist die Referenz, nachdem die 7 Zeilen auf 34px gesetzt sind.
+    const h=Math.ceil(mrHoursBoxV63.getBoundingClientRect().height);
+
+    [mrContactBoxV63,mrHoursBoxV63].forEach(box=>{
+      box.style.setProperty('height',`${h}px`,'important');
+      box.style.setProperty('min-height',`${h}px`,'important');
+      box.style.setProperty('max-height',`${h}px`,'important');
+    });
+  });
+}
+
+if(mrContactBoxV63&&mrHoursBoxV63){
+  const runContactV63=()=>requestAnimationFrame(syncContactHeightV63);
+
+  if(document.fonts&&document.fonts.ready){
+    document.fonts.ready.then(runContactV63);
+  }else{
+    addEventListener('load',runContactV63,{once:true});
+  }
+
+  addEventListener('resize',runContactV63,{passive:true});
+  addEventListener('orientationchange',runContactV63,{passive:true});
+}
+
 $$('a[href^="https://wa.me/"]').forEach(a=>{if(a.hasAttribute('data-direct-wa'))return;a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;if(matchMedia('(min-width:921px) and (pointer:fine)').matches){e.preventDefault();openDialog(waDialog);}});});
 })();
