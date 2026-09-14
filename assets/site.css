@@ -541,3 +541,91 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
     box-sizing:border-box!important;
   }
 }
+
+/* KONTAKT FINAL V62 */
+
+/* Kontakttexte überall gleich gross wie die Tage bei Öffnungszeiten */
+#kontakt .contactList>a{
+  font-size:12px!important;
+}
+
+/* iPhone Hochformat:
+   Fenster dürfen unterschiedlich hoch sein.
+   Jedes endet direkt nach seinem Inhalt, mit gleichem Abstand oben/unten. */
+@media(max-width:600px) and (orientation:portrait){
+  #kontakt .contactGrid{
+    align-items:start!important;
+  }
+
+  #kontakt .contactBox,
+  #kontakt .hours{
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    padding:20px!important;
+    box-sizing:border-box!important;
+  }
+
+  #kontakt .contactList{
+    display:block!important;
+    flex:none!important;
+  }
+
+  #kontakt .contactList>a{
+    flex:none!important;
+    min-height:0!important;
+    padding:12px 0!important;
+    font-size:12px!important;
+  }
+
+  #kontakt .contactList>a:nth-child(6){
+    grid-row:auto!important;
+    padding:12px 0 0!important;
+    align-items:flex-start!important;
+  }
+
+  #kontakt .contactList>a:nth-child(6)>span{
+    transform:none!important;
+    line-height:1.6!important;
+  }
+
+  #kontakt .hoursRow{
+    flex:none!important;
+    min-height:0!important;
+    padding:9px 0!important;
+    font-size:12px!important;
+  }
+}
+
+/* Querformat / nebeneinander:
+   Öffnungszeiten bestimmt die Höhe.
+   Sonntag hat dieselbe natürliche Zeilenhöhe wie alle anderen Tage.
+   Danach wird Kontaktmöglichkeiten exakt auf dieselbe Gesamthöhe gesetzt. */
+@media(min-width:601px) and (orientation:landscape){
+  #kontakt .contactGrid{
+    align-items:start!important;
+  }
+
+  #kontakt .hours{
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    padding:20px!important;
+    box-sizing:border-box!important;
+  }
+
+  #kontakt .hoursRow{
+    flex:0 0 auto!important;
+    min-height:0!important;
+    padding:9px 0!important;
+    font-size:12px!important;
+  }
+
+  #kontakt .contactBox{
+    box-sizing:border-box!important;
+  }
+
+  #kontakt .contactList>a{
+    font-size:12px!important;
+  }
+}
