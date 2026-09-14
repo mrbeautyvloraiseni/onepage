@@ -278,30 +278,87 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   }
 }
 
-/* Leistungen: portrait cards grow to the longest content via site.js. */
+/* Leistungen: alle drei Zeilen wachsen per CSS mit dem längsten Inhalt. */
 @media(max-width:600px) and (orientation:portrait){
-  #services .serviceGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch}
+  #services .serviceGrid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;gap:10px;align-items:stretch}
   #services .serviceCard{height:auto;min-height:0;max-height:none;padding:14px;justify-content:flex-start;overflow:visible}
-  #services .serviceCard h3{margin:0 0 10px;min-height:0;font-size:15px;line-height:1.25;overflow-wrap:normal}
+  #services .serviceCard h3{margin:0 0 10px;min-height:0;font-size:15px;line-height:1.25;overflow-wrap:anywhere}
   #services .serviceCard p{margin:0;font-size:10.5px;line-height:1.48;overflow-wrap:break-word}
 }
 
-/* Contact: the opening-hours rows define the shared side-by-side rhythm. */
-#kontakt .contactGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:stretch}
-#kontakt .contactBox,#kontakt .hours{min-width:0;padding:26px 26px 17px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
-#kontakt .contactBox h3,#kontakt .hours h3{color:var(--accent);margin:0 0 14px;font-size:17px;font-weight:500;line-height:1.25}
-#kontakt .contactList>a,#kontakt .hoursRow{display:flex;justify-content:space-between;align-items:center;gap:18px;font-size:12px;line-height:1.7;padding:9px 0;border-bottom:1px solid var(--line)}
-#kontakt .contactList>a{transition:color .2s}
-#kontakt .contactList>a>span{text-align:right;color:var(--muted)}
-#kontakt .contactList>a:hover,#kontakt .contactList>a:hover>span{color:var(--accent)}
-#kontakt .contactList>a:last-child,#kontakt .hoursRow:last-child{border-bottom:0}
-#kontakt .hoursRow b{font-weight:400;color:var(--muted)}
-#kontakt .contactBlank{visibility:hidden}
-@media(max-width:920px){
-  #kontakt .contactBox,#kontakt .hours{padding:20px 20px 11px}
-  #kontakt .contactBox h3,#kontakt .hours h3{font-size:16px}
+/* Kontakt: gemeinsame Kartenhöhe nur bei zwei Spalten.
+   Die sieben natürlichen Tageszeilen geben die Höhe vor; kein Höhen-JavaScript. */
+#kontakt {
+  --contact-padding: 26px;
+  --contact-row-padding: 9px;
 }
-/* A narrow landscape phone also stacks cards so contact values remain readable. */
-@media(max-width:700px){
-  #kontakt .contactGrid{grid-template-columns:1fr}
+#kontakt .contactGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  align-items: stretch;
+}
+#kontakt .contactBox,
+#kontakt .hours {
+  min-width: 0;
+  padding: var(--contact-padding) var(--contact-padding) 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+#kontakt .contactBox h3,
+#kontakt .hours h3 {
+  color: var(--accent);
+  margin: 0 0 14px;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+#kontakt .contactBox {
+  display: flex;
+  flex-direction: column;
+}
+#kontakt .contactList {
+  flex: 1;
+  display: grid;
+  /* Resthöhe gleichmässig verteilen, Adresse bleibt ein kompakter Block. */
+  grid-template-rows: repeat(5, minmax(min-content, 1fr)) auto;
+}
+#kontakt .contactList > a,
+#kontakt .hoursRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: var(--contact-row-padding) 0;
+  border-bottom: 1px solid var(--line);
+}
+#kontakt .contactList > a { transition: color .2s; }
+#kontakt .contactList > a > span { text-align: right; color: var(--muted); }
+#kontakt .contactList > a:hover,
+#kontakt .contactList > a:hover > span { color: var(--accent); }
+#kontakt .contactList > a:last-child,
+#kontakt .hoursRow:last-child {
+  /* Gleiche Zeilenhöhe inklusive unsichtbarer letzter Trennlinie. */
+  border-bottom-color: transparent;
+}
+#kontakt .hoursRow b { font-weight: 400; color: var(--muted); }
+#kontakt .contactList > .contactAddress { align-items: flex-start; }
+#kontakt .addressLine { display: block; }
+@media (max-width: 920px) {
+  #kontakt { --contact-padding: 20px; }
+  #kontakt .contactBox h3,
+  #kontakt .hours h3 { font-size: 16px; }
+}
+/* Untereinander: Inhaltshöhe pro Karte, optisch gleicher oberer/unterer Abstand.
+   Ab 661px passen beide Karten auch im iPhone-Querformat nebeneinander. */
+@media (max-width: 660px) {
+  #kontakt .contactGrid { grid-template-columns: 1fr; align-items: start; }
+  #kontakt .contactList { display: block; }
+  #kontakt .contactBox,
+  #kontakt .hours {
+    padding-bottom: calc(var(--contact-padding) - var(--contact-row-padding) - 1px);
+  }
 }
