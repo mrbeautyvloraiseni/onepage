@@ -2,7 +2,23 @@
 (()=>{'use strict';
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const menu=$('#mobileMenu'),hamb=$('#hamb');
-function closeMenu(){menu.classList.remove('isOpen');hamb.setAttribute('aria-expanded','false');hamb.setAttribute('aria-label','Menü öffnen');}
+function syncMenuAnchor(){
+ const nav=$('.nav');
+ if(!nav)return;
+ document.documentElement.style.setProperty(
+   '--menu-anchor-offset',
+   `${Math.max(0,Math.round(nav.getBoundingClientRect().bottom)-1)}px`
+ );
+}
+function closeMenu(){
+ menu.classList.remove('isOpen');
+ hamb.setAttribute('aria-expanded','false');
+ hamb.setAttribute('aria-label','Menü öffnen');
+ syncMenuAnchor();
+}
+syncMenuAnchor();
+addEventListener('resize',syncMenuAnchor,{passive:true});
+if('ResizeObserver'in window)new ResizeObserver(syncMenuAnchor).observe($('.nav'));
 hamb.addEventListener('click',()=>{const open=menu.classList.toggle('isOpen');hamb.setAttribute('aria-expanded',String(open));hamb.setAttribute('aria-label',open?'Menü schliessen':'Menü öffnen');});
 $$('a',menu).forEach(a=>a.addEventListener('click',closeMenu));
 document.addEventListener('click',e=>{if(!e.target.closest('.nav'))closeMenu();});
