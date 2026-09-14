@@ -127,5 +127,74 @@ if(mrMapImage){
  }
 }
 
+
+// iPhone portrait: all service cards exactly as high as the longest text needs.
+const mrServiceCards=[...document.querySelectorAll('#services .serviceCard')];
+
+function syncPortraitServiceCardHeights(){
+  if(!mrServiceCards.length)return;
+
+  const portrait=matchMedia('(max-width:600px) and (orientation:portrait)').matches;
+
+  // Landscape / larger screens: do not interfere with existing layout.
+  if(!portrait){
+    mrServiceCards.forEach(card=>{
+      card.style.removeProperty('height');
+      card.style.removeProperty('min-height');
+      card.style.removeProperty('max-height');
+    });
+    return;
+  }
+
+  // First release all heights so each card can reveal its natural content size.
+  mrServiceCards.forEach(card=>{
+    card.style.setProperty('height','auto','important');
+    card.style.setProperty('min-height','0','important');
+    card.style.setProperty('max-height','none','important');
+  });
+
+  let maxContent=0;
+  let padTop=0;
+  let padBottom=0;
+
+  mrServiceCards.forEach(card=>{
+    const cs=getComputedStyle(card);
+    const h3=card.querySelector('h3');
+    const p=card.querySelector('p');
+    if(!h3||!p)return;
+
+    const h3s=getComputedStyle(h3);
+    const contentHeight=
+      h3.getBoundingClientRect().height+
+      parseFloat(h3s.marginBottom||0)+
+      p.getBoundingClientRect().height;
+
+    maxContent=Math.max(maxContent,contentHeight);
+    padTop=parseFloat(cs.paddingTop||0);
+    padBottom=parseFloat(cs.paddingBottom||0);
+  });
+
+  const target=Math.ceil(maxContent+padTop+padBottom);
+
+  mrServiceCards.forEach(card=>{
+    card.style.setProperty('height',`${target}px`,'important');
+    card.style.setProperty('min-height',`${target}px`,'important');
+    card.style.setProperty('max-height',`${target}px`,'important');
+  });
+}
+
+if(mrServiceCards.length){
+  const runServiceCardSync=()=>requestAnimationFrame(syncPortraitServiceCardHeights);
+
+  if(document.fonts&&document.fonts.ready){
+    document.fonts.ready.then(runServiceCardSync);
+  }else{
+    addEventListener('load',runServiceCardSync,{once:true});
+  }
+
+  addEventListener('resize',runServiceCardSync,{passive:true});
+  addEventListener('orientationchange',runServiceCardSync,{passive:true});
+}
+
 $$('a[href^="https://wa.me/"]').forEach(a=>{if(a.hasAttribute('data-direct-wa'))return;a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;if(matchMedia('(min-width:921px) and (pointer:fine)').matches){e.preventDefault();openDialog(waDialog);}});});
 })();
