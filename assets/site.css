@@ -253,467 +253,142 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   #services .serviceCard p{margin:0;font-size:10.5px;line-height:1.48;overflow-wrap:break-word}
 }
 
-/* Kontakt: gemeinsame Kartenhöhe nur bei zwei Spalten.
-   Die sieben natürlichen Tageszeilen geben die Höhe vor; kein Höhen-JavaScript. */
+/* Kontakt: eine Regelbasis für beide Karten */
 #kontakt {
-  --contact-padding: 26px;
-  --contact-row-padding: 9px;
+  --contact-padding:26px;
+  --contact-row-padding:9px;
 }
 #kontakt .contactGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
-  align-items: stretch;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:22px;
+  align-items:stretch;
 }
-@media (min-width: 701px) {
-  #kontakt .contactGrid { height: var(--contact-price-height, auto); }
+@media (min-width:701px) {
+  #kontakt .contactGrid { height:var(--contact-price-height,auto); }
 }
 #kontakt .contactBox,
 #kontakt .hours {
-  min-width: 0;
-  padding: var(--contact-padding) var(--contact-padding) 0;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
+  min-width:0;
+  padding:var(--contact-padding) var(--contact-padding) 0;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:var(--surface);
 }
 #kontakt .contactBox h3,
 #kontakt .hours h3 {
-  color: var(--accent);
-  margin: 0 0 14px;
-  font-size: 17px;
-  font-weight: 500;
-  line-height: 1.25;
+  color:var(--accent);
+  margin:0 0 14px;
+  font-size:17px;
+  font-weight:500;
+  line-height:1.25;
 }
 #kontakt .contactBox {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr);
 }
 #kontakt .contactList {
-  display: grid;
-  grid-template-rows: repeat(7, minmax(0, 1fr));
+  display:grid;
+  grid-template-rows:repeat(7,minmax(0,1fr));
 }
 #kontakt .hours {
-  display: grid;
-  grid-template-rows: auto repeat(7, minmax(0, 1fr));
+  display:grid;
+  grid-template-rows:auto repeat(7,minmax(0,1fr));
 }
 #kontakt .contactList > a,
 #kontakt .hoursRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 18px;
-  font-size: 12px;
-  line-height: 1.7;
-  padding: var(--contact-row-padding) 0;
-  border-bottom: 1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+  padding:var(--contact-row-padding) 0;
+  border-bottom:1px solid var(--line);
+  font-size:12px;
+  line-height:1.7;
 }
-#kontakt .contactList > a { transition: color .2s; }
-#kontakt .contactList > a > span { text-align: right; color: var(--muted); }
+#kontakt .contactList > a { transition:color .2s; }
+#kontakt .contactList > a > span {
+  color:var(--muted);
+  text-align:right;
+}
 #kontakt .contactList > a:hover,
-#kontakt .contactList > a:hover > span { color: var(--accent); }
+#kontakt .contactList > a:hover > span { color:var(--accent); }
 #kontakt .contactList > a:last-child,
-#kontakt .hoursRow:last-child {
-  /* Gleiche Zeilenhöhe inklusive unsichtbarer letzter Trennlinie. */
-  border-bottom-color: transparent;
+#kontakt .hoursRow:last-child { border-bottom-color:transparent; }
+#kontakt .hoursRow b { color:var(--muted); font-weight:400; }
+#kontakt .addressLine { display:block; }
+
+/* Zwei Spalten: erste Adresszeile auf Höhe von Samstag,
+   zweite unmittelbar darunter. */
+@media (min-width:661px) {
+  #kontakt .contactList > a.contactAddress {
+    position:relative;
+    grid-row:span 2;
+    padding:0;
+  }
+  #kontakt .contactAddressLabel {
+    position:absolute;
+    left:0;
+    top:25%;
+    transform:translateY(-50%);
+    color:#fff !important;
+  }
+  #kontakt .contactAddressValue {
+    position:absolute;
+    right:0;
+    top:calc(25% - .675em);
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    line-height:1.35;
+    white-space:nowrap;
+  }
 }
-#kontakt .hoursRow b { font-weight: 400; color: var(--muted); }
-#kontakt .contactList > .contactAddress { grid-row: span 2; align-items: flex-start; }
-#kontakt .addressLine { display: block; }
-@media (max-width: 920px) {
-  #kontakt { --contact-padding: 20px; }
+
+/* Eine Spalte: zwei Anschriftszeilen mit gleichem Innenabstand
+   oben und unten; Adresse bleibt auf Höhe von Adlikerstrasse. */
+@media (max-width:660px) {
+  #kontakt { --contact-padding:20px; }
+  #kontakt .contactGrid {
+    grid-template-columns:1fr;
+    align-items:start;
+  }
+  #kontakt .contactBox,
+  #kontakt .hours { padding-bottom:0; }
+  #kontakt .contactList { display:block; }
+  #kontakt .contactList > a,
+  #kontakt .hoursRow {
+    min-height:48px;
+    padding-top:0;
+    padding-bottom:0;
+    line-height:1.35;
+  }
+  #kontakt .contactList > a.contactAddress {
+    display:grid;
+    grid-template-columns:max-content minmax(0,1fr);
+    column-gap:18px;
+    align-items:start;
+    min-height:0;
+    padding:16px 0;
+    line-height:1.35;
+  }
+  #kontakt .contactAddressLabel {
+    color:#fff !important;
+    text-align:left;
+  }
+  #kontakt .contactAddressValue {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    justify-self:end;
+    margin:0;
+    line-height:1.35;
+    text-align:right;
+    white-space:nowrap;
+  }
+  #kontakt .hours { display:block; }
+}
+@media (max-width:920px) {
   #kontakt .contactBox h3,
-  #kontakt .hours h3 { font-size: 16px; }
-}
-/* Untereinander: Karten folgen ihrer natürlichen Inhaltshöhe.
-   Der letzte Zeileninnenabstand bleibt erhalten, zusätzlicher Kartenabstand entfällt. */
-@media (max-width: 660px) {
-  #kontakt .contactGrid { grid-template-columns: 1fr; align-items: start; }
-  #kontakt .contactList { display: block; }
-  #kontakt .contactBox,
-  #kontakt .hours { padding-bottom: 0; }
-}
-/* Bestehende Abstände in sehr schmalem iPhone-Querformat beibehalten. */
-@media (max-width: 660px) and (orientation: landscape) {
-  #kontakt .contactBox,
-  #kontakt .hours { padding-bottom: calc(var(--contact-padding) - var(--contact-row-padding) - 1px); }
-}
-
-/* IPHONE HOCHFORMAT – Kontakt/Öffnungszeiten gleiches Zeilenraster */
-@media(max-width:600px) and (orientation:portrait){
-
-  #kontakt .contactGrid{
-    align-items:start!important;
-  }
-
-  /* Beide Karten dürfen im Hochformat unterschiedlich hoch sein */
-  #kontakt .contactBox,
-  #kontakt .hours{
-    height:auto!important;
-    min-height:0!important;
-    max-height:none!important;
-  }
-
-  /* Gleiches vertikales Raster für Kontaktzeilen und Wochentage */
-  #kontakt .contactList>a,
-  #kontakt .hoursRow{
-    box-sizing:border-box!important;
-    min-height:48px!important;
-    padding-top:0!important;
-    padding-bottom:0!important;
-    display:flex!important;
-    align-items:center!important;
-    font-size:12px!important;
-    line-height:1.35!important;
-  }
-
-  #kontakt .contactList{
-    display:block!important;
-    flex:none!important;
-  }
-
-  #kontakt .contactList>a{
-    justify-content:space-between!important;
-  }
-
-  #kontakt .contactList>a>span{
-    margin-left:auto!important;
-    text-align:right!important;
-  }
-
-  /* Adresse bleibt zweizeilig, aber ohne extra Leerraum darunter */
-  #kontakt .contactList>a:last-child{
-    min-height:64px!important;
-    height:auto!important;
-    align-items:center!important;
-    padding-bottom:0!important;
-  }
-
-  #kontakt .contactList>a:last-child>span{
-    transform:none!important;
-    line-height:1.45!important;
-  }
-
-  #kontakt .hours{
-    display:block!important;
-  }
-
-  #kontakt .hoursRow{
-    height:48px!important;
-    justify-content:space-between!important;
-  }
-
-  /* Nur normaler Karteninnenabstand unten */
-  #kontakt .contactBox,
-  #kontakt .hours{
-    padding-bottom:16px!important;
-  }
-}
-
-/* V77 – NUR iPhone Hochformat: Adresse + Sonntag */
-@media(max-width:600px) and (orientation:portrait){
-
-  /* Adresse: Label und erste Adresszeile exakt oben ausrichten */
-  #kontakt .contactList>a:last-child{
-    min-height:0!important;
-    height:auto!important;
-    align-items:flex-start!important;
-    padding-top:0!important;
-    padding-bottom:0!important;
-    line-height:1.45!important;
-  }
-
-  #kontakt .contactList>a:last-child>span{
-    transform:none!important;
-    line-height:1.45!important;
-    margin-top:0!important;
-  }
-
-  /* Kein zusätzlicher Leerraum unter der zweizeiligen Adresse */
-  #kontakt .contactBox{
-    padding-bottom:0!important;
-  }
-
-  /* Sonntag exakt gleich hohe Zeile wie Samstag:
-     nur zusätzlichen Karten-Leerraum unten entfernen */
-  #kontakt .hours{
-    padding-bottom:0!important;
-  }
-
-  #kontakt .hoursRow:last-child{
-    height:48px!important;
-    min-height:48px!important;
-    max-height:48px!important;
-    padding-top:0!important;
-    padding-bottom:0!important;
-    display:flex!important;
-    align-items:center!important;
-  }
-}
-
-/* V78 – NUR iPhone Hochformat: Adresse exakt im 48px-Zeilenraster */
-@media(max-width:600px) and (orientation:portrait){
-
-  #kontakt .contactAddress{
-    display:grid!important;
-    grid-template-columns:max-content 1fr!important;
-    grid-template-rows:48px 48px!important;
-    min-height:96px!important;
-    height:96px!important;
-    padding:0!important;
-    align-items:stretch!important;
-    border-bottom:0!important;
-  }
-
-  #kontakt .contactAddress>.contactAddressLabel{
-    grid-column:1!important;
-    grid-row:1!important;
-    display:flex!important;
-    align-items:center!important;
-    justify-content:flex-start!important;
-    margin-left:0!important;
-    text-align:left!important;
-    color:inherit!important;
-    line-height:1.35!important;
-  }
-
-  #kontakt .contactAddress>.contactAddressValue{
-    grid-column:2!important;
-    grid-row:1 / 3!important;
-    display:grid!important;
-    grid-template-rows:48px 48px!important;
-    margin-left:auto!important;
-    text-align:right!important;
-    transform:none!important;
-    line-height:1.35!important;
-  }
-
-  #kontakt .contactAddress .addressLine{
-    display:flex!important;
-    align-items:center!important;
-    justify-content:flex-end!important;
-    height:48px!important;
-    line-height:1.35!important;
-    white-space:nowrap!important;
-  }
-
-  /* Fenster endet direkt nach der zweiten 48px-Zeile */
-  #kontakt .contactBox{
-    padding-bottom:0!important;
-  }
-}
-
-/* V79 – NUR iPhone Hochformat: Adressblock korrigieren
-   Adlikerstrasse 255 bleibt exakt an ihrer bisherigen Position. */
-@media(max-width:600px) and (orientation:portrait){
-
-  #kontakt .contactAddress{
-    position:relative!important;
-    display:block!important;
-    min-height:64px!important;
-    height:64px!important;
-    padding:0!important;
-    border-bottom:0!important;
-  }
-
-  /* "Adresse" exakt auf die Höhe der ersten Adresszeile setzen */
-  #kontakt .contactAddress>.contactAddressLabel{
-    position:absolute!important;
-    left:0!important;
-    top:0!important;
-    height:48px!important;
-    display:flex!important;
-    align-items:center!important;
-    margin:0!important;
-    line-height:1.35!important;
-  }
-
-  /* Rechte Seite: Startposition der ersten Zeile NICHT verändern */
-  #kontakt .contactAddress>.contactAddressValue{
-    position:absolute!important;
-    right:0!important;
-    top:0!important;
-    height:48px!important;
-    display:flex!important;
-    flex-direction:column!important;
-    justify-content:center!important;
-    align-items:flex-end!important;
-    margin:0!important;
-    transform:none!important;
-    line-height:1.35!important;
-  }
-
-  /* Beide Adresszeilen direkt untereinander, ohne zusätzlichen Abstand */
-  #kontakt .contactAddress .addressLine{
-    display:block!important;
-    height:auto!important;
-    line-height:1.35!important;
-    margin:0!important;
-    padding:0!important;
-    white-space:nowrap!important;
-  }
-
-  /* Fenster direkt nach dem Adressblock enden lassen */
-  #kontakt .contactBox{
-    padding-bottom:0!important;
-  }
-}
-
-/* V80 – iPhone Hochformat: Adressblock wieder korrekt IM Kontaktfenster */
-@media(max-width:600px) and (orientation:portrait){
-
-  #kontakt .contactAddress{
-    position:static!important;
-    display:grid!important;
-    grid-template-columns:max-content 1fr!important;
-    grid-template-rows:auto!important;
-    column-gap:18px!important;
-    min-height:0!important;
-    height:auto!important;
-    padding:10px 0 12px!important;
-    margin:0!important;
-    align-items:start!important;
-    border-bottom:0!important;
-  }
-
-  #kontakt .contactAddress>.contactAddressLabel{
-    position:static!important;
-    grid-column:1!important;
-    grid-row:1!important;
-    display:block!important;
-    height:auto!important;
-    margin:0!important;
-    padding:0!important;
-    line-height:1.35!important;
-    align-self:start!important;
-    color:inherit!important;
-  }
-
-  #kontakt .contactAddress>.contactAddressValue{
-    position:static!important;
-    grid-column:2!important;
-    grid-row:1!important;
-    display:flex!important;
-    flex-direction:column!important;
-    align-items:flex-end!important;
-    justify-content:flex-start!important;
-    gap:0!important;
-    height:auto!important;
-    margin:0!important;
-    padding:0!important;
-    transform:none!important;
-    line-height:1.35!important;
-    text-align:right!important;
-  }
-
-  #kontakt .contactAddress .addressLine{
-    display:block!important;
-    height:auto!important;
-    margin:0!important;
-    padding:0!important;
-    line-height:1.35!important;
-    white-space:nowrap!important;
-  }
-
-  /* Kontaktfenster umfasst den Adressblock wieder vollständig */
-  #kontakt .contactBox{
-    height:auto!important;
-    min-height:0!important;
-    max-height:none!important;
-    padding-bottom:0!important;
-    overflow:hidden!important;
-  }
-}
-
-/* V81 – nur Adressblock: Ausrichtung Hochformat sowie Querformat/Desktop */
-@media (max-width:600px) and (orientation:portrait){
-  #kontakt .contactAddress{align-items:center!important}
-  #kontakt .contactAddress>.contactAddressLabel{align-self:center!important}
-}
-@media (min-width:661px){
-  #kontakt .contactList > .contactAddress{display:grid!important;grid-template-columns:max-content 1fr!important;grid-template-rows:repeat(2,minmax(0,1fr))!important;column-gap:18px!important;align-items:stretch!important;padding:0!important}
-  #kontakt .contactAddress>.contactAddressLabel{display:flex!important;align-items:center!important;grid-column:1!important;grid-row:1!important}
-  #kontakt .contactAddress>.contactAddressValue{display:grid!important;grid-template-rows:repeat(2,minmax(0,1fr))!important;grid-column:2!important;grid-row:1 / 3!important;margin-left:auto!important;text-align:right!important}
-  #kontakt .contactAddress .addressLine{display:flex!important;align-items:center!important;justify-content:flex-end!important;white-space:nowrap!important}
-}
-/* V82 – Desktop-Adresse ohne Zeilenabstand */
-@media (min-width:661px){
-  #kontakt .contactAddress>.contactAddressValue{
-    display:flex!important;
-    flex-direction:column!important;
-    align-items:flex-end!important;
-    justify-content:flex-start!important;
-    align-self:start!important;
-    gap:0!important;
-    line-height:1.35!important;
-  }
-  #kontakt .contactAddress .addressLine{
-    flex:0 0 auto!important;
-    height:auto!important;
-    line-height:1.35!important;
-  }
-}
-/* V83 – Desktop: Adresse und erste Anschriftszeile exakt gleiche Höhe */
-@media (min-width:661px){
-  #kontakt .contactList > .contactAddress{
-    position:relative!important;
-  }
-  #kontakt .contactAddress>.contactAddressLabel{
-    position:absolute!important;
-    left:0!important;
-    top:25%!important;
-    transform:translateY(-50%)!important;
-  }
-  #kontakt .contactAddress>.contactAddressValue{
-    display:contents!important;
-  }
-  #kontakt .contactAddress .addressLine{
-    position:absolute!important;
-    right:0!important;
-    line-height:1.35!important;
-  }
-  #kontakt .contactAddress .addressLine:first-child{
-    top:25%!important;
-    transform:translateY(-50%)!important;
-  }
-  #kontakt .contactAddress .addressLine:last-child{
-    top:calc(25% + 1.35em)!important;
-    transform:translateY(-50%)!important;
-  }
-}
-/* Adresse wie die übrigen Bezeichnungen weiss */
-#kontakt .contactAddress>.contactAddressLabel{
-  color:#fff!important;
-}
-/* V84 – iPhone Hochformat: Adresse auf erste Anschriftszeile */
-@media (max-width:600px) and (orientation:portrait){
-  #kontakt .contactAddress{
-    align-items:start!important;
-    padding:10px 0 12px!important;
-  }
-  #kontakt .contactAddress>.contactAddressLabel{
-    align-self:start!important;
-    line-height:1.35!important;
-  }
-  #kontakt .contactAddress>.contactAddressValue{
-    align-self:start!important;
-    line-height:1.35!important;
-  }
-}
-/* V85 – iPhone Hochformat: höhere Adresszeile für zwei Anschriftszeilen */
-@media (max-width:600px) and (orientation:portrait){
-  #kontakt .contactAddress{
-    padding:16px 0!important;
-  }
-}
-/* V86 – iPhone Hochformat: Adresszeile mit gleichem Innenabstand oben/unten */
-@media (max-width:600px) and (orientation:portrait){
-  #kontakt .contactAddress{
-    padding:26px 0!important;
-  }
-}
-/* V87 – einspaltige Kontaktansicht: Adresszeile wirklich höher */
-@media (max-width:660px){
-  #kontakt .contactAddress{
-    padding:26px 0!important;
-  }
+  #kontakt .hours h3 { font-size:16px; }
 }
