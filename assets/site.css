@@ -16,7 +16,7 @@
 /* Open prices, one source of truth. */
 #prices{background:#070806}.priceTabs{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:stretch}.priceSide{display:grid;grid-template-rows:1fr 1fr;gap:22px;min-width:0}.priceCard{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#10110e;min-width:0;display:flex;flex-direction:column}.priceTabs>.priceCard,.priceSide>.priceCard{height:100%}.priceOpenHeader{height:76px;flex:0 0 76px;padding:0 26px;border-bottom:1px solid var(--line);display:flex;align-items:center}.priceOpenHeader h3{color:var(--accent);font-size:17px}.priceOpenHeader.apprenticeHeader>div{width:100%}.apprenticeNote{color:var(--muted);font-size:10px;line-height:1.35;margin-top:6px;white-space:nowrap}.priceOpenBody{padding:0 26px;display:flex;flex-direction:column;flex:1;min-height:0}.priceRow{display:flex;flex:1;min-height:0;gap:14px;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);font-size:12px;line-height:1.6}.priceRow:last-child{border-bottom:0}.priceSplit{display:flex;gap:12px;white-space:nowrap;font-variant-numeric:tabular-nums}.priceCurrency{color:var(--muted);font-size:10px}.priceAmount{min-width:40px;text-align:right}
 /* Location, contact and footer */
-.location{display:grid;grid-template-columns:1fr 1fr;gap:22px}.buildingPreview,.locCard{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;min-width:0;padding:0;background:var(--surface)}.buildingPreview img{height:100%;object-fit:cover;transition:transform .65s cubic-bezier(.2,.65,.3,1),filter .65s}.buildingPreview:hover img{transform:scale(1.045)}.buildingPreview{position:relative;min-height:330px}.mapOnly{display:flex;flex-direction:column}.pic{height:310px;overflow:hidden}.pic img{width:100%;height:100%;display:block;object-fit:cover;object-position:center center;transform:none!important;transition:none!important}.mapButtonOnly{padding:16px;text-align:center}.mapButtonOnly a{width:100%;color:var(--accent);font-size:10px;gap:5px}.mapButtonOnly a:hover{border-color:var(--accent)}.contactIntroHead{max-width:730px;margin-bottom:38px}.contactIntroHead p{margin-top:22px}.contactCta{margin-top:26px}.contactGrid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.contactBox,.hours{padding:26px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}.contactList>a{display:flex;justify-content:space-between;gap:18px;align-items:baseline;font-size:12px;padding:12px 0;border-bottom:1px solid var(--line);transition:color .2s}.contactList>a:last-child{border-bottom:0}.contactList>a>span{text-align:right;color:var(--muted)}.contactList>a:hover,.contactList>a:hover>span{color:var(--accent)}.hours h3{color:var(--accent);margin-bottom:14px}.hoursRow{display:flex;justify-content:space-between;font-size:12px;padding:9px 0;border-bottom:1px solid var(--line)}.hoursRow:last-child{border:0}.hoursRow b{font-weight:400;color:var(--muted)}footer{border-top:1px solid var(--line);padding:44px 0 120px}.footerInner{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:24px}.footerBrand{color:var(--accent);font-size:24px;font-weight:500;letter-spacing:.06em}.footerBrand span{color:#fff}.footerInner p{font-size:11px;margin-top:8px}.footerLinks{display:flex;justify-content:flex-end;gap:24px;font-size:11px;flex-wrap:wrap}.footerLinks a:hover{color:var(--accent)}.copyright{grid-column:1/-1;border-top:1px solid #20211b;padding-top:20px}.floatWhats{position:fixed;z-index:25;bottom:max(20px,env(safe-area-inset-bottom));right:max(20px,env(safe-area-inset-right));display:flex;align-items:center;gap:12px;border-radius:40px;background:var(--accent);color:#000;padding:12px 20px;box-shadow:0 8px 30px #0007;transition:transform .3s,box-shadow .3s}.floatWhats svg{width:26px;height:29px;fill:currentColor}.floatWhats>span{font-size:12px;line-height:1.35;font-weight:600}.floatWhats small{display:block;font-size:9px;letter-spacing:.05em;font-weight:400;margin-top:2px}.floatWhats:hover{transform:translateY(-4px);box-shadow:0 8px 35px #c8cf0422}
+.location{display:grid;grid-template-columns:1fr 1fr;gap:22px}.buildingPreview,.locCard{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;min-width:0;padding:0;background:var(--surface)}.buildingPreview img{height:100%;object-fit:cover;transition:transform .65s cubic-bezier(.2,.65,.3,1),filter .65s}.buildingPreview:hover img{transform:scale(1.045)}.buildingPreview{position:relative;min-height:330px}.mapOnly{display:flex;flex-direction:column}.pic{height:310px;overflow:hidden}.pic img{width:100%;height:100%;display:block;object-fit:cover;object-position:center center;transform:none!important;transition:none!important}.mapButtonOnly{padding:16px;text-align:center}.mapButtonOnly a{width:100%;color:var(--accent);font-size:10px;gap:5px}.mapButtonOnly a:hover{border-color:var(--accent)}.contactIntroHead{max-width:730px;margin-bottom:38px}.contactIntroHead p{margin-top:22px}.contactCta{margin-top:26px}footer{border-top:1px solid var(--line);padding:44px 0 120px}.footerInner{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:24px}.footerBrand{color:var(--accent);font-size:24px;font-weight:500;letter-spacing:.06em}.footerBrand span{color:#fff}.footerInner p{font-size:11px;margin-top:8px}.footerLinks{display:flex;justify-content:flex-end;gap:24px;font-size:11px;flex-wrap:wrap}.footerLinks a:hover{color:var(--accent)}.copyright{grid-column:1/-1;border-top:1px solid #20211b;padding-top:20px}.floatWhats{position:fixed;z-index:25;bottom:max(20px,env(safe-area-inset-bottom));right:max(20px,env(safe-area-inset-right));display:flex;align-items:center;gap:12px;border-radius:40px;background:var(--accent);color:#000;padding:12px 20px;box-shadow:0 8px 30px #0007;transition:transform .3s,box-shadow .3s}.floatWhats svg{width:26px;height:29px;fill:currentColor}.floatWhats>span{font-size:12px;line-height:1.35;font-weight:600}.floatWhats small{display:block;font-size:9px;letter-spacing:.05em;font-weight:400;margin-top:2px}.floatWhats:hover{transform:translateY(-4px);box-shadow:0 8px 35px #c8cf0422}
 /* Native modal focus management; full-size gallery. */
 dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b0c09;padding:40px;max-width:calc(100% - 32px);max-height:calc(100dvh - 32px)}dialog::backdrop{background:#000ed;backdrop-filter:blur(7px)}dialog[open]{animation:dialogIn .25s ease-out}.dialogClose{position:absolute;right:12px;top:10px;width:44px;height:44px;border:1px solid #555;border-radius:50%;font-size:27px;background:#000c;z-index:2}.imageLightbox{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.94);backdrop-filter:blur(7px);display:grid;place-items:center;padding:28px 44px;opacity:0;visibility:hidden;transition:opacity .22s ease,visibility .22s ease}.imageLightbox[hidden]{display:none}.imageLightbox.isOpen{opacity:1;visibility:visible}.imageLightbox figure{margin:0;text-align:center;width:min(1350px,100%)}.imageLightbox img{display:block;max-height:calc(100dvh - 180px);width:100%;object-fit:contain;cursor:zoom-out;margin:auto}.imageLightbox figcaption{margin-top:14px;color:var(--accent);line-height:1.55}.imageCaptionText,.imageCaptionDetail{display:block}.imageCaptionText{font-size:13px;font-weight:600}.imageCaptionDetail{font-size:11px;margin-top:3px;opacity:.82}.imageLightbox figcaption small{display:block;font-size:10px;font-weight:400;letter-spacing:.03em;margin-top:6px;color:#a8aaa5;opacity:.78}.waDialog{width:440px;text-align:center;padding-top:58px}.waDialog h2{font-size:40px;margin-bottom:18px}.waDialog p{font-size:12px}.waDialog .eyebrow:before{display:none}.qr{width:210px;margin:24px auto;background:white;border-radius:14px;padding:10px}.qr svg{width:100%;height:auto}.waDialog .btn{width:100%}
 /* Legal pages keep original text with matching navigation and type. */
@@ -25,8 +25,8 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
 .reveal.isPending{opacity:0;transform:translateY(22px)}.reveal{transition:opacity .75s ease,transform .75s cubic-bezier(.2,.65,.3,1);transition-delay:var(--reveal-delay,0ms)}@keyframes heroImage{from{transform:scale(1.035);filter:brightness(.8)}to{transform:scale(1);filter:brightness(1)}}@keyframes dialogIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @media(min-width:1600px){.nav{max-width:1400px;margin-inline:auto}}
 @media(max-width:1100px){.links{gap:14px}.navin{gap:16px}.links a{font-size:10px}.split{gap:32px}.serviceHead,.galleryIntro{gap:35px}.miniGrid{gap:10px}.serviceCard{height:160px;padding:22px}.priceOpenHeader,.priceOpenBody{padding-inline:20px}}
-@media(max-width:920px){:root{--gutter:28px}.links{display:none;transform:none}.hamb{display:block}.navin{min-height:66px}.brand img{width:57px;height:57px}.nav{border-radius:36px}.mobile.isOpen{display:grid;grid-template-columns:1fr 1fr;padding:10px 24px 24px;gap:4px 20px;max-height:calc(100dvh - 100px);overflow:auto}.mobile a{font-size:13px;padding:10px;border-bottom:1px solid var(--line)}.hero{padding-top:94px}.mainPhoto{height:340px}.split{grid-template-columns:.85fr 1fr;gap:28px}.miniGrid{grid-template-columns:1fr}.mini{padding-top:10px}.mini p{margin-top:3px}.serviceGrid{grid-template-columns:repeat(2,1fr)}.gallery{gap:12px}.shot{border-radius:16px}.galleryIntro,.serviceHead{gap:24px}.priceTabs{gap:16px}.priceSide{gap:16px}.priceRow{font-size:11px}.priceSplit{gap:7px}section{padding-block:74px}.buildingPreview{min-height:300px}.contactBox,.hours{padding:20px}.contactList>a{font-size:11px}}
-@media(max-width:600px){:root{--gutter:20px}body{font-size:13px}.nav{left:14px;right:14px;top:10px}.navin{padding-left:18px;gap:12px}.hero{padding-bottom:58px}.heroMedia{margin-bottom:30px}.mainPhoto{height:285px;border-bottom-left-radius:80px}.heroTextIntro .eyebrow{font-size:9px;margin-bottom:15px}.womenOnly{margin-left:8px;letter-spacing:.02em}.hero h1{font-size:clamp(40px,10.4vw,62px)}.heroText{margin-top:22px}.heroActions{gap:12px;margin-top:24px;align-items:flex-start;flex-direction:column}.btn{font-size:11px;padding-inline:22px}.split{grid-template-columns:1fr;gap:30px}.portrait{max-width:370px;margin-inline:auto}.portrait img{max-height:440px;object-fit:contain}.miniGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.mini b{font-size:10px}.mini p{font-size:10px}.serviceHead,.galleryIntro{grid-template-columns:1fr;gap:18px;margin-bottom:28px}h2{font-size:34px}.serviceCard{height:170px;padding:18px}.serviceCard h3{font-size:16px;overflow-wrap:anywhere}.serviceCard p{font-size:11px}.serviceGrid{gap:12px}.gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.gallerySocial{font-size:11px}.priceTabs,.location,.contactGrid{grid-template-columns:1fr}.priceSide{grid-template-rows:auto auto;gap:12px}.priceRow{font-size:11px;padding-block:14px}.priceOpenHeader h3{font-size:16px}.priceOpenHeader{height:68px;padding:0 20px}.priceSplit{gap:10px}.buildingPreview{min-height:0;aspect-ratio:1.4}.pic{height:280px}.contactIntroHead p{margin-top:18px}.contactList>a{font-size:11px}.footerInner{grid-template-columns:1fr;gap:20px}.footerLinks{justify-content:flex-start;gap:20px}.floatWhats{padding:11px 16px;gap:9px;right:16px;bottom:max(16px,env(safe-area-inset-bottom))}.floatWhats svg{width:23px;height:25px}.imageLightbox{padding:20px}.imageLightbox img{max-height:calc(100dvh - 205px)}.legalPage{padding-top:130px}.legalCard{padding:22px}.legalCard h2{font-size:19px}.waDialog{padding-inline:24px}section{padding-block:60px}}
+@media(max-width:920px){:root{--gutter:28px}.links{display:none;transform:none}.hamb{display:block}.navin{min-height:66px}.brand img{width:57px;height:57px}.nav{border-radius:36px}.mobile.isOpen{display:grid;grid-template-columns:1fr 1fr;padding:10px 24px 24px;gap:4px 20px;max-height:calc(100dvh - 100px);overflow:auto}.mobile a{font-size:13px;padding:10px;border-bottom:1px solid var(--line)}.hero{padding-top:94px}.mainPhoto{height:340px}.split{grid-template-columns:.85fr 1fr;gap:28px}.miniGrid{grid-template-columns:1fr}.mini{padding-top:10px}.mini p{margin-top:3px}.serviceGrid{grid-template-columns:repeat(2,1fr)}.gallery{gap:12px}.shot{border-radius:16px}.galleryIntro,.serviceHead{gap:24px}.priceTabs{gap:16px}.priceSide{gap:16px}.priceRow{font-size:11px}.priceSplit{gap:7px}section{padding-block:74px}.buildingPreview{min-height:300px}}
+@media(max-width:600px){:root{--gutter:20px}body{font-size:13px}.nav{left:14px;right:14px;top:10px}.navin{padding-left:18px;gap:12px}.hero{padding-bottom:58px}.heroMedia{margin-bottom:30px}.mainPhoto{height:285px;border-bottom-left-radius:80px}.heroTextIntro .eyebrow{font-size:9px;margin-bottom:15px}.womenOnly{margin-left:8px;letter-spacing:.02em}.hero h1{font-size:clamp(40px,10.4vw,62px)}.heroText{margin-top:22px}.heroActions{gap:12px;margin-top:24px;align-items:flex-start;flex-direction:column}.btn{font-size:11px;padding-inline:22px}.split{grid-template-columns:1fr;gap:30px}.portrait{max-width:370px;margin-inline:auto}.portrait img{max-height:440px;object-fit:contain}.miniGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.mini b{font-size:10px}.mini p{font-size:10px}.serviceHead,.galleryIntro{grid-template-columns:1fr;gap:18px;margin-bottom:28px}h2{font-size:34px}.serviceCard{height:170px;padding:18px}.serviceCard h3{font-size:16px;overflow-wrap:anywhere}.serviceCard p{font-size:11px}.serviceGrid{gap:12px}.gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.gallerySocial{font-size:11px}.priceTabs,.location{grid-template-columns:1fr}.priceSide{grid-template-rows:auto auto;gap:12px}.priceRow{font-size:11px;padding-block:14px}.priceOpenHeader h3{font-size:16px}.priceOpenHeader{height:68px;padding:0 20px}.priceSplit{gap:10px}.buildingPreview{min-height:0;aspect-ratio:1.4}.pic{height:280px}.contactIntroHead p{margin-top:18px}.footerInner{grid-template-columns:1fr;gap:20px}.footerLinks{justify-content:flex-start;gap:20px}.floatWhats{padding:11px 16px;gap:9px;right:16px;bottom:max(16px,env(safe-area-inset-bottom))}.floatWhats svg{width:23px;height:25px}.imageLightbox{padding:20px}.imageLightbox img{max-height:calc(100dvh - 205px)}.legalPage{padding-top:130px}.legalCard{padding:22px}.legalCard h2{font-size:19px}.waDialog{padding-inline:24px}section{padding-block:60px}}
 @media(max-height:500px) and (orientation:landscape){.navin{min-height:54px}.brand img{width:46px;height:46px}.hamb{width:40px;height:40px}.hero{padding-top:80px}.mainPhoto{height:260px}.waDialog .qr{width:120px;margin:14px auto}.waDialog{padding:38px 24px 20px}.waDialog h2{font-size:26px}.waDialog .eyebrow{display:none}.waDialog p{font-size:11px}.imageLightbox img{max-height:calc(100dvh - 145px)}.imageLightbox{padding:16px 24px}.floatWhats{padding:9px 14px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.reveal.isPending{opacity:1;transform:none}}
 
@@ -205,40 +205,6 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   }
 }
 
-/* IPHONE LEISTUNGEN – alle 6 Fenster gleich gross, gleiche Textausrichtung */
-@media(max-width:600px){
-  #services .serviceGrid{
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
-    gap:12px!important;
-    align-items:stretch!important;
-  }
-  #services .serviceCard{
-    height:270px!important;
-    min-height:270px!important;
-    max-height:270px!important;
-    padding:18px!important;
-    display:flex!important;
-    flex-direction:column!important;
-    justify-content:flex-start!important;
-    overflow:hidden!important;
-  }
-  #services .serviceCard h3{
-    margin:0 0 14px 0!important;
-    min-height:42px!important;
-    font-size:15px!important;
-    line-height:1.35!important;
-    overflow-wrap:normal!important;
-    word-break:normal!important;
-  }
-  #services .serviceCard p{
-    margin:0!important;
-    font-size:10.5px!important;
-    line-height:1.55!important;
-    overflow-wrap:break-word!important;
-    word-break:normal!important;
-  }
-}
-
 /* GOOGLE MAPS BUTTON – horizontal + vertikal sauber zentriert */
 #standort .mapButtonOnly a.maps-button-two-line{
   display:flex!important;
@@ -312,188 +278,30 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   }
 }
 
-/* IPHONE HOCHFORMAT – Leistungsfenster kompakt und alle gleich gross.
-   Querformat bleibt vollständig unverändert wie in Onepage(57). */
+/* Leistungen: portrait cards grow to the longest content via site.js. */
 @media(max-width:600px) and (orientation:portrait){
-  #services .serviceGrid{
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
-    gap:12px!important;
-    align-items:stretch!important;
-  }
-
-  #services .serviceCard{
-    height:220px!important;
-    min-height:220px!important;
-    max-height:220px!important;
-    padding:16px 16px!important;
-    display:flex!important;
-    flex-direction:column!important;
-    justify-content:flex-start!important;
-    overflow:hidden!important;
-  }
-
-  #services .serviceCard h3{
-    margin:0 0 12px 0!important;   /* ungefähr eine Textzeile Abstand */
-    min-height:0!important;
-    font-size:15px!important;
-    line-height:1.25!important;
-  }
-
-  #services .serviceCard p{
-    margin:0!important;
-    font-size:10px!important;
-    line-height:1.45!important;
-    overflow-wrap:break-word!important;
-    word-break:normal!important;
-  }
+  #services .serviceGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch}
+  #services .serviceCard{height:auto;min-height:0;max-height:none;padding:14px;justify-content:flex-start;overflow:visible}
+  #services .serviceCard h3{margin:0 0 10px;min-height:0;font-size:15px;line-height:1.25;overflow-wrap:normal}
+  #services .serviceCard p{margin:0;font-size:10.5px;line-height:1.48;overflow-wrap:break-word}
 }
 
-/* IPHONE HOCHFORMAT – Leistungsfenster deutlich kompakter */
-@media(max-width:600px) and (orientation:portrait){
-  #services .serviceGrid{
-    gap:10px!important;
-  }
-
-  #services .serviceCard{
-    height:190px!important;
-    min-height:190px!important;
-    max-height:190px!important;
-    padding:14px!important;
-  }
-
-  #services .serviceCard h3{
-    margin:0 0 9px 0!important;
-    min-height:0!important;
-    font-size:14px!important;
-    line-height:1.22!important;
-  }
-
-  #services .serviceCard p{
-    margin:0!important;
-    font-size:9.5px!important;
-    line-height:1.42!important;
-  }
-}
-
-/* IPHONE HOCHFORMAT – dynamisch nach längstem Leistungstext */
-@media(max-width:600px) and (orientation:portrait){
-  #services .serviceGrid{
-    gap:10px!important;
-    align-items:stretch!important;
-  }
-
-  #services .serviceCard{
-    height:auto!important;
-    min-height:0!important;
-    max-height:none!important;
-    padding:14px!important;
-    overflow:hidden!important;
-  }
-
-  #services .serviceCard h3{
-    margin:0 0 10px 0!important;
-    min-height:0!important;
-    font-size:15px!important;
-    line-height:1.25!important;
-  }
-
-  #services .serviceCard p{
-    margin:0!important;
-    font-size:10.5px!important;
-    line-height:1.48!important;
-  }
-}
-
-/* KONTAKT V66 – Öffnungszeiten ist die Referenz */
-
-/* Beide Titel gleich behandeln */
-#kontakt .contactBox h3,
-#kontakt .hours h3{
-  color:var(--accent)!important;
-  margin:0 0 14px!important;
-  font-size:17px!important;
-  font-weight:500!important;
-  line-height:1.25!important;
-}
-
-/* Kontaktzeilen exakt wie Öffnungszeiten */
-#kontakt .contactList>a,
-#kontakt .hoursRow{
-  display:flex!important;
-  justify-content:space-between!important;
-  align-items:center!important;
-  font-size:12px!important;
-  padding:9px 0!important;
-  line-height:1.7!important;
-  min-height:0!important;
-}
-
-/* Gleiche Linienlogik */
-#kontakt .contactList>a{
-  gap:18px!important;
-  border-bottom:1px solid var(--line)!important;
-}
-#kontakt .contactList>a>span{
-  text-align:right!important;
-  color:var(--muted)!important;
-  white-space:nowrap!important;
-}
-#kontakt .contactList>a:last-child,
-#kontakt .hoursRow:last-child{
-  border-bottom:0!important;
-}
-
-/* Die unsichtbare linke Beschriftung hält die Spaltenposition stabil */
-#kontakt .contactBlank{
-  visibility:hidden!important;
-}
-
-/* Fenster nur unten kürzen – Zeilen selbst bleiben unverändert.
-   Desktop: oben 26px, unten 17px + 9px Zeileninnenraum = optisch wieder 26px. */
-#kontakt .contactBox,
-#kontakt .hours{
-  box-sizing:border-box!important;
-  height:auto!important;
-  min-height:0!important;
-  max-height:none!important;
-  padding-bottom:17px!important;
-}
-
-/* Tablet / iPhone: oben 20px, unten 11px + 9px Zeileninnenraum = 20px */
+/* Contact: the opening-hours rows define the shared side-by-side rhythm. */
+#kontakt .contactGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:stretch}
+#kontakt .contactBox,#kontakt .hours{min-width:0;padding:26px 26px 17px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+#kontakt .contactBox h3,#kontakt .hours h3{color:var(--accent);margin:0 0 14px;font-size:17px;font-weight:500;line-height:1.25}
+#kontakt .contactList>a,#kontakt .hoursRow{display:flex;justify-content:space-between;align-items:center;gap:18px;font-size:12px;line-height:1.7;padding:9px 0;border-bottom:1px solid var(--line)}
+#kontakt .contactList>a{transition:color .2s}
+#kontakt .contactList>a>span{text-align:right;color:var(--muted)}
+#kontakt .contactList>a:hover,#kontakt .contactList>a:hover>span{color:var(--accent)}
+#kontakt .contactList>a:last-child,#kontakt .hoursRow:last-child{border-bottom:0}
+#kontakt .hoursRow b{font-weight:400;color:var(--muted)}
+#kontakt .contactBlank{visibility:hidden}
 @media(max-width:920px){
-  #kontakt .contactBox,
-  #kontakt .hours{
-    padding-bottom:11px!important;
-  }
-
-  #kontakt .contactBox h3,
-  #kontakt .hours h3{
-    font-size:16px!important;
-  }
+  #kontakt .contactBox,#kontakt .hours{padding:20px 20px 11px}
+  #kontakt .contactBox h3,#kontakt .hours h3{font-size:16px}
 }
-
-/* Hochformat:
-   Außenhöhen nicht koppeln. Adresse bleibt optisch als zusammengehöriger Block kompakt. */
-@media(max-width:600px) and (orientation:portrait){
-  #kontakt .contactGrid{
-    align-items:start!important;
-  }
-
-  #kontakt .addressStreet{
-    padding-bottom:2px!important;
-    border-bottom:0!important;
-  }
-
-  #kontakt .addressCity{
-    padding-top:2px!important;
-  }
-}
-
-/* Nebeneinander:
-   Beide Listen haben 7 identische Zeilen.
-   Keine Änderung der Öffnungszeiten-Zeilen – sie bleiben die Referenz. */
-@media(min-width:601px){
-  #kontakt .contactGrid{
-    align-items:start!important;
-  }
+/* A narrow landscape phone also stacks cards so contact values remain readable. */
+@media(max-width:700px){
+  #kontakt .contactGrid{grid-template-columns:1fr}
 }

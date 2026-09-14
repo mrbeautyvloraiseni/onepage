@@ -198,51 +198,5 @@ if(mrServiceCards.length){
 
 
 
-// Kontakt V66:
-// Wenn die Karten nebeneinander stehen, ist Öffnungszeiten die Referenzhöhe.
-// Zeilenhöhen/Abstände werden hier NICHT verändert.
-const mrContactBoxV66=document.querySelector('#kontakt .contactBox');
-const mrHoursBoxV66=document.querySelector('#kontakt .hours');
-
-function syncContactOuterHeightV66(){
-  if(!mrContactBoxV66||!mrHoursBoxV66)return;
-
-  mrContactBoxV66.style.removeProperty('height');
-  mrContactBoxV66.style.removeProperty('min-height');
-  mrContactBoxV66.style.removeProperty('max-height');
-  mrHoursBoxV66.style.removeProperty('height');
-  mrHoursBoxV66.style.removeProperty('min-height');
-  mrHoursBoxV66.style.removeProperty('max-height');
-
-  requestAnimationFrame(()=>{
-    const c=mrContactBoxV66.getBoundingClientRect();
-    const h=mrHoursBoxV66.getBoundingClientRect();
-    const sideBySide=Math.abs(c.top-h.top)<8;
-
-    if(!sideBySide)return;
-
-    // Öffnungszeiten ist ausschließlich die Referenz.
-    const ref=Math.ceil(h.height);
-    const px=`${ref}px`;
-
-    mrContactBoxV66.style.setProperty('height',px,'important');
-    mrContactBoxV66.style.setProperty('min-height',px,'important');
-    mrContactBoxV66.style.setProperty('max-height',px,'important');
-  });
-}
-
-if(mrContactBoxV66&&mrHoursBoxV66){
-  const runContactV66=()=>requestAnimationFrame(syncContactOuterHeightV66);
-
-  if(document.fonts&&document.fonts.ready){
-    document.fonts.ready.then(runContactV66);
-  }else{
-    addEventListener('load',runContactV66,{once:true});
-  }
-
-  addEventListener('resize',runContactV66,{passive:true});
-  addEventListener('orientationchange',runContactV66,{passive:true});
-}
-
 $$('a[href^="https://wa.me/"]').forEach(a=>{if(a.hasAttribute('data-direct-wa'))return;a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;if(matchMedia('(min-width:921px) and (pointer:fine)').matches){e.preventDefault();openDialog(waDialog);}});});
 })();
