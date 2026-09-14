@@ -407,7 +407,19 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   height:auto;
 }
 /* Menü-Anker: Abschnittslinie direkt unter der festen Navigation */
-html { scroll-padding-top:100px; }
+/* Abschnitt beginnt an der Unterkante des gelben Menürahmens */
+html { scroll-padding-top:91px; }
+@media (max-width:920px) {
+  html { scroll-padding-top:83px; }
+}
+@media (max-width:600px) {
+  html { scroll-padding-top:81px; }
+}
+@media (max-height:500px) and (orientation:landscape) {
+  html { scroll-padding-top:71px; }
+}
+/* Beim Menü-Sprung keine zweite Linie unter dem gelben Rahmen */
+main > section:target { border-top-color:transparent !important; }
 main > section { scroll-margin-top:0; }
 
 /* Auch zwischen Startseite (header) und Über uns (section) trennen */
