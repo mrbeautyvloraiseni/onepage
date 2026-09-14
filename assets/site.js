@@ -181,3 +181,16 @@ if(phoneContact&&phoneDialog&&phoneQr){
  });
 }
 })();
+
+/* Touch: Kontaktknopf und Logo nicht als Link-/Bildvorschau ziehen */
+(()=>{
+ const touch=matchMedia('(any-pointer:coarse)');
+ document.querySelectorAll('.floatWhats, .brand').forEach(link=>{
+   link.addEventListener('contextmenu',event=>{
+     if(touch.matches)event.preventDefault();
+   });
+   link.addEventListener('dragstart',event=>{
+     if(touch.matches)event.preventDefault();
+   });
+ });
+})();

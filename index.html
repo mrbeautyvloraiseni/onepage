@@ -1,6 +1,33 @@
 <!doctype html>
 <html lang="de-CH"><head>
 <meta charset="utf-8">
+<script id="reload-home-fix">
+(()=>{'use strict';
+ const entry=performance.getEntriesByType('navigation')[0];
+ if(!entry||entry.type!=='reload')return;
+ const url=new URL(location.href);
+ url.hash='';
+ url.searchParams.delete('mrsection');
+ history.replaceState(history.state,'',url.pathname+url.search);
+ const restoration=history.scrollRestoration;
+ history.scrollRestoration='manual';
+ addEventListener('pageshow',event=>{
+   if(event.persisted){
+     history.scrollRestoration=restoration;
+     return;
+   }
+   const root=document.documentElement;
+   const previous=root.style.scrollBehavior;
+   root.style.scrollBehavior='auto';
+   window.scrollTo(0,0);
+   requestAnimationFrame(()=>requestAnimationFrame(()=>{
+     window.scrollTo(0,0);
+     root.style.scrollBehavior=previous;
+     history.scrollRestoration=restoration;
+   }));
+ },{once:true});
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><link as="font" crossorigin="" href="fonts/Montserrat-Regular.otf" rel="preload" type="font/otf">
 <link as="font" crossorigin="" href="fonts/Montserrat-Medium.otf" rel="preload" type="font/otf">
 <link as="font" crossorigin="" href="fonts/Montserrat-SemiBold.otf" rel="preload" type="font/otf">
@@ -26,7 +53,7 @@
 <meta content="MR Beauty Vlora Iseni – Nagelstudio &amp; Beauty in Regensdorf. Gel-Nägel, Augenbrauen, Wimpernlifting, Preise, Galerie und Kontakt." name="twitter:description">
 <meta content="https://www.mrbeauty.ch/images/Colorful-french-nails.jpg" name="twitter:image">
 <meta content="Pastell French Nägel von MR Beauty Vlora Iseni" name="twitter:image:alt">
-<link rel="stylesheet" href="assets/site.css?v=20260914-anchorline"><script src="assets/qrcode-generator.js" defer></script><script src="assets/site.js?v=20260914-anchorline" defer></script><script type="application/ld+json">
+<link rel="stylesheet" href="assets/site.css?v=20260914-mobilefix"><script src="assets/qrcode-generator.js" defer></script><script src="assets/site.js?v=20260914-mobilefix" defer></script><script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BeautySalon",
