@@ -352,13 +352,16 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   #kontakt .contactBox h3,
   #kontakt .hours h3 { font-size: 16px; }
 }
-/* Untereinander: Inhaltshöhe pro Karte, optisch gleicher oberer/unterer Abstand.
-   Ab 661px passen beide Karten auch im iPhone-Querformat nebeneinander. */
+/* Untereinander: Karten folgen ihrer natürlichen Inhaltshöhe.
+   Der letzte Zeileninnenabstand bleibt erhalten, zusätzlicher Kartenabstand entfällt. */
 @media (max-width: 660px) {
   #kontakt .contactGrid { grid-template-columns: 1fr; align-items: start; }
   #kontakt .contactList { display: block; }
   #kontakt .contactBox,
-  #kontakt .hours {
-    padding-bottom: calc(var(--contact-padding) - var(--contact-row-padding) - 1px);
-  }
+  #kontakt .hours { padding-bottom: 0; }
+}
+/* Bestehende Abstände in sehr schmalem iPhone-Querformat beibehalten. */
+@media (max-width: 660px) and (orientation: landscape) {
+  #kontakt .contactBox,
+  #kontakt .hours { padding-bottom: calc(var(--contact-padding) - var(--contact-row-padding) - 1px); }
 }
