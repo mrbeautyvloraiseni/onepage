@@ -337,3 +337,74 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   #kontakt .contactBox,
   #kontakt .hours { padding-bottom: calc(var(--contact-padding) - var(--contact-row-padding) - 1px); }
 }
+
+/* IPHONE HOCHFORMAT – Kontakt/Öffnungszeiten gleiches Zeilenraster */
+@media(max-width:600px) and (orientation:portrait){
+
+  #kontakt .contactGrid{
+    align-items:start!important;
+  }
+
+  /* Beide Karten dürfen im Hochformat unterschiedlich hoch sein */
+  #kontakt .contactBox,
+  #kontakt .hours{
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+  }
+
+  /* Gleiches vertikales Raster für Kontaktzeilen und Wochentage */
+  #kontakt .contactList>a,
+  #kontakt .hoursRow{
+    box-sizing:border-box!important;
+    min-height:48px!important;
+    padding-top:0!important;
+    padding-bottom:0!important;
+    display:flex!important;
+    align-items:center!important;
+    font-size:12px!important;
+    line-height:1.35!important;
+  }
+
+  #kontakt .contactList{
+    display:block!important;
+    flex:none!important;
+  }
+
+  #kontakt .contactList>a{
+    justify-content:space-between!important;
+  }
+
+  #kontakt .contactList>a>span{
+    margin-left:auto!important;
+    text-align:right!important;
+  }
+
+  /* Adresse bleibt zweizeilig, aber ohne extra Leerraum darunter */
+  #kontakt .contactList>a:last-child{
+    min-height:64px!important;
+    height:auto!important;
+    align-items:center!important;
+    padding-bottom:0!important;
+  }
+
+  #kontakt .contactList>a:last-child>span{
+    transform:none!important;
+    line-height:1.45!important;
+  }
+
+  #kontakt .hours{
+    display:block!important;
+  }
+
+  #kontakt .hoursRow{
+    height:48px!important;
+    justify-content:space-between!important;
+  }
+
+  /* Nur normaler Karteninnenabstand unten */
+  #kontakt .contactBox,
+  #kontakt .hours{
+    padding-bottom:16px!important;
+  }
+}
