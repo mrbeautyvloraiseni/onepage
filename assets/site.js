@@ -196,51 +196,5 @@ if(mrServiceCards.length){
   addEventListener('orientationchange',runServiceCardSync,{passive:true});
 }
 
-
-// Kontaktkarten: Wenn sie nebeneinander stehen, ist "Öffnungszeiten"
-// die Referenzhöhe. Kontaktmöglichkeiten übernimmt exakt diese Höhe.
-const mrContactGrid=document.querySelector('#kontakt .contactGrid');
-const mrContactBox=mrContactGrid&&mrContactGrid.querySelector('.contactBox');
-const mrHoursBox=mrContactGrid&&mrContactGrid.querySelector('.hours');
-
-function syncContactCardsToHours(){
-  if(!mrContactGrid||!mrContactBox||!mrHoursBox)return;
-
-  // Erst alte Inline-Höhen lösen.
-  mrContactBox.style.removeProperty('height');
-  mrContactBox.style.removeProperty('min-height');
-  mrContactBox.style.removeProperty('max-height');
-  mrHoursBox.style.removeProperty('height');
-  mrHoursBox.style.removeProperty('min-height');
-  mrHoursBox.style.removeProperty('max-height');
-
-  const landscape=matchMedia('(min-width:601px) and (orientation:landscape)').matches;
-  if(!landscape)return;
-
-  requestAnimationFrame(()=>{
-    // Öffnungszeiten ist ausdrücklich die Referenz.
-    const refHeight=Math.ceil(mrHoursBox.getBoundingClientRect().height);
-
-    [mrContactBox,mrHoursBox].forEach(box=>{
-      box.style.setProperty('height',`${refHeight}px`,'important');
-      box.style.setProperty('min-height',`${refHeight}px`,'important');
-      box.style.setProperty('max-height',`${refHeight}px`,'important');
-    });
-  });
-}
-
-if(mrContactGrid){
-  const runContactSync=()=>requestAnimationFrame(syncContactCardsToHours);
-
-  if(document.fonts&&document.fonts.ready){
-    document.fonts.ready.then(runContactSync);
-  }else{
-    addEventListener('load',runContactSync,{once:true});
-  }
-
-  addEventListener('resize',runContactSync,{passive:true});
-  addEventListener('orientationchange',runContactSync,{passive:true});
-}
-
 $$('a[href^="https://wa.me/"]').forEach(a=>{if(a.hasAttribute('data-direct-wa'))return;a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;if(matchMedia('(min-width:921px) and (pointer:fine)').matches){e.preventDefault();openDialog(waDialog);}});});
 })();
