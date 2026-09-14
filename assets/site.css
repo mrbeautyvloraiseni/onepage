@@ -265,6 +265,9 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   gap: 22px;
   align-items: stretch;
 }
+@media (min-width: 701px) {
+  #kontakt .contactGrid { height: var(--contact-price-height, auto); }
+}
 #kontakt .contactBox,
 #kontakt .hours {
   min-width: 0;
@@ -282,14 +285,16 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   line-height: 1.25;
 }
 #kontakt .contactBox {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
 }
 #kontakt .contactList {
-  flex: 1;
   display: grid;
-  /* Resthöhe gleichmässig verteilen, Adresse bleibt ein kompakter Block. */
-  grid-template-rows: repeat(5, minmax(min-content, 1fr)) auto;
+  grid-template-rows: repeat(7, minmax(0, 1fr));
+}
+#kontakt .hours {
+  display: grid;
+  grid-template-rows: auto repeat(7, minmax(0, 1fr));
 }
 #kontakt .contactList > a,
 #kontakt .hoursRow {
@@ -312,7 +317,7 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   border-bottom-color: transparent;
 }
 #kontakt .hoursRow b { font-weight: 400; color: var(--muted); }
-#kontakt .contactList > .contactAddress { align-items: flex-start; }
+#kontakt .contactList > .contactAddress { grid-row: span 2; align-items: flex-start; }
 #kontakt .addressLine { display: block; }
 @media (max-width: 920px) {
   #kontakt { --contact-padding: 20px; }

@@ -127,6 +127,21 @@ if(mrMapImage){
  }
 }
 
+// On roomy two-column layouts, both contact cards match the tall price card.
+// The two seven-row grids in CSS keep corresponding separator lines aligned.
+const priceReference=$('#prices .priceTabs>.priceCard');
+const contactGrid=$('#kontakt .contactGrid');
+if(priceReference&&contactGrid){
+ const syncContactHeight=()=>{
+   const height=priceReference.getBoundingClientRect().height;
+   if(height>0)contactGrid.style.setProperty('--contact-price-height',`${height}px`);
+ };
+ if('ResizeObserver'in window)new ResizeObserver(syncContactHeight).observe(priceReference);
+ else addEventListener('resize',syncContactHeight,{passive:true});
+ if(document.fonts)document.fonts.ready.then(syncContactHeight);
+ syncContactHeight();
+}
+
 
 $$('a[href^="https://wa.me/"]').forEach(a=>{if(a.hasAttribute('data-direct-wa'))return;a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;if(matchMedia('(min-width:921px) and (pointer:fine)').matches){e.preventDefault();openDialog(waDialog);}});});
 })();
