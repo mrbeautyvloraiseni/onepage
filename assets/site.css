@@ -427,3 +427,39 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
     --gutter:60px!important;
   }
 }
+
+/* IPHONE HOCHFORMAT – Leistungsfenster kompakt und alle gleich gross.
+   Querformat bleibt vollständig unverändert wie in Onepage(57). */
+@media(max-width:600px) and (orientation:portrait){
+  #services .serviceGrid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:12px!important;
+    align-items:stretch!important;
+  }
+
+  #services .serviceCard{
+    height:220px!important;
+    min-height:220px!important;
+    max-height:220px!important;
+    padding:16px 16px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:flex-start!important;
+    overflow:hidden!important;
+  }
+
+  #services .serviceCard h3{
+    margin:0 0 12px 0!important;   /* ungefähr eine Textzeile Abstand */
+    min-height:0!important;
+    font-size:15px!important;
+    line-height:1.25!important;
+  }
+
+  #services .serviceCard p{
+    margin:0!important;
+    font-size:10px!important;
+    line-height:1.45!important;
+    overflow-wrap:break-word!important;
+    word-break:normal!important;
+  }
+}
