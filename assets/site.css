@@ -392,3 +392,10 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   #kontakt .contactBox h3,
   #kontakt .hours h3 { font-size:16px; }
 }
+
+/* Kleines MR-Beauty-Vergrösserungssymbol nur über anklickbaren Fotos */
+@media (hover:hover) and (pointer:fine) {
+  .shot, .shot img, .buildingPreview, .buildingPreview img {
+    cursor:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M9%209L3%203M3%208V3H8M15%209L21%203M16%203H21V8M9%2015L3%2021M3%2016V21H8M15%2015L21%2021M16%2021H21V16%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%222.5%22%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23C8CF04%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M9%209L3%203M3%208V3H8M15%209L21%203M16%203H21V8M9%2015L3%2021M3%2016V21H8M15%2015L21%2021M16%2021H21V16%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%222.5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") 12 12, zoom-in;
+  }
+}
