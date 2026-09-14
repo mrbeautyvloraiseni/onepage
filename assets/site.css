@@ -501,3 +501,59 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
     padding-bottom:0!important;
   }
 }
+
+/* V79 – NUR iPhone Hochformat: Adressblock korrigieren
+   Adlikerstrasse 255 bleibt exakt an ihrer bisherigen Position. */
+@media(max-width:600px) and (orientation:portrait){
+
+  #kontakt .contactAddress{
+    position:relative!important;
+    display:block!important;
+    min-height:64px!important;
+    height:64px!important;
+    padding:0!important;
+    border-bottom:0!important;
+  }
+
+  /* "Adresse" exakt auf die Höhe der ersten Adresszeile setzen */
+  #kontakt .contactAddress>.contactAddressLabel{
+    position:absolute!important;
+    left:0!important;
+    top:0!important;
+    height:48px!important;
+    display:flex!important;
+    align-items:center!important;
+    margin:0!important;
+    line-height:1.35!important;
+  }
+
+  /* Rechte Seite: Startposition der ersten Zeile NICHT verändern */
+  #kontakt .contactAddress>.contactAddressValue{
+    position:absolute!important;
+    right:0!important;
+    top:0!important;
+    height:48px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+    align-items:flex-end!important;
+    margin:0!important;
+    transform:none!important;
+    line-height:1.35!important;
+  }
+
+  /* Beide Adresszeilen direkt untereinander, ohne zusätzlichen Abstand */
+  #kontakt .contactAddress .addressLine{
+    display:block!important;
+    height:auto!important;
+    line-height:1.35!important;
+    margin:0!important;
+    padding:0!important;
+    white-space:nowrap!important;
+  }
+
+  /* Fenster direkt nach dem Adressblock enden lassen */
+  #kontakt .contactBox{
+    padding-bottom:0!important;
+  }
+}
