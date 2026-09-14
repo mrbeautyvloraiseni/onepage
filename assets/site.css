@@ -705,3 +705,9 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
     padding:16px 0!important;
   }
 }
+/* V86 – iPhone Hochformat: Adresszeile mit gleichem Innenabstand oben/unten */
+@media (max-width:600px) and (orientation:portrait){
+  #kontakt .contactAddress{
+    padding:26px 0!important;
+  }
+}
