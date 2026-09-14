@@ -408,3 +408,44 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
     padding-bottom:16px!important;
   }
 }
+
+/* V77 – NUR iPhone Hochformat: Adresse + Sonntag */
+@media(max-width:600px) and (orientation:portrait){
+
+  /* Adresse: Label und erste Adresszeile exakt oben ausrichten */
+  #kontakt .contactList>a:last-child{
+    min-height:0!important;
+    height:auto!important;
+    align-items:flex-start!important;
+    padding-top:0!important;
+    padding-bottom:0!important;
+    line-height:1.45!important;
+  }
+
+  #kontakt .contactList>a:last-child>span{
+    transform:none!important;
+    line-height:1.45!important;
+    margin-top:0!important;
+  }
+
+  /* Kein zusätzlicher Leerraum unter der zweizeiligen Adresse */
+  #kontakt .contactBox{
+    padding-bottom:0!important;
+  }
+
+  /* Sonntag exakt gleich hohe Zeile wie Samstag:
+     nur zusätzlichen Karten-Leerraum unten entfernen */
+  #kontakt .hours{
+    padding-bottom:0!important;
+  }
+
+  #kontakt .hoursRow:last-child{
+    height:48px!important;
+    min-height:48px!important;
+    max-height:48px!important;
+    padding-top:0!important;
+    padding-bottom:0!important;
+    display:flex!important;
+    align-items:center!important;
+  }
+}
