@@ -144,4 +144,24 @@ if(priceReference&&contactGrid){
 
 
 $$('a[href^="https://wa.me/"]').forEach(a=>{if(a.hasAttribute('data-direct-wa'))return;a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;if(matchMedia('(min-width:921px) and (pointer:fine)').matches){e.preventDefault();openDialog(waDialog);}});});
+const phoneContact=$('#phoneContact'),phoneDialog=$('#phoneDialog'),phoneQr=$('#phoneQr');
+if(phoneContact&&phoneDialog&&phoneQr){
+ phoneContact.addEventListener('click',e=>{
+   if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+   if(!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+   if(typeof qrcode!=='function')return;
+   e.preventDefault();
+   if(!phoneQr.firstElementChild){
+     const code=qrcode(0,'M');
+     code.addData('tel:+41763235996');
+     code.make();
+     phoneQr.innerHTML=code.createSvgTag({
+       cellSize:6,
+       margin:4,
+       alt:'QR-Code: MR Beauty unter +41 76 323 59 96 anrufen'
+     });
+   }
+   openDialog(phoneDialog);
+ });
+}
 })();
