@@ -404,31 +404,96 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   }
 }
 
-/* KONTAKT V65
-   Zeilenabstände bleiben original.
-   Nur der untere Fensterrand wird passend zum Inhalt gekürzt. */
+/* KONTAKT V66 – Öffnungszeiten ist die Referenz */
 
-#kontakt .contactGrid{
-  align-items:start!important;
+/* Beide Titel gleich behandeln */
+#kontakt .contactBox h3,
+#kontakt .hours h3{
+  color:var(--accent)!important;
+  margin:0 0 14px!important;
+  font-size:17px!important;
+  font-weight:500!important;
+  line-height:1.25!important;
 }
 
+/* Kontaktzeilen exakt wie Öffnungszeiten */
+#kontakt .contactList>a,
+#kontakt .hoursRow{
+  display:flex!important;
+  justify-content:space-between!important;
+  align-items:center!important;
+  font-size:12px!important;
+  padding:9px 0!important;
+  line-height:1.7!important;
+  min-height:0!important;
+}
+
+/* Gleiche Linienlogik */
+#kontakt .contactList>a{
+  gap:18px!important;
+  border-bottom:1px solid var(--line)!important;
+}
+#kontakt .contactList>a>span{
+  text-align:right!important;
+  color:var(--muted)!important;
+  white-space:nowrap!important;
+}
+#kontakt .contactList>a:last-child,
+#kontakt .hoursRow:last-child{
+  border-bottom:0!important;
+}
+
+/* Die unsichtbare linke Beschriftung hält die Spaltenposition stabil */
+#kontakt .contactBlank{
+  visibility:hidden!important;
+}
+
+/* Fenster nur unten kürzen – Zeilen selbst bleiben unverändert.
+   Desktop: oben 26px, unten 17px + 9px Zeileninnenraum = optisch wieder 26px. */
 #kontakt .contactBox,
 #kontakt .hours{
   box-sizing:border-box!important;
-  height:auto;
+  height:auto!important;
   min-height:0!important;
   max-height:none!important;
+  padding-bottom:17px!important;
 }
 
-/* Kontaktmöglichkeiten gleich gross wie Öffnungszeiten-Texte */
-#kontakt .contactList>a{
-  font-size:12px!important;
+/* Tablet / iPhone: oben 20px, unten 11px + 9px Zeileninnenraum = 20px */
+@media(max-width:920px){
+  #kontakt .contactBox,
+  #kontakt .hours{
+    padding-bottom:11px!important;
+  }
+
+  #kontakt .contactBox h3,
+  #kontakt .hours h3{
+    font-size:16px!important;
+  }
 }
 
-/* Die frühere künstliche Verschiebung der Adresse vollständig neutralisieren */
-#kontakt .contactList>a:last-child>span{
-  transform:none!important;
+/* Hochformat:
+   Außenhöhen nicht koppeln. Adresse bleibt optisch als zusammengehöriger Block kompakt. */
+@media(max-width:600px) and (orientation:portrait){
+  #kontakt .contactGrid{
+    align-items:start!important;
+  }
+
+  #kontakt .addressStreet{
+    padding-bottom:2px!important;
+    border-bottom:0!important;
+  }
+
+  #kontakt .addressCity{
+    padding-top:2px!important;
+  }
 }
 
-/* Keine Änderung an padding/font-size/Zeilenhöhe von .hoursRow:
-   die originalen Öffnungszeiten-Abstände bleiben erhalten. */
+/* Nebeneinander:
+   Beide Listen haben 7 identische Zeilen.
+   Keine Änderung der Öffnungszeiten-Zeilen – sie bleiben die Referenz. */
+@media(min-width:601px){
+  #kontakt .contactGrid{
+    align-items:start!important;
+  }
+}
