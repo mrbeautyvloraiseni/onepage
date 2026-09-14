@@ -463,3 +463,30 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
     word-break:normal!important;
   }
 }
+
+/* IPHONE HOCHFORMAT – Leistungsfenster deutlich kompakter */
+@media(max-width:600px) and (orientation:portrait){
+  #services .serviceGrid{
+    gap:10px!important;
+  }
+
+  #services .serviceCard{
+    height:190px!important;
+    min-height:190px!important;
+    max-height:190px!important;
+    padding:14px!important;
+  }
+
+  #services .serviceCard h3{
+    margin:0 0 9px 0!important;
+    min-height:0!important;
+    font-size:14px!important;
+    line-height:1.22!important;
+  }
+
+  #services .serviceCard p{
+    margin:0!important;
+    font-size:9.5px!important;
+    line-height:1.42!important;
+  }
+}
