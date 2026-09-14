@@ -196,5 +196,96 @@ if(mrServiceCards.length){
   addEventListener('orientationchange',runServiceCardSync,{passive:true});
 }
 
+
+// Kontaktfenster V65:
+// Zeilen/Abstände bleiben unverändert.
+// Nur die untere Kartenkante wird so gesetzt, dass unten derselbe sichtbare
+// Abstand wie oben zwischen Kartenkante und Titel entsteht.
+const mrContactBoxV65=document.querySelector('#kontakt .contactBox');
+const mrHoursBoxV65=document.querySelector('#kontakt .hours');
+
+function setCardHeightV65(card,height){
+  const h=`${Math.ceil(height)}px`;
+  card.style.setProperty('height',h,'important');
+  card.style.setProperty('min-height',h,'important');
+  card.style.setProperty('max-height',h,'important');
+}
+
+function naturalizeCardV65(card){
+  card.style.setProperty('height','auto','important');
+  card.style.setProperty('min-height','0','important');
+  card.style.setProperty('max-height','none','important');
+}
+
+function trimmedHeightV65(card,lastContent){
+  const cardRect=card.getBoundingClientRect();
+  const title=card.querySelector('h3');
+  if(!title||!lastContent)return cardRect.height;
+
+  const titleRect=title.getBoundingClientRect();
+  const lastRect=lastContent.getBoundingClientRect();
+
+  // Abstand oben: Kartenkante -> sichtbarer Titelanfang
+  const topGap=titleRect.top-cardRect.top;
+
+  // Unterkante = Ende des letzten sichtbaren Textes + exakt derselbe Abstand.
+  return (lastRect.bottom-cardRect.top)+topGap;
+}
+
+function syncContactCardsV65(){
+  if(!mrContactBoxV65||!mrHoursBoxV65)return;
+
+  naturalizeCardV65(mrContactBoxV65);
+  naturalizeCardV65(mrHoursBoxV65);
+
+  requestAnimationFrame(()=>{
+    const cRect=mrContactBoxV65.getBoundingClientRect();
+    const hRect=mrHoursBoxV65.getBoundingClientRect();
+
+    const contactLast=
+      mrContactBoxV65.querySelector('.contactList>a:last-child span') ||
+      mrContactBoxV65.querySelector('.contactList>a:last-child');
+
+    const hoursLast=
+      mrHoursBoxV65.querySelector('.hoursRow:last-child b') ||
+      mrHoursBoxV65.querySelector('.hoursRow:last-child');
+
+    // Stehen die Fenster untereinander?
+    const stacked=Math.abs(cRect.top-hRect.top)>8;
+
+    if(stacked){
+      // Hochformat / gestapelt:
+      // jedes Fenster bekommt nur seine eigene überschüssige Leerfläche entfernt.
+      setCardHeightV65(
+        mrContactBoxV65,
+        trimmedHeightV65(mrContactBoxV65,contactLast)
+      );
+      setCardHeightV65(
+        mrHoursBoxV65,
+        trimmedHeightV65(mrHoursBoxV65,hoursLast)
+      );
+    }else{
+      // Nebeneinander (Desktop / iPad / iPhone quer):
+      // Öffnungszeiten ist ausdrücklich die Referenzhöhe für BEIDE.
+      const ref=trimmedHeightV65(mrHoursBoxV65,hoursLast);
+      setCardHeightV65(mrHoursBoxV65,ref);
+      setCardHeightV65(mrContactBoxV65,ref);
+    }
+  });
+}
+
+if(mrContactBoxV65&&mrHoursBoxV65){
+  const runContactV65=()=>requestAnimationFrame(syncContactCardsV65);
+
+  if(document.fonts&&document.fonts.ready){
+    document.fonts.ready.then(runContactV65);
+  }else{
+    addEventListener('load',runContactV65,{once:true});
+  }
+
+  addEventListener('resize',runContactV65,{passive:true});
+  addEventListener('orientationchange',runContactV65,{passive:true});
+}
+
 $$('a[href^="https://wa.me/"]').forEach(a=>{if(a.hasAttribute('data-direct-wa'))return;a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;if(matchMedia('(min-width:921px) and (pointer:fine)').matches){e.preventDefault();openDialog(waDialog);}});});
 })();

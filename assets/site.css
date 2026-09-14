@@ -404,200 +404,31 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   }
 }
 
-/* ==========================================================
-   KONTAKT – SAUBERE FINALE REGELN
-   ========================================================== */
+/* KONTAKT V65
+   Zeilenabstände bleiben original.
+   Nur der untere Fensterrand wird passend zum Inhalt gekürzt. */
 
-/* Desktop: bestehender Zweispalten-Look, beide Karten gleich hoch */
 #kontakt .contactGrid{
-  align-items:stretch;
+  align-items:start!important;
 }
 
 #kontakt .contactBox,
 #kontakt .hours{
-  display:flex;
-  flex-direction:column;
-  height:100%;
+  box-sizing:border-box!important;
+  height:auto;
+  min-height:0!important;
+  max-height:none!important;
 }
 
-#kontakt .contactBox h3,
-#kontakt .hours h3{
-  color:var(--accent);
-  font-size:17px;
-  font-weight:500;
-  line-height:1.25;
-  margin:0 0 14px;
-}
-
-#kontakt .contactList{
-  display:flex;
-  flex-direction:column;
-  flex:1;
-}
-
+/* Kontaktmöglichkeiten gleich gross wie Öffnungszeiten-Texte */
 #kontakt .contactList>a{
-  flex:1;
-  min-height:0;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+  font-size:12px!important;
 }
 
-#kontakt .hoursRow{
-  flex:1;
-  min-height:0;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+/* Die frühere künstliche Verschiebung der Adresse vollständig neutralisieren */
+#kontakt .contactList>a:last-child>span{
+  transform:none!important;
 }
 
-/* ----------------------------------------------------------
-   iPHONE HOCHFORMAT
-   Unterschiedliche Fensterhöhen, keine unnötige Leerfläche.
-   ---------------------------------------------------------- */
-@media(max-width:600px) and (orientation:portrait){
-
-  #kontakt .contactGrid{
-    align-items:start!important;
-  }
-
-  #kontakt .contactBox,
-  #kontakt .hours{
-    display:block!important;
-    height:auto!important;
-    min-height:0!important;
-    max-height:none!important;
-    padding:16px 20px!important;
-  }
-
-  #kontakt .contactBox h3,
-  #kontakt .hours h3{
-    font-size:16px!important;
-    margin:0 0 10px!important;
-  }
-
-  /* Kontaktmöglichkeiten – natürliche Höhe */
-  #kontakt .contactList{
-    display:block!important;
-  }
-
-  #kontakt .contactList>a{
-    display:flex!important;
-    align-items:center!important;
-    justify-content:space-between!important;
-    min-height:0!important;
-    padding:7px 0!important;
-    font-size:12px!important;
-    line-height:1.35!important;
-  }
-
-  #kontakt .contactList>a:last-child{
-    align-items:flex-start!important;
-    padding-bottom:0!important;
-  }
-
-  #kontakt .contactList>a>span{
-    margin-left:auto!important;
-    text-align:right!important;
-  }
-
-  #kontakt .contactList>a:last-child>span{
-    transform:none!important;
-    line-height:1.45!important;
-  }
-
-  /* Öffnungszeiten – natürliche Höhe, 7 kompakte Zeilen */
-  #kontakt .hoursRow{
-    display:flex!important;
-    align-items:center!important;
-    justify-content:space-between!important;
-    min-height:0!important;
-    padding:7px 0!important;
-    font-size:12px!important;
-    line-height:1.35!important;
-  }
-
-  #kontakt .hoursRow:last-child{
-    padding-bottom:0!important;
-  }
-}
-
-/* ----------------------------------------------------------
-   iPHONE / iPAD QUERFORMAT
-   Beide Fenster gleich hoch.
-   Jede Öffnungszeiten-Zeile inkl. Sonntag exakt gleich hoch.
-   ---------------------------------------------------------- */
-@media(min-width:601px) and (max-width:920px) and (orientation:landscape){
-
-  #kontakt .contactGrid{
-    align-items:stretch!important;
-  }
-
-  #kontakt .contactBox,
-  #kontakt .hours{
-    box-sizing:border-box!important;
-    height:274px!important;
-    min-height:274px!important;
-    max-height:274px!important;
-    padding:16px 18px!important;
-  }
-
-  #kontakt .contactBox h3,
-  #kontakt .hours h3{
-    font-size:16px!important;
-    margin:0 0 10px!important;
-  }
-
-  /* 7 identische Zeilen à 30px */
-  #kontakt .hours{
-    display:flex!important;
-    flex-direction:column!important;
-  }
-
-  #kontakt .hoursRow{
-    flex:0 0 30px!important;
-    height:30px!important;
-    min-height:30px!important;
-    max-height:30px!important;
-    padding:0!important;
-    display:flex!important;
-    align-items:center!important;
-    justify-content:space-between!important;
-    font-size:12px!important;
-    line-height:1.2!important;
-  }
-
-  /* Kontaktmöglichkeiten auf dieselbe 7-Zeilen-Geometrie */
-  #kontakt .contactList{
-    display:grid!important;
-    grid-template-rows:repeat(7,30px)!important;
-    flex:none!important;
-  }
-
-  #kontakt .contactList>a{
-    min-height:0!important;
-    padding:0!important;
-    display:flex!important;
-    align-items:center!important;
-    justify-content:space-between!important;
-    font-size:12px!important;
-    line-height:1.2!important;
-  }
-
-  #kontakt .contactList>a:nth-child(1){grid-row:1!important;}
-  #kontakt .contactList>a:nth-child(2){grid-row:2!important;}
-  #kontakt .contactList>a:nth-child(3){grid-row:3!important;}
-  #kontakt .contactList>a:nth-child(4){grid-row:4!important;}
-  #kontakt .contactList>a:nth-child(5){grid-row:5!important;}
-
-  /* Adresse nutzt genau die letzten zwei Zeilen */
-  #kontakt .contactList>a:nth-child(6){
-    grid-row:6 / 8!important;
-    align-items:center!important;
-  }
-
-  #kontakt .contactList>a:nth-child(6)>span{
-    transform:none!important;
-    line-height:1.45!important;
-  }
-}
+/* Keine Änderung an padding/font-size/Zeilenhöhe von .hoursRow:
+   die originalen Öffnungszeiten-Abstände bleiben erhalten. */
