@@ -398,18 +398,21 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
 }
 
 /* IPHONE HOCHFORMAT
-   Menüfenster nur NACH OBEN vergrössern:
-   Inhalt und untere Kante bleiben wie in Onepage(52). */
+   Navigation bleibt 1:1 wie Onepage(52).
+   Nur das Startbild-Fenster wird nach oben erweitert.
+   Alte Unterkante bleibt an derselben Stelle. */
 @media(max-width:600px) and (orientation:portrait){
-  .nav{
-    top:0!important;
-    padding-top:10px!important;
+  #home.hero{
+    padding-top:0!important;
+  }
+  #home .mainPhoto{
+    height:389px!important; /* 285px Originalhöhe + 104px ursprünglicher oberer Abstand */
   }
 }
 
 /* IPHONE QUERFORMAT
-   Vertikale Position + Startbild exakt wie Onepage(52).
-   Nur Menüleiste links/rechts etwas kürzer. */
+   Startbild + vertikale Menüposition exakt wie Onepage(52).
+   Nur die Menüleiste horizontal etwas kürzer. */
 @media(max-height:500px) and (orientation:landscape){
   .nav{
     left:60px!important;
