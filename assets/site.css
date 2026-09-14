@@ -711,3 +711,9 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
     padding:26px 0!important;
   }
 }
+/* V87 – einspaltige Kontaktansicht: Adresszeile wirklich höher */
+@media (max-width:660px){
+  #kontakt .contactAddress{
+    padding:26px 0!important;
+  }
+}
