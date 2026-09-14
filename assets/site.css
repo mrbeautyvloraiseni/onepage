@@ -680,3 +680,7 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
     transform:translateY(-50%)!important;
   }
 }
+/* Adresse wie die übrigen Bezeichnungen weiss */
+#kontakt .contactAddress>.contactAddressLabel{
+  color:#fff!important;
+}
