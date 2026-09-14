@@ -419,3 +419,11 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
     right:60px!important;
   }
 }
+
+/* IPHONE QUERFORMAT – gesamte Onepage exakt auf Menü-Aussenkanten ausrichten.
+   Menü bleibt unverändert wie in Onepage(56). */
+@media(max-height:500px) and (orientation:landscape){
+  :root{
+    --gutter:60px!important;
+  }
+}
