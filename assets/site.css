@@ -699,3 +699,9 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
     line-height:1.35!important;
   }
 }
+/* V85 – iPhone Hochformat: höhere Adresszeile für zwei Anschriftszeilen */
+@media (max-width:600px) and (orientation:portrait){
+  #kontakt .contactAddress{
+    padding:16px 0!important;
+  }
+}
