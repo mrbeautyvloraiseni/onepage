@@ -588,3 +588,23 @@ html {
     letter-spacing:.16em;
   }
 }
+/* Grossansicht: kompakte Beschreibung und gelber Titel */
+@media (min-width:601px) {
+  .imageLightbox figcaption {
+    width:min(760px,100%);
+  }
+}
+
+.imageLightbox .imageCaptionText {
+  color:var(--accent) !important;
+}
+
+.imageLightbox .imageCaptionDetail {
+  color:#fff !important;
+}
+
+/* iPhone/iPad: Menüpunkt beim Drücken kurz logogelb */
+html.appleTouch .mobile a.isTouchPressed,
+html.appleTouch .links a.isTouchPressed {
+  color:var(--accent) !important;
+}

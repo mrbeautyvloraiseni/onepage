@@ -48,9 +48,11 @@ function showImage(){
  const source=activeImages[activeIndex];
  const large=$('#largeImage'),caption=$('#imageCaptionText'),detail=$('#imageCaptionDetail');
  large.src=source.currentSrc||source.src;large.alt=source.alt;
- caption.textContent=source.dataset.caption||source.alt;
- detail.textContent=source.dataset.detail||'';
- detail.hidden=!source.dataset.detail;
+ const title=source.dataset.title||source.alt;
+ caption.textContent=title;
+ const description=source.dataset.detail||source.dataset.caption||'';
+ detail.textContent=description;
+ detail.hidden=!description;
 }
 function openImage(source,list){
  activeImages=list||[source];activeIndex=Math.max(0,activeImages.indexOf(source));showImage();closeMenu();
