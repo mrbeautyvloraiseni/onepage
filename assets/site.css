@@ -465,3 +465,9 @@ html.appleTouch .floatWhats.isTouchPressed {
 .imageLightbox img {
   cursor:crosshair;
 }
+/* Adresse beim Mauszeiger vollständig logogelb */
+@media (hover:hover) and (pointer:fine) {
+  #kontakt .contactList > a.contactAddress:hover .contactAddressLabel {
+    color:var(--accent) !important;
+  }
+}
