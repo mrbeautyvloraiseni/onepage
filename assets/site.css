@@ -497,3 +497,94 @@ html.appleTouch #standort .mapButtonOnly a.maps-button-two-line.isTouchPressed {
   color:#000 !important;
   box-shadow:0 0 0 1px #c8cf0444 !importantimportant;
 }
+/* Scrollleistenplatz bleibt beim Öffnen eines Bildes erhalten */
+html {
+  scrollbar-gutter:stable;
+}
+
+/* Grossansicht: Bild und Beschreibung als Premium-Karte */
+.imageLightbox figure {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:26px;
+}
+
+.imageLightbox img {
+  width:auto;
+  max-width:min(860px,100%);
+  max-height:min(67dvh,760px);
+  border-radius:28px;
+}
+
+.imageLightbox figcaption {
+  width:min(1170px,100%);
+  margin:0;
+  padding:19px 34px 20px;
+  border:1px solid var(--accent);
+  border-radius:32px;
+  text-align:center;
+}
+
+.imageLightbox .imageCaptionText {
+  color:var(--accent);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.19em;
+  line-height:1.45;
+  text-transform:uppercase;
+}
+
+.imageLightbox .imageCaptionDetail {
+  margin-top:9px;
+  color:#fff;
+  font-size:15px;
+  font-weight:400;
+  line-height:1.55;
+  opacity:1;
+}
+
+.imageLightbox figcaption small {
+  margin-top:13px;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.22em;
+  opacity:1;
+}
+
+@media (max-width:600px) {
+  .imageLightbox {
+    padding:18px;
+  }
+
+  .imageLightbox figure {
+    gap:18px;
+  }
+
+  .imageLightbox img {
+    width:100%;
+    max-height:calc(100dvh - 285px);
+    border-radius:22px;
+  }
+
+  .imageLightbox figcaption {
+    padding:16px 18px 17px;
+    border-radius:24px;
+  }
+
+  .imageLightbox .imageCaptionText {
+    font-size:10px;
+    letter-spacing:.14em;
+  }
+
+  .imageLightbox .imageCaptionDetail {
+    font-size:12px;
+    margin-top:7px;
+  }
+
+  .imageLightbox figcaption small {
+    font-size:8px;
+    margin-top:11px;
+    letter-spacing:.16em;
+  }
+}
