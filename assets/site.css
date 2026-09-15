@@ -471,3 +471,12 @@ html.appleTouch .floatWhats.isTouchPressed {
     color:var(--accent) !important;
   }
 }
+/* iPhone/iPad: Google-Maps-Rahmen nach Rückkehr zurücksetzen */
+@media (hover:none) {
+  #standort .mapButtonOnly a.maps-button-two-line:hover {
+    background:#fff !important;
+    border-color:#fff !important;
+    color:#000 !important;
+    box-shadow:none !important;
+  }
+}
