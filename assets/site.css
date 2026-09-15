@@ -608,3 +608,18 @@ html.appleTouch .mobile a.isTouchPressed,
 html.appleTouch .links a.isTouchPressed {
   color:var(--accent) !important;
 }
+/* Grossansicht: Titel und Beschreibung strikt trennen */
+#imageCaptionText {
+  display:block !important;
+  color:var(--accent) !important;
+}
+
+#imageCaptionDetail {
+  display:block !important;
+  margin-top:10px !important;
+  color:#fff !important;
+}
+
+#imageCaptionDetail[hidden] {
+  display:none !important;
+}
