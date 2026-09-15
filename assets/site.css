@@ -623,3 +623,11 @@ html.appleTouch .links a.isTouchPressed {
 #imageCaptionDetail[hidden] {
   display:none !important;
 }
+/* Rechtliche Zurueck-Taste beim Antippen logogelb */
+@media (hover:none) {
+  .legalBack:active,
+  .legalBack:active .backArrow,
+  .legalBack:active .backText {
+    color:var(--accent) !important;
+  }
+}
