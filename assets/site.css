@@ -695,3 +695,12 @@ html.appleTouch .links a.isTouchPressed {
     letter-spacing:.12em;
   }
 }
+/* Touch-Querformat: Textrahmen passend zum Inhalt */
+@media (orientation:landscape) and (max-height:500px) and (any-pointer:coarse) {
+  .imageLightbox figcaption {
+    width:fit-content;
+    max-width:min(600px,100%);
+    justify-self:center;
+    padding-inline:18px;
+  }
+}
