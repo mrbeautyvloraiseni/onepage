@@ -442,3 +442,22 @@ main > section { scroll-margin-top:0; }
   user-select:none;
   -webkit-user-drag:none;
 }
+/* iPhone/iPad: alle Links und Tasten ohne Vorschau */
+html.appleTouch a,
+html.appleTouch button {
+  -webkit-touch-callout:none;
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+html.appleTouch .isTouchPressed {
+  transition:none !important;
+}
+
+/* Kontakt unten rechts: sichtbare Tasten-Rückmeldung */
+html.appleTouch .floatWhats.isTouchPressed {
+  background:#e0e742;
+  transform:scale(.96);
+  box-shadow:inset 0 0 0 2px #0002,0 4px 16px #0008;
+}
