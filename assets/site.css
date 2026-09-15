@@ -480,3 +480,20 @@ html.appleTouch .floatWhats.isTouchPressed {
     box-shadow:none !important;
   }
 }
+/* Rechtliches gelb, Zur Startseite weiss */
+.legalBack {
+  color:#fff;
+}
+@media (hover:hover) and (pointer:fine) {
+  .legalBack:hover {
+    color:var(--accent);
+  }
+}
+
+/* iPhone/iPad: Route-Button nur beim Drücken logogelb umranden */
+html.appleTouch #standort .mapButtonOnly a.maps-button-two-line.isTouchPressed {
+  background:#fff !important;
+  border-color:var(--accent) !important;
+  color:#000 !important;
+  box-shadow:0 0 0 1px #c8cf0444 !importantimportant;
+}
