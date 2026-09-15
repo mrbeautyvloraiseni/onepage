@@ -738,3 +738,87 @@ html.appleTouch .links a.isTouchPressed {
     margin-top:6px;
   }
 }
+/* Google-Bewertung */
+.googleReview {
+  margin-top:clamp(32px,5vw,56px);
+  text-align:center;
+}
+
+.googleReview h3 {
+  margin:0;
+  color:var(--ink);
+  font-size:clamp(22px,2.5vw,32px);
+  font-weight:500;
+  line-height:1.25;
+  letter-spacing:-.025em;
+  text-wrap:balance;
+}
+
+.googleReview p {
+  margin:12px 0 0;
+  color:var(--muted);
+  font-size:inherit;
+  line-height:1.65;
+  text-wrap:balance;
+}
+
+.googleReviewButton {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  max-width:100%;
+  margin-top:20px;
+  padding:11px 30px;
+  border:1px solid var(--accent);
+  border-radius:999px;
+  background:#000;
+  color:#fff;
+  font-size:13px;
+  font-weight:500;
+  line-height:1.5;
+  text-decoration:none;
+  text-align:center;
+  transition:background-color .2s,color .2s;
+}
+
+@media (hover:hover) and (pointer:fine) {
+  .googleReviewButton:hover {
+    background:var(--accent);
+    color:#000;
+  }
+}
+
+html.appleTouch .googleReviewButton:hover {
+  background:#000;
+  color:#fff;
+}
+
+.googleReviewButton:active,
+html.appleTouch .googleReviewButton.isTouchPressed {
+  background:var(--accent);
+  color:#000;
+  transition:none;
+}
+
+.googleReviewButton:focus-visible {
+  outline:2px solid var(--accent);
+  outline-offset:5px;
+}
+
+@media (max-width:600px) {
+  .googleReview p {
+    margin-top:10px;
+  }
+
+  .googleReviewButton {
+    margin-top:18px;
+    padding-inline:26px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .googleReviewButton {
+    transition:none;
+  }
+}
