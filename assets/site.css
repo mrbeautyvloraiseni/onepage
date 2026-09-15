@@ -426,12 +426,19 @@ main > section { scroll-margin-top:0; }
     -webkit-user-drag:none;
   }
 }
-/* Kontakt: gelbe Rueckmeldung nur waehrend des Antippens */
-@media (any-pointer:coarse) {
-  #kontakt .contactList > a:active,
-  #kontakt .contactList > a:active > span,
-  #kontakt .contactList > a:active .addressLine {
-    color:var(--accent) !important;
-    transition:none;
-  }
+/* iPhone/iPad: ganze Kontaktzeile während des Drückens logogelb */
+#kontakt .contactList > a.isTouchPressed,
+#kontakt .contactList > a.isTouchPressed span,
+#kontakt .contactList > a.isTouchPressed .contactAddressLabel,
+#kontakt .contactList > a.isTouchPressed .contactAddressValue,
+#kontakt .contactList > a.isTouchPressed .addressLine {
+  color:var(--accent) !important;
+  transition:none !important;
+}
+
+#kontakt .contactList > a {
+  -webkit-touch-callout:none;
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-user-drag:none;
 }
