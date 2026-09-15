@@ -822,3 +822,15 @@ html.appleTouch .googleReviewButton.isTouchPressed {
     transition:none;
   }
 }
+/* Dezentes Konturherz beim Bewertungsbereich */
+.googleReviewHeart {
+  display:block;
+  width:30px;
+  height:30px;
+  margin:0 auto 16px;
+  fill:none;
+  stroke:var(--accent);
+  stroke-width:1.4;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
