@@ -885,7 +885,7 @@ html.appleTouch .gallerySocial a.isTouchPressed strong {
 
   #standort .buildingPreview,
   #standort .locCard.mapOnly {
-    height:min(58dvh,260px) !important;
+    height:260px !important;
     min-height:0 !important;
   }
 
@@ -983,5 +983,12 @@ p,
 @media (max-height: 500px) and (orientation: landscape) and (pointer: coarse) {
   .nav {
     border-radius: 29px;
+  }
+}
+
+/* Stabile Hoehe im iPhone-Querformat */
+@media (orientation:landscape) and (max-height:600px) and (any-pointer:coarse) {
+  .mobile.isOpen {
+    max-height:none;
   }
 }
