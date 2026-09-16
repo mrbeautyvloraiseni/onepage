@@ -3,7 +3,7 @@
   "short_name": "MR Beauty",
   "icons": [
     {
-      "src": "images/favicon-dark-mode.png",
+      "src": "images/favicon-light-mode.png",
       "sizes": "180x180",
       "type": "image/png"
     }
@@ -12,4 +12,5 @@
   "background_color": "#000000",
   "display": "standalone"
 }
+
 
