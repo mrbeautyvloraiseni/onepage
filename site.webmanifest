@@ -3,7 +3,7 @@
   "short_name": "MR Beauty",
   "icons": [
     {
-      "src": "images/favicon-180.png",
+      "src": "images/favicon-apple.png",
       "sizes": "180x180",
       "type": "image/png"
     }
