@@ -1,4 +1,4 @@
-/* MR Beauty — shared design system. */
+﻿/* MR Beauty — shared design system. */
 @font-face{font-family:Montserrat;src:url('../fonts/Montserrat-Regular.otf') format('opentype');font-weight:400;font-display:swap}
 @font-face{font-family:Montserrat;src:url('../fonts/Montserrat-Medium.otf') format('opentype');font-weight:500;font-display:swap}
 @font-face{font-family:Montserrat;src:url('../fonts/Montserrat-SemiBold.otf') format('opentype');font-weight:600;font-display:swap}
@@ -972,4 +972,9 @@ p,
 .galleryIntro > p br,
 .contactIntroHead p br {
   display: inline !important;
+}
+
+/* Navigationsrahmen einheitlich */
+.nav {
+  border-width: 2px;
 }
