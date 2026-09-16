@@ -946,3 +946,9 @@ html.appleTouch .gallerySocial a.isTouchPressed strong {
     font-size:12px;
   }
 }
+
+/* Startseitentext: gesamte Inhaltsbreite nutzen */
+.heroTextIntro .heroText {
+  width:100%;
+  max-width:none;
+}
