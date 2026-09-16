@@ -978,3 +978,10 @@ p,
 .nav {
   border-width: 2px;
 }
+
+/* Stabile Navigationsrundung im mobilen Querformat */
+@media (max-height: 500px) and (orientation: landscape) and (pointer: coarse) {
+  .nav {
+    border-radius: 29px;
+  }
+}
