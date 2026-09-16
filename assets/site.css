@@ -853,3 +853,27 @@ html.appleTouch .gallerySocial a.isTouchPressed,
 html.appleTouch .gallerySocial a.isTouchPressed strong {
   color:var(--accent) !important;
 }
+/* Standort: Zwischenformat und iPhone-Querformat */
+@media (min-width:721px) and (max-width:1100px) {
+  #standort .maps-button-two-line {
+    white-space:normal !important;
+    line-height:1.2;
+    padding:15px 18px !important;
+  }
+
+  #standort .maps-line-1,
+  #standort .maps-line-2 {
+    display:block;
+  }
+}
+
+@media (orientation:landscape) and (max-height:600px) and (any-pointer:coarse) {
+  #standort .buildingPreview {
+    background:#090a09;
+  }
+
+  #standort .buildingPreview img {
+    object-fit:contain !important;
+    object-position:center !important;
+  }
+}
