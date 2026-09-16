@@ -834,3 +834,22 @@ html.appleTouch .googleReviewButton.isTouchPressed {
   stroke-linecap:round;
   stroke-linejoin:round;
 }
+/* Galerie-Instagram: weiss, gelber Unterstrich und gelbe Interaktion */
+.gallerySocial a,
+.gallerySocial a:visited,
+.gallerySocial a strong {
+  color:#fff !important;
+  text-decoration-color:var(--accent) !important;
+  text-decoration-thickness:2px;
+  text-underline-offset:5px;
+}
+@media (hover:hover) and (pointer:fine) {
+  .gallerySocial a:hover,
+  .gallerySocial a:hover strong {
+    color:var(--accent) !important;
+  }
+}
+html.appleTouch .gallerySocial a.isTouchPressed,
+html.appleTouch .gallerySocial a.isTouchPressed strong {
+  color:var(--accent) !important;
+}
