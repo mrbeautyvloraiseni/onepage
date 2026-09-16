@@ -952,3 +952,17 @@ html.appleTouch .gallerySocial a.isTouchPressed strong {
   width:100%;
   max-width:none;
 }
+
+/* Ruhige Textumbrüche */
+p,
+.heroText,
+.lead,
+.aboutExtra,
+.serviceHead p,
+.galleryIntro p,
+.contactIntroHead p,
+.legalCard p,
+.googleReview p,
+.imageCaptionCard {
+  text-wrap: pretty;
+}
