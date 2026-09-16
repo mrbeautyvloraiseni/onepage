@@ -933,3 +933,16 @@ html.appleTouch .gallerySocial a.isTouchPressed strong {
     white-space:nowrap !important;
   }
 }
+
+/* Desktop-Menue: Schrift um 2px vergroessern */
+@media (min-width:1101px) {
+  .nav .links a {
+    font-size:14px;
+  }
+}
+
+@media (min-width:921px) and (max-width:1100px) {
+  .nav .links a {
+    font-size:12px;
+  }
+}
