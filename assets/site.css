@@ -966,3 +966,10 @@ p,
 .imageCaptionCard {
   text-wrap: pretty;
 }
+
+/* Sichtbare, gezielte Textumbrüche */
+.serviceHead > p br,
+.galleryIntro > p br,
+.contactIntroHead p br {
+  display: inline !important;
+}
