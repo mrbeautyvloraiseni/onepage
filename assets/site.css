@@ -877,3 +877,33 @@ html.appleTouch .gallerySocial a.isTouchPressed strong {
     object-position:center !important;
   }
 }
+/* Standort: kompakte gleich hohe Fenster im iPhone-Querformat */
+@media (orientation:landscape) and (max-height:600px) and (any-pointer:coarse) {
+  #standort .location {
+    align-items:stretch;
+  }
+
+  #standort .buildingPreview,
+  #standort .locCard.mapOnly {
+    height:min(58dvh,260px) !important;
+    min-height:0 !important;
+  }
+
+  #standort .buildingPreview img {
+    width:100%;
+    height:100%;
+    object-fit:contain !important;
+    object-position:center !important;
+  }
+
+  #standort .mapOnly .pic {
+    height:auto !important;
+    min-height:0;
+    flex:1 1 auto;
+  }
+
+  #standort .mapButtonOnly {
+    flex:0 0 auto;
+    padding:10px 12px;
+  }
+}
