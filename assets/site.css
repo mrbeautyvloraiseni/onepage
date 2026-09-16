@@ -907,3 +907,29 @@ html.appleTouch .gallerySocial a.isTouchPressed strong {
     padding:10px 12px;
   }
 }
+
+
+/* Route-Button: einzeilig im Handy-Hochformat */
+@media (max-width:600px) and (orientation:portrait) and (any-pointer:coarse) {
+  #standort .mapButtonOnly a.maps-button-two-line {
+    flex-direction:row !important;
+    flex-wrap:nowrap !important;
+    gap:.3em !important;
+    width:92% !important;
+    max-width:340px !important;
+    height:44px !important;
+    min-height:44px !important;
+    padding:8px 10px !important;
+    font-size:clamp(8px,2.5vw,11px) !important;
+    line-height:1.2 !important;
+    white-space:nowrap !important;
+  }
+
+  #standort .mapButtonOnly a.maps-button-two-line .maps-line-1,
+  #standort .mapButtonOnly a.maps-button-two-line .maps-line-2 {
+    display:inline !important;
+    width:auto !important;
+    flex:0 0 auto !important;
+    white-space:nowrap !important;
+  }
+}
