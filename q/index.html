@@ -144,7 +144,7 @@ async function showReceipt(){
     await document.fonts.ready.catch(()=>{});
   }catch(e){
     console.error(e);
-    receiptFail("Quittung konnte nicht geladen werden","Bitte versuchen Sie es spÃ¤ter erneut.");
+    showNotFound();
   }
 }
 const path=location.pathname.replace(/\/{2,}/g,"/");
