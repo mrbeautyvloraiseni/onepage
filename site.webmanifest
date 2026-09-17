@@ -6,10 +6,11 @@
                       "purpose":  "any maskable",
                       "type":  "image/png",
                       "sizes":  "512x512",
-                      "src":  "images/favicon-mr.png"
+                      "src":  "images/favicon-mr-final.png"
                   }
               ],
     "theme_color":  "#000000",
     "background_color":  "#000000",
     "display":  "standalone"
 }
+
