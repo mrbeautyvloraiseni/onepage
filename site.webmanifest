@@ -1,18 +1,15 @@
-﻿{
-    "name":  "MR Beauty Vlora Iseni",
-    "short_name":  "MR Beauty",
-    "icons":  [
-                  {
-                      "purpose":  "any maskable",
-                      "type":  "image/png",
-                      "sizes":  "512x512",
-                      "src":  "images/favicon-mr-final-v3.png"
-                  }
-              ],
-    "theme_color":  "#000000",
-    "background_color":  "#000000",
-    "display":  "standalone"
+{
+  "name": "MR Beauty Vlora Iseni",
+  "short_name": "MR Beauty",
+  "icons": [
+    {
+      "purpose": "any maskable",
+      "type": "image/png",
+      "sizes": "512x512",
+      "src": "images/favicon-mr-final-v3.png"
+    }
+  ],
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "display": "standalone"
 }
-
-
-
