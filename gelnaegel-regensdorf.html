@@ -40,10 +40,20 @@
 .nailLanding .nailCard{padding:clamp(22px,3vw,36px);border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
 .nailLanding .nailCard h2{margin:0 0 14px;color:#fff;font-size:clamp(24px,3vw,36px);font-weight:500;letter-spacing:-.04em;line-height:1.12}
 .nailLanding .nailCard p{margin:0;color:var(--muted);line-height:1.75}
-.nailLanding .priceLanding{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;overflow:hidden;margin-top:22px;border:1px solid var(--line);border-radius:var(--radius);background:var(--line)}
-.nailLanding .priceLanding div{padding:18px 20px;background:#080908}
-.nailLanding .priceLanding b{display:block;color:#fff;font-size:14px;font-weight:500;line-height:1.35}
-.nailLanding .priceLanding span{display:block;margin-top:5px;color:var(--accent);font-size:14px;font-weight:600}
+.nailLanding .priceLanding{margin-top:22px;padding:clamp(24px,3.6vw,42px);border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(135deg,#0b0c0b 0%,#070807 100%)}
+.nailLanding .priceHeader{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.nailLanding .priceHeader h2{margin:7px 0 0;color:#fff;font-size:clamp(28px,4vw,46px);font-weight:500;letter-spacing:-.05em;line-height:1}
+.nailLanding .priceHint{margin:0;color:var(--muted);font-size:13px;text-align:right}
+.nailLanding .priceList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;overflow:hidden;border:1px solid var(--line);border-radius:calc(var(--radius) - 5px);background:var(--line)}
+.nailLanding .priceRow{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:70px;padding:17px 19px;background:#080908}
+.nailLanding .priceRow b{color:#fff;font-size:14px;font-weight:500;line-height:1.4}
+.nailLanding .priceRow span{flex:none;color:var(--accent);font-size:14px;font-weight:700;white-space:nowrap}
+@media(max-width:700px){
+  .nailLanding .priceHeader{display:block;margin-bottom:18px;padding-bottom:18px}
+  .nailLanding .priceHint{margin-top:12px;text-align:left}
+  .nailLanding .priceList{grid-template-columns:1fr}
+  .nailLanding .priceRow{min-height:62px;padding:14px 16px}
+}
 .nailLanding .landingCta{margin-top:clamp(42px,7vw,76px);padding:clamp(28px,4vw,48px);border:1px solid var(--accent);border-radius:var(--radius);text-align:center}
 .nailLanding .landingCta h2{margin:0;color:#fff;font-size:clamp(28px,4vw,46px);font-weight:500;letter-spacing:-.05em}
 .nailLanding .landingCta p{max-width:600px;margin:13px auto 24px;color:var(--muted);line-height:1.7}
@@ -85,7 +95,7 @@
 </nav>
 <main class="legalPage nailLanding" id="content">
   <div class="legalWrap">
-    <a class="landingBack" href="index.html#services">← ZURÜCK ZU LEISTUNGEN</a>
+    <a class="landingBack" href="index.html#top">&larr; ZUR STARTSEITE</a>
 
     <div class="landingIntro">
       <div class="eyebrow">GELNÄGEL IN REGENSDORF</div>
@@ -111,14 +121,28 @@
       </section>
     </div>
 
-    <section class="priceLanding" aria-label="Auszug aus der Preisliste">
-      <div><b>Gel-Neumodellage mit Tips</b><span>CHF 65.00</span></div>
-      <div><b>Gel-Neumodellage Naturnagel</b><span>CHF 55.00</span></div>
-      <div><b>Auffüllen Natur</b><span>CHF 55.00</span></div>
-      <div><b>French oder Chrom</b><span>je CHF 10.00</span></div>
+    <section class="priceLanding" aria-label="Nagelpreise">
+      <div class="priceHeader">
+        <div>
+          <div class="eyebrow">TRANSPARENT & KLAR</div>
+          <h2>Nägelpreise</h2>
+        </div>
+        <p class="priceHint">Alle Preise in CHF</p>
+      </div>
+
+      <div class="priceList">
+        <div class="priceRow"><b>Gel-Neumodellage mit Tips</b><span>65.00</span></div>
+        <div class="priceRow"><b>Gel-Neumodellage Naturnagel</b><span>55.00</span></div>
+        <div class="priceRow"><b>Auffüllen Natur</b><span>55.00</span></div>
+        <div class="priceRow"><b>Farbe</b><span>10.00</span></div>
+        <div class="priceRow"><b>French</b><span>10.00</span></div>
+        <div class="priceRow"><b>Chrom</b><span>10.00</span></div>
+        <div class="priceRow"><b>Reparatur pro Nagel</b><span>5.00</span></div>
+        <div class="priceRow"><b>Entfernen von Gel oder Acryl</b><span>30.00</span></div>
+      </div>
     </section>
 
-    <p class="landingNote">Die vollständige Preisliste findest du auf unserer <a href="index.html#prices">Startseite</a>.</p>
+    <p class="landingNote">Weitere Beauty-Preise findest du auf unserer <a href="index.html#prices">Startseite</a>.</p>
 
     <section class="landingCta">
       <div class="eyebrow">PERSÖNLICH & IN RUHE</div>
