@@ -1123,3 +1123,18 @@ p,
     padding:16px 18px 17px !important;
   }
 }
+/* MR Beauty: alle Bilder vor Auswahl schützen */
+img {
+  -webkit-user-select:none !important;
+  user-select:none !important;
+  -webkit-user-drag:none;
+  -webkit-touch-callout:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.portrait,
+.portrait *,
+.location .pic,
+.location .pic * {
+  -webkit-user-select:none !important;
+  user-select:none !important;
+}
