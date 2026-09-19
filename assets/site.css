@@ -1053,19 +1053,31 @@ p,
     padding:16px 18px 17px !important;
   }
 }
-/* MR Beauty: zuverlässige Rundung geöffneter Bilder */
+
+/* MR Beauty: Bild selbst sauber und ohne Rahmen abrunden */
 .imageLightbox img {
+  display:block;
+  width:auto !important;
+  height:auto !important;
+  max-width:100% !important;
   box-sizing:border-box;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  object-fit:contain;
   overflow:hidden;
-  border:1px solid rgba(255,255,255,.18);
   border-radius:28px;
   clip-path:inset(0 round 28px);
   -webkit-clip-path:inset(0 round 28px);
-  -webkit-mask-image:-webkit-radial-gradient(white,black);
+  transform:translateZ(0);
 }
 
 @media (max-width:600px) {
   .imageLightbox img {
+    width:auto !important;
+    height:auto !important;
+    max-width:100% !important;
+    max-height:calc(100dvh - 285px) !important;
     border-radius:22px;
     clip-path:inset(0 round 22px);
     -webkit-clip-path:inset(0 round 22px);
@@ -1074,6 +1086,10 @@ p,
 
 @media (orientation:landscape) and (max-height:500px) and (any-pointer:coarse) {
   .imageLightbox img {
+    width:auto !important;
+    height:auto !important;
+    max-width:100% !important;
+    max-height:100% !important;
     border-radius:16px;
     clip-path:inset(0 round 16px);
     -webkit-clip-path:inset(0 round 16px);
