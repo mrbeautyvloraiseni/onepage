@@ -55,15 +55,19 @@ function showImage(){
  detail.hidden=!description;
 }
 function openImage(source,list){
- activeImages=list||[source];activeIndex=Math.max(0,activeImages.indexOf(source));showImage();closeMenu();
- imageLightbox.hidden=false;document.body.classList.add('modalOpen');
- requestAnimationFrame(()=>imageLightbox.classList.add('isOpen'));
+  activeImages=list||[source];
+  activeIndex=Math.max(0,activeImages.indexOf(source));
+  showImage();
+  closeMenu();
+  imageLightbox.hidden=false;
+  imageLightbox.classList.add("isOpen");
+  document.body.classList.add("modalOpen");
 }
 function closeImage(){
- if(!imageLightbox||imageLightbox.hidden)return;
- imageLightbox.classList.remove('isOpen');
- document.body.classList.remove('modalOpen');
- setTimeout(()=>{imageLightbox.hidden=true;},220);
+  if(!imageLightbox||imageLightbox.hidden)return;
+  imageLightbox.classList.remove("isOpen");
+  imageLightbox.hidden=true;
+  document.body.classList.remove("modalOpen");
 }
 gallery.forEach(img=>img.closest('button').addEventListener('click',e=>{e.preventDefault();openImage(img,gallery);}));
 const building=$('.buildingPreview');if(building)building.addEventListener('click',e=>{e.preventDefault();openImage($('img',building),[$('img',building)]);});
