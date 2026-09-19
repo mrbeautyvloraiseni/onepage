@@ -1091,7 +1091,7 @@ p,
 }
 
 .imageLightbox img {
-  cursor:pointer;
+  cursor:crosshair;
   touch-action:manipulation;
 }
 
