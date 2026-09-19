@@ -1062,3 +1062,36 @@ p,
 .imageLightbox figcaption > small {
   color:var(--muted) !important;
 }
+/* MR Beauty: Galerie Final 20260919 */
+.imageLightbox {
+  background:#000;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  transition:none !important;
+  touch-action:manipulation;
+}
+.imageLightbox img {
+  cursor:pointer;
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-user-drag:none;
+  -webkit-touch-callout:none;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.imageLightbox .imageCaptionCard {
+  border:0 !important;
+  border-radius:0;
+  padding:0 !important;
+  background:transparent;
+}
+.imageLightbox figcaption,
+.imageLightbox .imageCaptionText,
+#imageCaptionText {
+  color:#fff !important;
+}
+.imageLightbox .imageCaptionDetail,
+#imageCaptionDetail,
+.imageLightbox figcaption > small {
+  color:var(--muted) !important;
+}
