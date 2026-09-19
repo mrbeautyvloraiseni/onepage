@@ -1024,3 +1024,8 @@ p,
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
 }
+/* MR Beauty: iPhone-Zoom in Galerie verhindern */
+.imageLightbox,
+.imageLightbox img {
+  touch-action: manipulation;
+}
