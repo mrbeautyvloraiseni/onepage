@@ -319,3 +319,8 @@ if(phoneContact&&phoneDialog&&phoneQr){
 
   observer.observe(section);
 })();
+/* MR Beauty: Galerie-Auswahl verhindern */
+document.querySelectorAll(".gallery, .buildingPreview, .imageLightbox").forEach(element=>{
+  element.addEventListener("selectstart",event=>event.preventDefault());
+  element.addEventListener("dragstart",event=>event.preventDefault());
+});
