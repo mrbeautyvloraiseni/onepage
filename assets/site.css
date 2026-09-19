@@ -993,4 +993,11 @@ p,
   }
 }
 
-
+/* iPhone Hochformat: Galerie ohne rechenintensiven Hintergrund-Blur */
+@media (max-width:600px) and (orientation:portrait) {
+  .imageLightbox {
+    background:rgba(0,0,0,.98);
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
+}
