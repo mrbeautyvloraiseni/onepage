@@ -1008,3 +1008,11 @@ p,
     transition:none;
   }
 }
+
+/* MR Beauty: Lightbox ohne Verzögerung auf allen Geräten */
+.imageLightbox {
+  background:rgba(0,0,0,.96);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  transition:none !important;
+}
