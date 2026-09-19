@@ -1001,3 +1001,10 @@ p,
     -webkit-backdrop-filter:none;
   }
 }
+
+/* MR Beauty: Galerie auf iPhone sofort einblenden */
+@media (max-width:600px) and (orientation:portrait) {
+  .imageLightbox {
+    transition:none;
+  }
+}

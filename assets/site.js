@@ -288,3 +288,30 @@ if(phoneContact&&phoneDialog&&phoneQr){
     element.addEventListener('dragstart', event => event.preventDefault());
   });
 })();
+
+/* MR Beauty: Galerie auf iPhone vorladen */
+(()=>{
+  if (!window.matchMedia("(max-width:600px) and (orientation:portrait)").matches) return;
+
+  const section=document.querySelector("#gallery");
+  const images=[...document.querySelectorAll("#gallery .shot img")];
+  const preloads=[];
+
+  if (!section || !images.length || !("IntersectionObserver" in window)) return;
+
+  const warmImage=(image)=>{
+    const preload=new Image();
+    preload.decoding="async";
+    preload.src=image.currentSrc || image.src;
+    preloads.push(preload);
+    if (preload.decode) preload.decode().catch(()=>{});
+  };
+
+  const observer=new IntersectionObserver((entries)=>{
+    if (!entries.some(entry=>entry.isIntersecting)) return;
+    images.forEach((image,index)=>setTimeout(()=>warmImage(image),index*70));
+    observer.disconnect();
+  },{rootMargin:"450px 0px"});
+
+  observer.observe(section);
+})();
