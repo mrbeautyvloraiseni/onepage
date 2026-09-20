@@ -320,32 +320,6 @@ if(phoneContact&&phoneDialog&&phoneQr){
   });
 })();
 
-/* MR Beauty: Galerie auf iPhone vorladen */
-(()=>{
-  if (!window.matchMedia("(max-width:600px) and (orientation:portrait)").matches) return;
-
-  const section=document.querySelector("#galerie");
-  const images=[...document.querySelectorAll("#galerie .shot img")];
-  const preloads=[];
-
-  if (!section || !images.length || !("IntersectionObserver" in window)) return;
-
-  const warmImage=(image)=>{
-    const preload=new Image();
-    preload.decoding="async";
-    preload.src=image.currentSrc || image.src;
-    preloads.push(preload);
-    if (preload.decode) preload.decode().catch(()=>{});
-  };
-
-  const observer=new IntersectionObserver((entries)=>{
-    if (!entries.some(entry=>entry.isIntersecting)) return;
-    images.forEach((image,index)=>setTimeout(()=>warmImage(image),index*70));
-    observer.disconnect();
-  },{rootMargin:"450px 0px"});
-
-  observer.observe(section);
-})();
 /* MR Beauty: Galerie-Auswahl verhindern */
 document.querySelectorAll(".gallery, .buildingPreview, .imageLightbox, .portrait, .location .pic").forEach(element=>{
   element.addEventListener("selectstart",event=>event.preventDefault());
