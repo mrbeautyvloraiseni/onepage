@@ -351,3 +351,57 @@ document.querySelectorAll(".gallery, .buildingPreview, .imageLightbox, .portrait
   element.addEventListener("selectstart",event=>event.preventDefault());
   element.addEventListener("dragstart",event=>event.preventDefault());
 });
+/* MR Beauty: Standort-Lightbox iPhone Zoom Animation */
+(function(){
+  function isTouchDevice(){
+    return window.matchMedia && window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+  }
+
+  function isLocationTrigger(el){
+    if (!el) return false;
+    return !!el.closest(
+      '.locationVisual, .locationMedia, .locationGrid, .standortVisual, .standortMedia, .standortGrid, [data-location-lightbox], [data-lightbox="location"]'
+    );
+  }
+
+  function markLocationLightbox(){
+    if (!isTouchDevice()) return;
+
+    var dialog =
+      document.querySelector('.imageLightbox[open], .imageLightbox.isOpen, .imageLightbox.active') ||
+      document.querySelector('.imageLightbox, .image-lightbox, [data-image-lightbox]');
+
+    if (!dialog) return;
+
+    dialog.classList.add('locationLightbox');
+    dialog.classList.remove('isClosing');
+    dialog.classList.add('isOpening');
+
+    window.setTimeout(function(){
+      dialog.classList.remove('isOpening');
+    }, 220);
+  }
+
+  document.addEventListener('click', function(event){
+    if (!isLocationTrigger(event.target)) return;
+    window.setTimeout(markLocationLightbox, 30);
+  }, true);
+
+  document.addEventListener('click', function(event){
+    var dialog = event.target && event.target.closest
+      ? event.target.closest('.locationLightbox')
+      : null;
+
+    if (!dialog || !isTouchDevice()) return;
+
+    if (
+      event.target === dialog ||
+      event.target.classList.contains('lightboxClose') ||
+      event.target.closest('.lightboxClose')
+    ) {
+      dialog.classList.remove('isOpening');
+      dialog.classList.add('isClosing');
+    }
+  }, true);
+})();
+/* Ende Standort-Lightbox iPhone Zoom Animation */
