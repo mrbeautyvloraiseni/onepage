@@ -1258,3 +1258,41 @@ img {
     transform:scale(1.055) !important;
   }
 }
+
+/* MR Beauty FINAL: Standortbild iPhone im echten Bildformat */
+@media (max-width:600px) and (orientation:portrait) {
+  #standort .buildingPreview,
+  html.appleTouch #standort .buildingPreview {
+    aspect-ratio:1.5 !important;
+    min-height:0 !important;
+    height:auto !important;
+  }
+
+  #standort .buildingPreview img,
+  html.appleTouch #standort .buildingPreview img {
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    transform:none !important;
+  }
+}
+
+@media (orientation:landscape) and (max-height:600px) {
+  #standort .buildingPreview,
+  html.appleTouch #standort .buildingPreview {
+    aspect-ratio:1.5 !important;
+    min-height:0 !important;
+    height:auto !important;
+    overflow:hidden !important;
+  }
+
+  #standort .buildingPreview img,
+  html.appleTouch #standort .buildingPreview img {
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    transform:none !important;
+  }
+}
