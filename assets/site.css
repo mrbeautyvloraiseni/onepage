@@ -1110,3 +1110,32 @@ img {
   -webkit-user-select:none !important;
   user-select:none !important;
 }
+
+/* MR Beauty: einheitliche Galerie- und Gebäuderundungen */
+.shot,
+.buildingPreview {
+  border-radius:20px;
+  overflow:hidden;
+  isolation:isolate;
+  transform:translateZ(0);
+}
+
+.shot img,
+.buildingPreview img {
+  border-radius:inherit;
+  clip-path:inset(0 round 20px);
+  -webkit-clip-path:inset(0 round 20px);
+}
+
+@media (max-width:920px) {
+  .shot,
+  .buildingPreview {
+    border-radius:16px;
+  }
+
+  .shot img,
+  .buildingPreview img {
+    clip-path:inset(0 round 16px);
+    -webkit-clip-path:inset(0 round 16px);
+  }
+}
