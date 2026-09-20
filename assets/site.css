@@ -1283,3 +1283,17 @@ img {
     white-space:nowrap !important;
   }
 }
+
+
+/* MR Beauty: iPhone Gebaeudebild Touch-Zoom wie Galerie */
+@media (hover:none) and (pointer:coarse) {
+  html.appleTouch #standort .buildingPreview img {
+    transition:transform .18s cubic-bezier(.2,.65,.3,1),filter .18s !important;
+    transform-origin:center center;
+  }
+
+  html.appleTouch #standort .buildingPreview.isTouchPressed img {
+    transform:scale(1.045) !important;
+  }
+}
+/* Ende iPhone Gebaeudebild Touch-Zoom */
