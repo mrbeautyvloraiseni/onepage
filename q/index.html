@@ -21,11 +21,15 @@ html,body{margin:0;min-height:100%;background:#000;color:#111}
 html.notFoundMode,body.notFoundMode{height:100%;overflow:hidden}
 .notFoundPage{min-height:100dvh;display:grid;place-items:center;padding:28px 24px;background:#000;color:#fff;text-align:center;font-family:"MontserratLocal",Arial,sans-serif}
 .notFoundInner{width:min(100%,520px);margin:auto}
-.notFoundLogo{display:block;width:min(62vw,248px)!important;height:auto;margin:0 auto 38px}
+.notFoundLogo{display:block;width:320px!important;max-width:70vw;height:auto;margin:0 auto 38px}
 .notFoundCode{margin:0;color:#C8CF04;font-size:clamp(56px,12vw,82px)!important;font-weight:700;line-height:1;letter-spacing:0}
 .notFoundTitle{margin:18px 0 0;font-size:clamp(27px,6vw,35px)!important;line-height:1.16;font-weight:700;color:#fff}
 .notFoundText{margin:16px auto 0;max-width:380px;color:#c4c4ca;font-size:17px!important;line-height:1.55}
 .notFoundButton{display:inline-flex;align-items:center;justify-content:center;min-width:220px;height:54px;margin-top:34px;padding:0 26px;border-radius:16px;background:#C8CF04;color:#000;text-decoration:none;font-weight:700;font-size:17px!important;-webkit-tap-highlight-color:transparent}
+/* MR Beauty q 404 logo final */
+@media(max-width:600px){
+  .notFoundLogo{width:min(70vw,248px)!important}
+}
 </style>
 </head>
 <body><div id="app"></div>
