@@ -1154,3 +1154,18 @@ img {
     border-radius:16px;
   }
 }
+/* MR Beauty: dezente Logogelb-Rahmen für Inhaltskarten */
+.serviceCard,
+.priceCard,
+#kontakt .contactBox,
+#kontakt .hours,
+.legalCard {
+  border-color:rgba(200,207,4,.20) !important;
+}
+
+/* Nur auf Geräten mit Maus etwas stärker hervorheben */
+@media (hover:hover) and (pointer:fine) {
+  .serviceCard:hover {
+    border-color:rgba(200,207,4,.48) !important;
+  }
+}
