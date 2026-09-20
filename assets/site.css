@@ -1542,3 +1542,11 @@ img {
     white-space:nowrap !important;
   }
 }
+
+/* MR Beauty FINAL: Googlekarte iPhone Querformat Ausschnitt nach oben */
+@media (orientation:landscape) and (max-height:600px) {
+  #standort .locCard.mapOnly .pic img,
+  html.appleTouch #standort .locCard.mapOnly .pic img {
+    object-position:center 34% !important;
+  }
+}
