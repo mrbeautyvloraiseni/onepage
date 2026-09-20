@@ -1296,3 +1296,47 @@ img {
     transform:none !important;
   }
 }
+
+/* MR Beauty FINAL: Standort iPhone Querformat gleichmässig */
+@media (orientation:landscape) and (max-height:600px) {
+  #standort .location,
+  html.appleTouch #standort .location {
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:22px !important;
+    align-items:stretch !important;
+  }
+
+  #standort .buildingPreview,
+  html.appleTouch #standort .buildingPreview,
+  #standort .locCard.mapOnly,
+  html.appleTouch #standort .locCard.mapOnly {
+    aspect-ratio:1.5 !important;
+    min-height:0 !important;
+    height:auto !important;
+    width:100% !important;
+    overflow:hidden !important;
+  }
+
+  #standort .buildingPreview img,
+  html.appleTouch #standort .buildingPreview img {
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    transform:none !important;
+  }
+
+  #standort .locCard.mapOnly .pic,
+  html.appleTouch #standort .locCard.mapOnly .pic {
+    height:100% !important;
+  }
+
+  #standort .locCard.mapOnly .pic img,
+  html.appleTouch #standort .locCard.mapOnly .pic img {
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+  }
+}
