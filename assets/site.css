@@ -1285,15 +1285,16 @@ img {
 }
 
 
-/* MR Beauty: iPhone Gebaeudebild Touch-Zoom wie Galerie */
+/* MR Beauty: iPhone Gebaeudebild Zoom wie Galerie */
 @media (hover:none) and (pointer:coarse) {
   html.appleTouch #standort .buildingPreview img {
-    transition:transform .18s cubic-bezier(.2,.65,.3,1),filter .18s !important;
+    transition:transform .65s cubic-bezier(.2,.65,.3,1),filter .65s !important;
     transform-origin:center center;
   }
 
-  html.appleTouch #standort .buildingPreview.isTouchPressed img {
+  html.appleTouch #standort .buildingPreview.isTouchPressed img,
+  html.appleTouch #standort .buildingPreview.isLightboxSourceActive img {
     transform:scale(1.045) !important;
   }
 }
-/* Ende iPhone Gebaeudebild Touch-Zoom */
+/* Ende iPhone Gebaeudebild Zoom */
