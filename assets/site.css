@@ -1483,3 +1483,62 @@ img {
     white-space:nowrap !important;
   }
 }
+
+/* MR Beauty FINAL: Googlekarte iPhone Querformat vollflächig mit Button-Overlay */
+@media (orientation:landscape) and (max-height:600px) {
+  #standort .locCard.mapOnly,
+  html.appleTouch #standort .locCard.mapOnly {
+    position:relative !important;
+    display:block !important;
+    aspect-ratio:1.5 !important;
+    height:auto !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+    background:#000 !important;
+  }
+
+  #standort .locCard.mapOnly .pic,
+  html.appleTouch #standort .locCard.mapOnly .pic {
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    overflow:hidden !important;
+  }
+
+  #standort .locCard.mapOnly .pic img,
+  html.appleTouch #standort .locCard.mapOnly .pic img {
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    max-width:none !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    display:block !important;
+    transform:none !important;
+  }
+
+  #standort .locCard.mapOnly .mapButtonOnly,
+  html.appleTouch #standort .locCard.mapOnly .mapButtonOnly {
+    position:absolute !important;
+    left:0 !important;
+    right:0 !important;
+    bottom:14px !important;
+    z-index:2 !important;
+    padding:0 24px !important;
+    background:transparent !important;
+    text-align:center !important;
+  }
+
+  #standort .locCard.mapOnly .mapButtonOnly a,
+  html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a {
+    width:82% !important;
+    max-width:520px !important;
+    min-height:46px !important;
+    margin:0 auto !important;
+    padding:10px 18px !important;
+    font-size:10px !important;
+    white-space:nowrap !important;
+  }
+}
