@@ -1340,3 +1340,46 @@ img {
     object-position:center center !important;
   }
 }
+
+/* MR Beauty FINAL: Googlekarte iPhone Querformat korrigieren */
+@media (orientation:landscape) and (max-height:600px) {
+  #standort .locCard.mapOnly,
+  html.appleTouch #standort .locCard.mapOnly {
+    display:grid !important;
+    grid-template-rows:1fr auto !important;
+    aspect-ratio:1.5 !important;
+    min-height:0 !important;
+    height:auto !important;
+    overflow:hidden !important;
+  }
+
+  #standort .locCard.mapOnly .pic,
+  html.appleTouch #standort .locCard.mapOnly .pic {
+    height:auto !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+  }
+
+  #standort .locCard.mapOnly .pic img,
+  html.appleTouch #standort .locCard.mapOnly .pic img {
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    display:block !important;
+  }
+
+  #standort .locCard.mapOnly .mapButtonOnly,
+  html.appleTouch #standort .locCard.mapOnly .mapButtonOnly {
+    padding:10px 14px !important;
+    background:#0f0f0f !important;
+  }
+
+  #standort .locCard.mapOnly .mapButtonOnly a,
+  html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a {
+    min-height:44px !important;
+    padding:10px 18px !important;
+    font-size:10px !important;
+    white-space:nowrap !important;
+  }
+}
