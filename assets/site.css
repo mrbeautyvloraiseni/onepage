@@ -1112,6 +1112,13 @@ img {
 }
 
 /* MR Beauty: einheitliche Galerie- und Gebäuderundungen */
+.shot picture,
+.buildingPreview picture {
+  display:block;
+  width:100%;
+  height:100%;
+}
+
 .shot,
 .buildingPreview {
   border-radius:20px;
@@ -1167,13 +1174,6 @@ img {
 @media (hover:hover) and (pointer:fine) {
   .serviceCard:hover {
     border-color:rgba(200,207,4,.48) !important;
-  }
-}
-
-/* MR Beauty: Standortbild auf iPhone-Hochformat ausrichten */
-@media (max-width:600px) and (orientation:portrait) {
-  html.appleTouch #standort .buildingPreview img {
-    object-position:68% center !important;
   }
 }
 

@@ -200,12 +200,27 @@ if(priceReference&&contactGrid){
 
 $$('a[href^="https://wa.me/"]').forEach(a=>{if(a.hasAttribute('data-direct-wa'))return;a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;if(matchMedia('(min-width:921px) and (pointer:fine)').matches){e.preventDefault();openDialog(waDialog);}});});
 const phoneContact=$('#phoneContact'),phoneDialog=$('#phoneDialog'),phoneQr=$('#phoneQr');
+let qrCodeLoader;
+function loadQrCode(){
+ if(typeof qrcode==='function')return Promise.resolve();
+ if(qrCodeLoader)return qrCodeLoader;
+ qrCodeLoader=new Promise((resolve,reject)=>{
+   const script=document.createElement('script');
+   script.src='assets/qrcode-generator.js';
+   script.async=true;
+   script.onload=()=>resolve();
+   script.onerror=reject;
+   document.head.appendChild(script);
+ });
+ return qrCodeLoader;
+}
 if(phoneContact&&phoneDialog&&phoneQr){
- phoneContact.addEventListener('click',e=>{
+ phoneContact.addEventListener('click',async e=>{
    if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
    if(!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
-   if(typeof qrcode!=='function')return;
    e.preventDefault();
+   try{await loadQrCode();}catch(error){console.error(error);return;}
+   if(typeof qrcode!=='function')return;
    if(!phoneQr.firstElementChild){
      const code=qrcode(0,'M');
      code.addData('tel:+41763235996');
