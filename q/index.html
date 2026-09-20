@@ -58,8 +58,7 @@ body.notFoundMode .mr404button{display:inline-flex!important;align-items:center!
 </style>
 <style id="q-token-precheck-style">
 html.q-token-precheck body {
-  opacity: 0;
-  pointer-events: none;
+  visibility: hidden !important;
 }
 html.q-token-precheck::before {
   content: "";
@@ -71,22 +70,65 @@ html.q-token-precheck::before {
 </style>
 <script id="q-token-precheck-script">
 (function(){
-  var cleanPath = location.pathname.replace(/\/+$/, "");
-  var lastPart = cleanPath.split("/").pop();
-  var isReceiptToken = /^\d{16}$/.test(lastPart);
+  function getToken(){
+    var path = location.pathname.replace(/\/+$/, "");
+    var last = path.split("/").pop();
+    var query = new URLSearchParams(location.search).get("r") || "";
 
-  if (!isReceiptToken) return;
+    if (/^\d{16}$/.test(last)) return last;
+    if (/^\d{16}$/.test(query)) return query;
+    return "";
+  }
+
+  var token = getToken();
+  if (!token) return;
 
   document.documentElement.classList.add("q-token-precheck");
 
-  window.mrBeautyRevealReceipt = function(){
+  function reveal(){
     document.documentElement.classList.remove("q-token-precheck");
-  };
+  }
+
+  window.mrBeautyRevealReceipt = reveal;
+
+  var wrapTimer = setInterval(function(){
+    if (typeof window.showNotFound === "function" && !window.showNotFound.__mrBeautyWrapped) {
+      var originalShowNotFound = window.showNotFound;
+      window.showNotFound = function(){
+        reveal();
+        return originalShowNotFound.apply(this, arguments);
+      };
+      window.showNotFound.__mrBeautyWrapped = true;
+      clearInterval(wrapTimer);
+    }
+  }, 20);
 
   window.addEventListener("load", function(){
+    var observer = new MutationObserver(function(){
+      var text = (document.body && document.body.innerText || "").trim();
+
+      if (!text) return;
+
+      if (text.indexOf("Seite nicht gefunden") !== -1 || text.indexOf("404") !== -1) {
+        reveal();
+        observer.disconnect();
+        return;
+      }
+
+      if (text.indexOf("Quittung wird geladen") === -1 && text.length > 80) {
+        reveal();
+        observer.disconnect();
+      }
+    });
+
+    if (document.body) {
+      observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+    }
+
     setTimeout(function(){
-      document.documentElement.classList.remove("q-token-precheck");
-    }, 3500);
+      clearInterval(wrapTimer);
+      reveal();
+    }, 8000);
   });
 })();
 </script>
