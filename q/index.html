@@ -56,6 +56,40 @@ body.notFoundMode .mr404text{margin:16px auto 0!important;max-width:380px!import
 body.notFoundMode .mr404button{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:220px!important;height:54px!important;margin-top:34px!important;padding:0 26px!important;border-radius:16px!important;background:#C8CF04!important;color:#000!important;text-decoration:none!important;font-weight:700!important;font-size:17px!important;font-family:Montserrat,Arial,sans-serif!important}
 /* MR Beauty q 404 final exact end */
 </style>
+<style id="q-token-precheck-style">
+html.q-token-precheck body {
+  opacity: 0;
+  pointer-events: none;
+}
+html.q-token-precheck::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 2147483647;
+}
+</style>
+<script id="q-token-precheck-script">
+(function(){
+  var cleanPath = location.pathname.replace(/\/+$/, "");
+  var lastPart = cleanPath.split("/").pop();
+  var isReceiptToken = /^\d{16}$/.test(lastPart);
+
+  if (!isReceiptToken) return;
+
+  document.documentElement.classList.add("q-token-precheck");
+
+  window.mrBeautyRevealReceipt = function(){
+    document.documentElement.classList.remove("q-token-precheck");
+  };
+
+  window.addEventListener("load", function(){
+    setTimeout(function(){
+      document.documentElement.classList.remove("q-token-precheck");
+    }, 3500);
+  });
+})();
+</script>
 </head>
 <body><div id="app"></div>
 <script>
@@ -103,6 +137,7 @@ function loadFirebaseScripts(){
 async function showReceipt(){
   document.documentElement.classList.remove("notFoundMode");
   document.body.classList.remove("notFoundMode");
+  window.mrBeautyRevealReceipt?.();
   document.title="Quittung – MR Beauty";
   const a=document.getElementById("app");
   a.className="status";
