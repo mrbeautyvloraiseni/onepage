@@ -1566,43 +1566,25 @@ img {
     object-position:center 82% !important;
   }
 }
-/* MR Beauty: Standort-Lightbox iPhone Zoom Animation */
+/* MR Beauty: iPhone Lightbox Zoom fuer alle Bild-Lightboxen */
 @media (hover: none) and (pointer: coarse) {
-  .imageLightbox.locationLightbox .lightboxImage,
-  .imageLightbox.locationLightbox img,
-  .imageLightbox.location-lightbox .lightboxImage,
-  .imageLightbox.location-lightbox img,
-  .locationLightbox .lightboxImage,
-  .locationLightbox img,
-  .location-lightbox .lightboxImage,
-  .location-lightbox img {
-    transform-origin: center center;
+  .imageLightbox.mrTouchOpening img,
+  .image-lightbox.mrTouchOpening img,
+  dialog.mrTouchOpening img {
+    animation: mrTouchLightboxZoomIn 190ms ease-out both !important;
+    transform-origin: center center !important;
     will-change: transform, opacity;
   }
 
-  .imageLightbox.locationLightbox.isOpening .lightboxImage,
-  .imageLightbox.locationLightbox.isOpening img,
-  .imageLightbox.location-lightbox.isOpening .lightboxImage,
-  .imageLightbox.location-lightbox.isOpening img,
-  .locationLightbox.isOpening .lightboxImage,
-  .locationLightbox.isOpening img,
-  .location-lightbox.isOpening .lightboxImage,
-  .location-lightbox.isOpening img {
-    animation: mrLocationLightboxZoomIn 180ms ease-out both;
+  .imageLightbox.mrTouchClosing img,
+  .image-lightbox.mrTouchClosing img,
+  dialog.mrTouchClosing img {
+    animation: mrTouchLightboxZoomOut 170ms ease-in both !important;
+    transform-origin: center center !important;
+    will-change: transform, opacity;
   }
 
-  .imageLightbox.locationLightbox.isClosing .lightboxImage,
-  .imageLightbox.locationLightbox.isClosing img,
-  .imageLightbox.location-lightbox.isClosing .lightboxImage,
-  .imageLightbox.location-lightbox.isClosing img,
-  .locationLightbox.isClosing .lightboxImage,
-  .locationLightbox.isClosing img,
-  .location-lightbox.isClosing .lightboxImage,
-  .location-lightbox.isClosing img {
-    animation: mrLocationLightboxZoomOut 160ms ease-in both;
-  }
-
-  @keyframes mrLocationLightboxZoomIn {
+  @keyframes mrTouchLightboxZoomIn {
     from {
       opacity: .45;
       transform: scale(.965);
@@ -1613,7 +1595,7 @@ img {
     }
   }
 
-  @keyframes mrLocationLightboxZoomOut {
+  @keyframes mrTouchLightboxZoomOut {
     from {
       opacity: 1;
       transform: scale(1);
@@ -1624,4 +1606,4 @@ img {
     }
   }
 }
-/* Ende Standort-Lightbox iPhone Zoom Animation */
+/* Ende MR Beauty: iPhone Lightbox Zoom fuer alle Bild-Lightboxen */

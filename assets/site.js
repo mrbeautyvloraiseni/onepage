@@ -351,57 +351,79 @@ document.querySelectorAll(".gallery, .buildingPreview, .imageLightbox, .portrait
   element.addEventListener("selectstart",event=>event.preventDefault());
   element.addEventListener("dragstart",event=>event.preventDefault());
 });
-/* MR Beauty: Standort-Lightbox iPhone Zoom Animation */
+/* MR Beauty: iPhone Lightbox Zoom fuer alle Bild-Lightboxen */
 (function(){
-  function isTouchDevice(){
+  function isTouch(){
     return window.matchMedia && window.matchMedia("(hover: none) and (pointer: coarse)").matches;
   }
 
-  function isLocationTrigger(el){
-    if (!el) return false;
-    return !!el.closest(
-      '.locationVisual, .locationMedia, .locationGrid, .standortVisual, .standortMedia, .standortGrid, [data-location-lightbox], [data-lightbox="location"]'
-    );
+  function getOpenLightboxes(){
+    return Array.from(document.querySelectorAll(
+      '.imageLightbox[open], .imageLightbox.isOpen, .imageLightbox.active, .image-lightbox[open], .image-lightbox.isOpen, .image-lightbox.active, dialog[open]'
+    )).filter(function(el){
+      return el.querySelector && el.querySelector('img');
+    });
   }
 
-  function markLocationLightbox(){
-    if (!isTouchDevice()) return;
-
-    var dialog =
-      document.querySelector('.imageLightbox[open], .imageLightbox.isOpen, .imageLightbox.active') ||
-      document.querySelector('.imageLightbox, .image-lightbox, [data-image-lightbox]');
-
-    if (!dialog) return;
-
-    dialog.classList.add('locationLightbox');
-    dialog.classList.remove('isClosing');
-    dialog.classList.add('isOpening');
+  function markOpening(){
+    if (!isTouch()) return;
 
     window.setTimeout(function(){
-      dialog.classList.remove('isOpening');
-    }, 220);
+      getOpenLightboxes().forEach(function(box){
+        box.classList.remove('mrTouchClosing');
+        box.classList.add('mrTouchOpening');
+
+        window.setTimeout(function(){
+          box.classList.remove('mrTouchOpening');
+        }, 230);
+      });
+    }, 20);
+  }
+
+  function markClosing(target){
+    if (!isTouch() || !target || !target.closest) return;
+
+    var box = target.closest('.imageLightbox, .image-lightbox, dialog');
+    if (!box || !box.querySelector('img')) return;
+
+    box.classList.remove('mrTouchOpening');
+    box.classList.add('mrTouchClosing');
   }
 
   document.addEventListener('click', function(event){
-    if (!isLocationTrigger(event.target)) return;
-    window.setTimeout(markLocationLightbox, 30);
-  }, true);
-
-  document.addEventListener('click', function(event){
-    var dialog = event.target && event.target.closest
-      ? event.target.closest('.locationLightbox')
-      : null;
-
-    if (!dialog || !isTouchDevice()) return;
+    var target = event.target;
 
     if (
-      event.target === dialog ||
-      event.target.classList.contains('lightboxClose') ||
-      event.target.closest('.lightboxClose')
+      target &&
+      target.closest &&
+      target.closest('.galleryItem, .gallery-card, .locationVisual, .locationMedia, .standortVisual, .standortMedia, [data-lightbox], [data-image-lightbox]')
     ) {
-      dialog.classList.remove('isOpening');
-      dialog.classList.add('isClosing');
+      markOpening();
+      return;
+    }
+
+    if (
+      target &&
+      target.closest &&
+      (
+        target.closest('.lightboxClose, .imageLightboxClose, [data-lightbox-close]') ||
+        target.classList.contains('imageLightbox') ||
+        target.classList.contains('image-lightbox')
+      )
+    ) {
+      markClosing(target);
     }
   }, true);
+
+  var observer = new MutationObserver(function(){
+    markOpening();
+  });
+
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['open', 'class']
+  });
 })();
-/* Ende Standort-Lightbox iPhone Zoom Animation */
+/* Ende MR Beauty: iPhone Lightbox Zoom fuer alle Bild-Lightboxen */
