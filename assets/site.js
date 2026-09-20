@@ -62,7 +62,7 @@ if(!motion.matches&&'IntersectionObserver'in window){
 }
 let scheduled=false;function progress(){scheduled=false;const height=document.documentElement.scrollHeight-innerHeight;$('.scrollProgress').style.transform=`scaleX(${height>0?Math.min(1,scrollY/height):0})`;}
 addEventListener('scroll',()=>{if(!scheduled){scheduled=true;requestAnimationFrame(progress);}},{passive:true});addEventListener('resize',progress);progress();
-if('IntersectionObserver'in window){const spy=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){--short('.links a').forEach(a=>{const href=a.getAttribute('href')||'';const isHome=e.target.id==='home'&&(href==='/'||href==='#startseite'||href==='/#top'||href==='/#home'||a.hash==='#top'||a.hash==='#home'||a.hash==='#startseite');a.removeAttribute('aria-current');if(a.hash==='#'+e.target.id||isHome)a.setAttribute('aria-current','location');});}});},{rootMargin:'-15% 0px -55% 0px',threshold:0});--short('main>section,main>header').forEach(el=>spy.observe(el));}
+if('IntersectionObserver'in window){const spy=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){$$('.links a').forEach(a=>{const href=a.getAttribute('href')||'';const isHome=e.target.id==='home'&&(href==='/'||href==='/#top'||href==='/#home'||a.hash==='#top'||a.hash==='#home');a.removeAttribute('aria-current');if(a.hash==='#'+e.target.id||isHome)a.setAttribute('aria-current','location');});}});},{rootMargin:'-15% 0px -55% 0px',threshold:0});$$('main>section,main>header').forEach(el=>spy.observe(el));}
 const imageLightbox=$('#imageLightbox'),waDialog=$('#waDialog');
 function openDialog(dialog){closeMenu();dialog.showModal();document.body.classList.add('modalOpen');}
 $$('dialog').forEach(d=>{
