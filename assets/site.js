@@ -227,49 +227,6 @@ if(phoneContact&&phoneDialog&&phoneQr){
    });
  });
 })();
-/* iPhone/iPad: vollständige Kontaktzeile beim Drücken markieren */
-(()=>{
- const isAppleTouch =
-   /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-   (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
-
- if(!isAppleTouch)return;
-
- document.querySelectorAll('#kontakt .contactList > a').forEach(link=>{
-   let startX=0;
-   let startY=0;
-
-   const clearPressed=()=>{
-     link.classList.remove('isTouchPressed');
-   };
-
-   link.addEventListener('touchstart',event=>{
-     const touch=event.touches[0];
-     if(!touch)return;
-     startX=touch.clientX;
-     startY=touch.clientY;
-     link.classList.add('isTouchPressed');
-   },{passive:true});
-
-   link.addEventListener('touchmove',event=>{
-     const touch=event.touches[0];
-     if(!touch)return;
-
-     if(Math.abs(touch.clientX-startX)>10 ||
-        Math.abs(touch.clientY-startY)>10){
-       clearPressed();
-     }
-   },{passive:true});
-
-   link.addEventListener('touchend',()=>{
-     setTimeout(clearPressed,0);
-   },{passive:true});
-
-   link.addEventListener('touchcancel',clearPressed,{passive:true});
-   link.addEventListener('contextmenu',event=>event.preventDefault());
-   link.addEventListener('dragstart',event=>event.preventDefault());
- });
-})();
 /* iPhone/iPad: alle anklickbaren Elemente ohne Link-Vorschau */
 (()=>{
   const isAppleTouch =
@@ -281,6 +238,7 @@ if(phoneContact&&phoneDialog&&phoneQr){
   document.documentElement.classList.add('appleTouch');
 
   document.querySelectorAll('a, button').forEach(element => {
+    const isContactRow = element.matches('#kontakt .contactList > a');
     let startX = 0;
     let startY = 0;
     let moved = false;
@@ -311,7 +269,7 @@ if(phoneContact&&phoneDialog&&phoneQr){
     }, { passive: true });
 
     element.addEventListener('touchend', () => {
-      setTimeout(clearPressed, moved ? 0 : 90);
+      setTimeout(clearPressed, isContactRow ? 0 : (moved ? 0 : 90));
     }, { passive: true });
 
     element.addEventListener('touchcancel', clearPressed, { passive: true });
