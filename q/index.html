@@ -188,8 +188,17 @@ async function showReceipt(){
     const parts=location.pathname.split("/").filter(Boolean);
     const queryToken=new URLSearchParams(location.search).get("r")||"";
     const pathToken=parts.length===2&&parts[0]==="q"?parts[1]:"";
-    const token=queryToken||pathToken;
+    let routedToken="";
+    try{
+      const stagedToken=sessionStorage.getItem("mrBeautyReceiptToken")||"";
+      if(queryToken&&queryToken===stagedToken){
+        routedToken=queryToken;
+        sessionStorage.removeItem("mrBeautyReceiptToken");
+      }
+    }catch(e){}
+    const token=pathToken||routedToken;
     if(!/^\d{16}$/.test(token)){showNotFound();return;}
+    if(routedToken)history.replaceState(null,"","/q/"+token);
     await loadFirebaseScripts();
     if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
     const db=firebase.firestore();
