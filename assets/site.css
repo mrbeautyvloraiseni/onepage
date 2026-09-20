@@ -1139,3 +1139,18 @@ img {
     -webkit-clip-path:inset(0 round 16px);
   }
 }
+
+/* MR Beauty: Standortbilder ohne Aussenrahmen */
+#standort .buildingPreview,
+#standort .locCard.mapOnly {
+  border:0 !important;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+@media (max-width:920px) {
+  #standort .buildingPreview,
+  #standort .locCard.mapOnly {
+    border-radius:16px;
+  }
+}
