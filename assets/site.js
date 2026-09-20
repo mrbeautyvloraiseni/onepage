@@ -92,12 +92,18 @@ function openImage(source,list){
 }
 function closeImage(){
   if(!imageLightbox||imageLightbox.hidden)return;
+  const building=document.querySelector('.buildingPreview');
+  if(building)building.classList.remove('isLightboxSourceActive');
   imageLightbox.classList.remove("isOpen");
   imageLightbox.hidden=true;
   document.body.classList.remove("modalOpen");
 }
 gallery.forEach(img=>img.closest('button').addEventListener('click',e=>{e.preventDefault();openImage(img,gallery);}));
-const building=$('.buildingPreview');if(building)building.addEventListener('click',e=>{e.preventDefault();openImage($('img',building),[$('img',building)]);});
+const building=$('.buildingPreview');if(building)building.addEventListener('click',e=>{
+  e.preventDefault();
+  if(document.documentElement.classList.contains('appleTouch'))building.classList.add('isLightboxSourceActive');
+  openImage($('img',building),[$('img',building)]);
+});
 const largeImage=$('#largeImage');
 if(largeImage){
  largeImage.addEventListener('click',closeImage);
