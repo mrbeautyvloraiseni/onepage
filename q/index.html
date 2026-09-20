@@ -83,18 +83,7 @@ const LOGO_DATA="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgIC
 const firebaseConfig={apiKey:"AIzaSyBeUdo8xgLdwdMh-t2RU5z37Z6LIeZsXTQ",authDomain:"mr-beauty-apps.firebaseapp.com",projectId:"mr-beauty-apps",storageBucket:"mr-beauty-apps.firebasestorage.app"};
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function showNotFound(){
-  document.documentElement.classList.add("notFoundMode");
-  document.body.classList.add("notFoundMode");
-  document.title="404 – Seite nicht gefunden | MR Beauty";
-  const a=document.getElementById("app");
-  a.className="notFoundPage";
-  a.innerHTML=`<main class="notFoundInner">
-    <img class="notFoundLogo" src="${LOGO_DATA}" alt="MR Beauty Vlora Iseni">
-    <p class="notFoundCode">404</p>
-    <h1 class="notFoundTitle">Seite nicht gefunden.</h1>
-    <p class="notFoundText">Diese Seite existiert nicht oder der Link ist ungültig.</p>
-    <a class="notFoundButton" href="https://www.mrbeauty.ch/">Zur Startseite</a>
-  </main>`;
+  location.replace("/404.html");
 }
 function receiptFail(title,text){
   const a=document.getElementById("app");
