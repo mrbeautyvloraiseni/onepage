@@ -1169,3 +1169,10 @@ img {
     border-color:rgba(200,207,4,.48) !important;
   }
 }
+
+/* MR Beauty: Standortbild auf iPhone-Hochformat ausrichten */
+@media (max-width:600px) and (orientation:portrait) {
+  html.appleTouch #standort .buildingPreview img {
+    object-position:68% center !important;
+  }
+}
