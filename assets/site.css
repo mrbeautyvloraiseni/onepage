@@ -1558,3 +1558,11 @@ img {
     object-position:center 70% !important;
   }
 }
+
+/* MR Beauty FINAL: Googlekarte iPhone Querformat Pfeil unter Button verstecken */
+@media (orientation:landscape) and (max-height:600px) {
+  #standort .locCard.mapOnly .pic img,
+  html.appleTouch #standort .locCard.mapOnly .pic img {
+    object-position:center 82% !important;
+  }
+}
