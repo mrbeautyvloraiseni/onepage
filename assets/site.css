@@ -1216,3 +1216,24 @@ img {
     transform:scale(1.055) !important;
   }
 }
+
+/* MR Beauty FINAL: Standortbild iPhone mittig */
+@media (max-width:600px) and (orientation:portrait) {
+  #standort .buildingPreview img,
+  html.appleTouch #standort .buildingPreview img {
+    object-fit:cover !important;
+    object-position:50% 50% !important;
+    transform:scale(1.055) !important;
+  }
+}
+
+@media (orientation:landscape) and (max-height:600px) {
+  #standort .buildingPreview img,
+  html.appleTouch #standort .buildingPreview img {
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:50% 50% !important;
+    transform:scale(1.055) !important;
+  }
+}
