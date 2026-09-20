@@ -1431,3 +1431,55 @@ img {
     white-space:nowrap !important;
   }
 }
+
+/* MR Beauty FINAL: Googlekarte iPhone Querformat absolute Position aufheben */
+@media (orientation:landscape) and (max-height:600px) {
+  #standort .locCard.mapOnly,
+  html.appleTouch #standort .locCard.mapOnly {
+    display:flex !important;
+    flex-direction:column !important;
+    aspect-ratio:1.5 !important;
+    height:auto !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+  }
+
+  #standort .locCard.mapOnly .pic,
+  html.appleTouch #standort .locCard.mapOnly .pic {
+    position:relative !important;
+    flex:1 1 auto !important;
+    height:auto !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+  }
+
+  #standort .locCard.mapOnly .pic img,
+  html.appleTouch #standort .locCard.mapOnly .pic img {
+    position:static !important;
+    left:auto !important;
+    top:auto !important;
+    width:100% !important;
+    height:100% !important;
+    min-height:0 !important;
+    max-width:100% !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    display:block !important;
+    transform:none !important;
+  }
+
+  #standort .locCard.mapOnly .mapButtonOnly,
+  html.appleTouch #standort .locCard.mapOnly .mapButtonOnly {
+    flex:0 0 auto !important;
+    padding:8px 14px 10px !important;
+    background:#0f0f0f !important;
+  }
+
+  #standort .locCard.mapOnly .mapButtonOnly a,
+  html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a {
+    min-height:42px !important;
+    padding:9px 18px !important;
+    font-size:10px !important;
+    white-space:nowrap !important;
+  }
+}
