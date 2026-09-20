@@ -227,49 +227,6 @@ if(phoneContact&&phoneDialog&&phoneQr){
    });
  });
 })();
-/* iPhone/iPad: vollständige Kontaktzeile beim Drücken markieren */
-(()=>{
- const isAppleTouch =
-   /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-   (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
-
- if(!isAppleTouch)return;
-
- document.querySelectorAll('#kontakt .contactList > a').forEach(link=>{
-   let startX=0;
-   let startY=0;
-
-   const clearPressed=()=>{
-     link.classList.remove('isTouchPressed');
-   };
-
-   link.addEventListener('touchstart',event=>{
-     const touch=event.touches[0];
-     if(!touch)return;
-     startX=touch.clientX;
-     startY=touch.clientY;
-     link.classList.add('isTouchPressed');
-   },{passive:true});
-
-   link.addEventListener('touchmove',event=>{
-     const touch=event.touches[0];
-     if(!touch)return;
-
-     if(Math.abs(touch.clientX-startX)>10 ||
-        Math.abs(touch.clientY-startY)>10){
-       clearPressed();
-     }
-   },{passive:true});
-
-   link.addEventListener('touchend',()=>{
-     setTimeout(clearPressed,0);
-   },{passive:true});
-
-   link.addEventListener('touchcancel',clearPressed,{passive:true});
-   link.addEventListener('contextmenu',event=>event.preventDefault());
-   link.addEventListener('dragstart',event=>event.preventDefault());
- });
-})();
 /* iPhone/iPad: alle anklickbaren Elemente ohne Link-Vorschau */
 (()=>{
   const isAppleTouch =
@@ -281,6 +238,7 @@ if(phoneContact&&phoneDialog&&phoneQr){
   document.documentElement.classList.add('appleTouch');
 
   document.querySelectorAll('a, button').forEach(element => {
+    const isContactRow = element.matches('#kontakt .contactList > a');
     let startX = 0;
     let startY = 0;
     let moved = false;
@@ -311,7 +269,7 @@ if(phoneContact&&phoneDialog&&phoneQr){
     }, { passive: true });
 
     element.addEventListener('touchend', () => {
-      setTimeout(clearPressed, moved ? 0 : 90);
+      setTimeout(clearPressed, isContactRow ? 0 : (moved ? 0 : 90));
     }, { passive: true });
 
     element.addEventListener('touchcancel', clearPressed, { passive: true });
@@ -320,32 +278,6 @@ if(phoneContact&&phoneDialog&&phoneQr){
   });
 })();
 
-/* MR Beauty: Galerie auf iPhone vorladen */
-(()=>{
-  if (!window.matchMedia("(max-width:600px) and (orientation:portrait)").matches) return;
-
-  const section=document.querySelector("#galerie");
-  const images=[...document.querySelectorAll("#galerie .shot img")];
-  const preloads=[];
-
-  if (!section || !images.length || !("IntersectionObserver" in window)) return;
-
-  const warmImage=(image)=>{
-    const preload=new Image();
-    preload.decoding="async";
-    preload.src=image.currentSrc || image.src;
-    preloads.push(preload);
-    if (preload.decode) preload.decode().catch(()=>{});
-  };
-
-  const observer=new IntersectionObserver((entries)=>{
-    if (!entries.some(entry=>entry.isIntersecting)) return;
-    images.forEach((image,index)=>setTimeout(()=>warmImage(image),index*70));
-    observer.disconnect();
-  },{rootMargin:"450px 0px"});
-
-  observer.observe(section);
-})();
 /* MR Beauty: Galerie-Auswahl verhindern */
 document.querySelectorAll(".gallery, .buildingPreview, .imageLightbox, .portrait, .location .pic").forEach(element=>{
   element.addEventListener("selectstart",event=>event.preventDefault());
