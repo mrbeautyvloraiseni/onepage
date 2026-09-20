@@ -1200,3 +1200,19 @@ img {
     transform:scale(1.055) !important;
   }
 }
+
+/* MR Beauty: iPhone-Standortbild mittig ausrichten */
+@media (max-width:600px) and (orientation:portrait) {
+  html.appleTouch #standort .buildingPreview img {
+    object-position:center center !important;
+    transform:scale(1.055) !important;
+  }
+}
+
+@media (orientation:landscape) and (max-height:600px) {
+  html.appleTouch #standort .buildingPreview img {
+    object-fit:cover !important;
+    object-position:center center !important;
+    transform:scale(1.055) !important;
+  }
+}
