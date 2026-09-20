@@ -22,7 +22,10 @@
   <script>
     const parts=location.pathname.split('/').filter(Boolean);
     const token=parts.length===2&&parts[0]==='q'&&/^\d{16}$/.test(parts[1])?parts[1]:'';
-    if(token) location.replace('/q/?r='+encodeURIComponent(token));
+    if(token){
+      try{sessionStorage.setItem('mrBeautyReceiptToken',token);}catch(e){}
+      location.replace('/q/?r='+encodeURIComponent(token));
+    }
   </script>
 </body>
 </html>
