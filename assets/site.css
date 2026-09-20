@@ -1176,3 +1176,27 @@ img {
     object-position:68% center !important;
   }
 }
+
+/* MR Beauty: iPhone-Standortbild rahmenfüllend */
+@media (orientation:landscape) and (max-height:600px) {
+  html.appleTouch #standort .buildingPreview {
+    padding:0 !important;
+    overflow:hidden !important;
+  }
+
+  html.appleTouch #standort .buildingPreview img {
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+    object-position:center center !important;
+    transform:scale(1.055) !important;
+  }
+}
+
+/* iPhone-Hochformat: Beschriftungen leicht besser lesbar */
+@media (max-width:600px) and (orientation:portrait) {
+  html.appleTouch #standort .buildingPreview img {
+    transform:scale(1.055) !important;
+  }
+}
