@@ -1,3 +1,30 @@
+/* MR Beauty: alte englische Anker auf deutsche Anker umleiten */
+(function(){
+  var hashMap = {
+    "#about": "#ueber-uns",
+    "#services": "#leistungen",
+    "#gallery": "#galerie",
+    "#prices": "#preise"
+  };
+
+  function normalizeHash(){
+    var next = hashMap[window.location.hash];
+    if (!next) return;
+
+    history.replaceState(null, "", next);
+
+    requestAnimationFrame(function(){
+      var target = document.querySelector(next);
+      if (target) {
+        target.scrollIntoView({ behavior: "auto", block: "start" });
+      }
+    });
+  }
+
+  normalizeHash();
+  window.addEventListener("hashchange", normalizeHash);
+})();
+/* Ende alte englische Anker */
 /* MR Beauty — navigation, optional motion and accessible dialogs. */
 (()=>{'use strict';
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -151,7 +178,7 @@ if(mrMapImage){
 
 // On roomy two-column layouts, both contact cards match the tall price card.
 // The two seven-row grids in CSS keep corresponding separator lines aligned.
-const priceReference=$('#prices .priceTabs>.priceCard');
+const priceReference=$('#preise .priceTabs>.priceCard');
 const contactGrid=$('#kontakt .contactGrid');
 if(priceReference&&contactGrid){
  const syncContactHeight=()=>{
@@ -297,8 +324,8 @@ if(phoneContact&&phoneDialog&&phoneQr){
 (()=>{
   if (!window.matchMedia("(max-width:600px) and (orientation:portrait)").matches) return;
 
-  const section=document.querySelector("#gallery");
-  const images=[...document.querySelectorAll("#gallery .shot img")];
+  const section=document.querySelector("#galerie");
+  const images=[...document.querySelectorAll("#galerie .shot img")];
   const preloads=[];
 
   if (!section || !images.length || !("IntersectionObserver" in window)) return;
