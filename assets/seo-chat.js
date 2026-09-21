@@ -94,85 +94,18 @@ quick.forEach(button=>button.addEventListener('click',()=>{
   ask(button.getAttribute('data-question')||button.textContent);
 }));
 
-const photoInput=document.getElementById('mrAiPhotoInput');
-const photoPick=document.getElementById('mrAiPhotoPick');
-const photoPreview=document.getElementById('mrAiPhotoPreview');
-const photoImage=document.getElementById('mrAiPhotoImage');
-const photoShare=document.getElementById('mrAiPhotoShare');
-const photoClear=document.getElementById('mrAiPhotoClear');
-const photoStatus=document.getElementById('mrAiPhotoStatus');
-let photoFile=null;
-let photoUrl='';
-
-function clearPhoto(){
-  photoFile=null;
-  if(photoUrl){
-    URL.revokeObjectURL(photoUrl);
-    photoUrl='';
-  }
-  if(photoInput)photoInput.value='';
-  if(photoImage)photoImage.removeAttribute('src');
-  if(photoPreview)photoPreview.hidden=true;
-  if(photoStatus)photoStatus.textContent='';
-  if(photoPick)photoPick.textContent='Foto auswählen';
-}
-
-if(photoPick&&photoInput){
-  photoPick.addEventListener('click',()=>photoInput.click());
-
-  photoInput.addEventListener('change',()=>{
-    const file=photoInput.files&&photoInput.files[0];
-    if(!file)return;
-
-    const allowed=new Set(['image/jpeg','image/png','image/webp']);
-    if(!allowed.has(file.type)){
-      clearPhoto();
-      if(photoStatus)photoStatus.textContent='Bitte wähle ein JPG-, PNG- oder WEBP-Bild.';
-      return;
-    }
-
-    if(file.size>25*1024*1024){
-      clearPhoto();
-      if(photoStatus)photoStatus.textContent='Das Foto ist zu gross. Bitte wähle ein Bild unter 25 MB.';
-      return;
-    }
-
-    if(photoUrl)URL.revokeObjectURL(photoUrl);
-    photoFile=file;
-    photoUrl=URL.createObjectURL(file);
-    photoImage.src=photoUrl;
-    photoPreview.hidden=false;
-    photoPick.textContent='Anderes Foto wählen';
-    photoStatus.textContent='';
-  });
-}
-
-if(photoClear)photoClear.addEventListener('click',clearPhoto);
+const designSend=document.getElementById('mrAiDesignSend');
 
 function useMobileWhatsAppFlow(){
   return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.matchMedia('(max-width:900px)').matches;
 }
 
-function updatePhotoShareLabel(){
-  if(!photoShare)return;
-  photoShare.textContent=useMobileWhatsAppFlow()?'WhatsApp an Vlora öffnen':'WhatsApp / QR-Code';
-}
-
-updatePhotoShareLabel();
-window.addEventListener('resize',updatePhotoShareLabel);
-
-if(photoShare){
-  photoShare.addEventListener('click',()=>{
-    if(!photoFile){
-      if(photoStatus)photoStatus.textContent='Bitte wähle zuerst ein Foto aus.';
-      return;
-    }
-
-    const shareText='Hallo Vlora, ich möchte ungefähr dieses Nageldesign. Kannst du mir sagen, was das bei MR Beauty kosten würde? Ich füge das Foto gleich hinzu.';
+if(designSend){
+  designSend.addEventListener('click',()=>{
+    const shareText='Hallo Vlora, ich möchte dir ein Nageldesign zeigen. Kannst du mir sagen, was das bei MR Beauty kosten würde? Ich füge das Foto gleich in WhatsApp hinzu.';
     const url='https://wa.me/41763235996?text='+encodeURIComponent(shareText);
 
     if(useMobileWhatsAppFlow()){
-      if(photoStatus)photoStatus.textContent='WhatsApp wird direkt mit Vlora geöffnet. Füge dort das ausgewählte Foto aus deiner Mediathek hinzu.';
       window.location.href=url;
       return;
     }
@@ -182,16 +115,11 @@ if(photoShare){
       const directLink=waDialog.querySelector('[data-direct-wa]');
       if(directLink)directLink.href=url;
       if(!waDialog.open)waDialog.showModal();
-      if(photoStatus)photoStatus.textContent='QR-Code geöffnet. Scanne ihn mit dem Handy. Wenn das Foto nur auf diesem PC liegt, öffne WhatsApp am PC und hänge dieselbe Datei dort an.';
       return;
     }
 
     window.open(url,'_blank','noopener,noreferrer');
-    if(photoStatus)photoStatus.textContent='WhatsApp wurde geöffnet. Bitte hänge dort das ausgewählte Foto an.';
   });
 }
 
-window.addEventListener('pagehide',()=>{
-  if(photoUrl)URL.revokeObjectURL(photoUrl);
-});
 })();
