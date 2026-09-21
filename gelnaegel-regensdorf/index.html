@@ -27,7 +27,7 @@
 <meta content="summary_large_image" name="twitter:card">
 <meta content="https://www.mrbeauty.ch/images/Colorful-french-nails.jpg" name="twitter:image">
 
-<link rel="stylesheet" href="/assets/site.css?v=20260920-small-fixes-1750"><script src="/assets/site.js?v=20260920-startseite-scroll-2155" defer></script><style>
+<link rel="stylesheet" href="/assets/site.css?v=20260920-small-fixes-1750"><link rel="stylesheet" href="/assets/seo-chat.css?v=20260921-ai-chat-1"><script src="/assets/site.js?v=20260920-startseite-scroll-2155" defer></script><script src="/assets/seo-chat.js?v=20260921-ai-chat-1" defer></script><style>
 .nailLanding{padding-top:clamp(138px,15vw,186px);padding-bottom:clamp(70px,9vw,120px)}
 .nailLanding .landingIntro{max-width:880px}
 .nailLanding h1{margin:.42em 0 .38em;font-size:clamp(42px,6.2vw,82px);letter-spacing:-.06em;line-height:.98;text-wrap:balance}
@@ -141,6 +141,43 @@
     </section>
 
     <p class="landingNote">Weitere Beauty-Preise findest du auf unserer <a href="/#preise">Startseite</a>.</p>
+
+    <section class="mrAiChat" id="frag-mr-beauty" aria-labelledby="mrAiTitle">
+      <div class="mrAiChatIntro">
+        <div class="eyebrow">FRAG MR BEAUTY</div>
+        <h2 id="mrAiTitle">Deine Frage. Direkt beantwortet.</h2>
+        <p>Du hast eine Frage zu Gelnägeln, Preisen, Öffnungszeiten oder deinem Besuch? Unser digitaler Assistent hilft dir mit den hinterlegten Informationen von MR Beauty weiter.</p>
+      </div>
+
+      <div class="mrAiShell" data-mr-ai-chat data-endpoint="https://europe-west6-mr-beauty-apps.cloudfunctions.net/mrBeautyChat">
+        <div class="mrAiTop">
+          <div class="mrAiIdentity">
+            <span class="mrAiDot" aria-hidden="true"></span>
+            <div><strong>Frag MR Beauty</strong><span>KI-Assistent für schnelle Fragen</span></div>
+          </div>
+          <span class="mrAiBadge">MR BEAUTY AI</span>
+        </div>
+
+        <div class="mrAiMessages" id="mrAiMessages" role="log" aria-live="polite" aria-relevant="additions">
+          <div class="mrAiMessage mrAiMessage--assistant">Hallo! Ich helfe dir gern bei Fragen zu MR Beauty, Nagelpreisen, Öffnungszeiten oder dem Standort. Was möchtest du wissen?</div>
+        </div>
+
+        <div class="mrAiQuick" aria-label="Schnelle Fragen">
+          <button type="button" data-question="Was kostet eine Gel-Neumodellage?">Neumodellage</button>
+          <button type="button" data-question="Was kostet Auffüllen?">Auffüllen</button>
+          <button type="button" data-question="Wann habt ihr geöffnet?">Öffnungszeiten</button>
+          <button type="button" data-question="Wo finde ich MR Beauty?">Standort</button>
+        </div>
+
+        <form class="mrAiForm" id="mrAiForm">
+          <label class="mrAiVisuallyHidden" for="mrAiInput">Deine Frage an MR Beauty</label>
+          <textarea class="mrAiInput" id="mrAiInput" name="message" rows="2" maxlength="600" autocomplete="off" placeholder="Frag z. B. nach Preisen, Öffnungszeiten oder Nageldesigns"></textarea>
+          <button class="btn primary mrAiSend" id="mrAiSend" type="submit">Frage senden</button>
+        </form>
+
+        <p class="mrAiMeta">Der Assistent kann sich irren. Bitte keine sensiblen persönlichen oder gesundheitlichen Daten eingeben. Für Termine und persönliche Beratung <a href="https://wa.me/41763235996" target="_blank" rel="noopener noreferrer">Vlora auf WhatsApp schreiben</a>.</p>
+      </div>
+    </section>
 
     <section class="landingCta">
       <div class="eyebrow">PERSÖNLICH & IN RUHE</div>
