@@ -1,0 +1,231 @@
+/* MR Beauty – KI-Chat nur fuer /gelnaegel-regensdorf/ */
+.mrAiChat{
+  margin-top:clamp(42px,7vw,76px);
+}
+.mrAiChatIntro{
+  max-width:760px;
+  margin-bottom:22px;
+}
+.mrAiChatIntro h2{
+  margin:7px 0 13px;
+  color:#fff;
+  font-size:clamp(28px,4vw,46px);
+  font-weight:500;
+  letter-spacing:-.05em;
+  line-height:1.05;
+}
+.mrAiChatIntro p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.7;
+}
+.mrAiShell{
+  overflow:hidden;
+  border:1px solid rgba(200,207,4,.42);
+  border-radius:var(--radius);
+  background:linear-gradient(145deg,#0b0c0b 0%,#070807 100%);
+}
+.mrAiTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:18px 22px;
+  border-bottom:1px solid var(--line);
+}
+.mrAiIdentity{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+.mrAiDot{
+  width:11px;
+  height:11px;
+  flex:none;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 0 5px rgba(200,207,4,.10);
+}
+.mrAiIdentity strong{
+  display:block;
+  color:#fff;
+  font-size:14px;
+  font-weight:600;
+}
+.mrAiIdentity span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted);
+  font-size:11px;
+}
+.mrAiBadge{
+  flex:none;
+  color:var(--accent);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+.mrAiMessages{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  min-height:210px;
+  max-height:420px;
+  overflow:auto;
+  padding:22px;
+  scroll-behavior:smooth;
+}
+.mrAiMessage{
+  max-width:min(640px,88%);
+  padding:13px 15px;
+  border-radius:18px;
+  font-size:14px;
+  line-height:1.55;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+.mrAiMessage--assistant{
+  align-self:flex-start;
+  border:1px solid var(--line);
+  border-bottom-left-radius:6px;
+  background:#111310;
+  color:#f4f4ef;
+}
+.mrAiMessage--user{
+  align-self:flex-end;
+  border:1px solid rgba(200,207,4,.38);
+  border-bottom-right-radius:6px;
+  background:#171a0d;
+  color:#fff;
+}
+.mrAiMessage--status{
+  align-self:flex-start;
+  color:var(--muted);
+  font-size:12px;
+  font-style:italic;
+}
+.mrAiQuick{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:0 22px 18px;
+}
+.mrAiQuick button{
+  min-height:38px;
+  padding:8px 12px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:#0d0f0c;
+  color:#fff;
+  font:inherit;
+  font-size:11px;
+  cursor:pointer;
+}
+@media (hover:hover) and (pointer:fine){
+  .mrAiQuick button:hover{
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+}
+.mrAiForm{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:10px;
+  padding:18px 22px 14px;
+  border-top:1px solid var(--line);
+}
+.mrAiInput{
+  width:100%;
+  min-height:48px;
+  max-height:130px;
+  resize:vertical;
+  box-sizing:border-box;
+  padding:13px 14px;
+  border:1px solid #33372f;
+  border-radius:16px;
+  outline:0;
+  background:#050605;
+  color:#fff;
+  font:inherit;
+  font-size:14px;
+  line-height:1.45;
+}
+.mrAiInput::placeholder{
+  color:#777b72;
+}
+.mrAiInput:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px rgba(200,207,4,.10);
+}
+.mrAiSend{
+  align-self:end;
+  min-width:126px;
+  min-height:48px;
+  border:0;
+}
+.mrAiSend:disabled,
+.mrAiInput:disabled{
+  opacity:.58;
+  cursor:not-allowed;
+}
+.mrAiMeta{
+  margin:0;
+  padding:0 22px 20px;
+  color:#8f9389;
+  font-size:10px;
+  line-height:1.55;
+}
+.mrAiMeta a{
+  color:#fff;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+.mrAiMeta a:hover{
+  color:var(--accent);
+}
+.mrAiVisuallyHidden{
+  position:absolute!important;
+  width:1px!important;
+  height:1px!important;
+  padding:0!important;
+  margin:-1px!important;
+  overflow:hidden!important;
+  clip:rect(0,0,0,0)!important;
+  white-space:nowrap!important;
+  border:0!important;
+}
+@media(max-width:700px){
+  .mrAiTop{
+    padding:16px;
+  }
+  .mrAiBadge{
+    display:none;
+  }
+  .mrAiMessages{
+    min-height:230px;
+    max-height:470px;
+    padding:16px;
+  }
+  .mrAiMessage{
+    max-width:92%;
+    font-size:13px;
+  }
+  .mrAiQuick{
+    padding:0 16px 16px;
+  }
+  .mrAiForm{
+    grid-template-columns:1fr;
+    padding:16px 16px 12px;
+  }
+  .mrAiSend{
+    width:100%;
+  }
+  .mrAiMeta{
+    padding:0 16px 18px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .mrAiMessages{scroll-behavior:auto}
+}
