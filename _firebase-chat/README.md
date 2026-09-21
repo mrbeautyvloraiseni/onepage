@@ -7,6 +7,7 @@ Projekt: `mr-beauty-apps`
 Cloud-Function-Region: `europe-west6` (Zuerich)
 KI-Backend: Vertex AI / Gemini
 Modell: `gemini-3.5-flash-lite`
+Gemini-Endpunkt: `eu` (EU-Multiregion)
 Funktion: `mrBeautyChat`
 
 Sicherheit:
