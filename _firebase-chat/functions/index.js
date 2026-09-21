@@ -124,7 +124,7 @@ exports.mrBeautyChat=onRequest({
     const client=new GoogleGenAI({
       vertexai:true,
       project:PROJECT_ID,
-      location:'global'
+      location:'eu'
     });
 
     const response=await client.models.generateContent({
