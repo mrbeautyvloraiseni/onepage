@@ -4,14 +4,23 @@ Diese Dateien sind nur fuer das sichere Backend des KI-Chats auf
 `/gelnaegel-regensdorf/`.
 
 Projekt: `mr-beauty-apps`
-Region: `europe-west6` (Zuerich)
+Cloud-Function-Region: `europe-west6` (Zuerich)
+KI-Backend: Vertex AI / Gemini
+Modell: `gemini-3.5-flash-lite`
 Funktion: `mrBeautyChat`
 
-Wichtig:
-- Niemals einen OpenAI API-Key in HTML, JavaScript oder GitHub speichern.
-- Der Key wird als Firebase Secret `OPENAI_API_KEY` gesetzt.
-- Die Funktion akzeptiert Browser-Aufrufe nur von mrbeauty.ch / www.mrbeauty.ch.
-- OpenAI Responses werden mit `store:false` angefordert.
-- Die Funktion begrenzt Eingaben und Antwortlaenge und besitzt eine einfache In-Memory-Rate-Limitierung.
+Sicherheit:
+- Kein Gemini-API-Key im Browser, in GitHub oder in einer lokalen Datei.
+- Die Function nutzt Google Application Default Credentials ueber ein eigenes Dienstkonto.
+- Dienstkonto: `mr-beauty-ai-chat@mr-beauty-apps.iam.gserviceaccount.com`
+- Das Dienstkonto erhaelt nur die fuer Vertex AI benoetigte Rolle.
+- Browser-Aufrufe sind nur von mrbeauty.ch / www.mrbeauty.ch erlaubt.
+- Eingaben, Verlauf und Antworten sind bewusst begrenzt.
+- Es gibt eine einfache In-Memory-Rate-Limitierung.
+- Die Landingpage speichert den Chatverlauf nur waehrend der aktuellen Browser-Sitzung im Arbeitsspeicher; es gibt keine MR-Beauty-Chatdatenbank.
 
-Deployment wird erst durchgefuehrt, nachdem der API-Key als Secret hinterlegt wurde.
+Deployment erst nach:
+1. Vertex AI API aktivieren.
+2. Dienstkonto erstellen.
+3. `roles/aiplatform.user` an dieses Dienstkonto vergeben.
+4. Funktionen installieren und deployen.
