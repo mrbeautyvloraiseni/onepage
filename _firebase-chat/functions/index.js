@@ -135,7 +135,6 @@ exports.mrBeautyChat=onRequest({
       ],
       config:{
         systemInstruction:SYSTEM_INSTRUCTIONS,
-        temperature:0.2,
         maxOutputTokens:320
       }
     });
