@@ -149,36 +149,45 @@ if(photoPick&&photoInput){
 
 if(photoClear)photoClear.addEventListener('click',clearPhoto);
 
+function useMobileWhatsAppFlow(){
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.matchMedia('(max-width:900px)').matches;
+}
+
+function updatePhotoShareLabel(){
+  if(!photoShare)return;
+  photoShare.textContent=useMobileWhatsAppFlow()?'WhatsApp an Vlora öffnen':'WhatsApp / QR-Code';
+}
+
+updatePhotoShareLabel();
+window.addEventListener('resize',updatePhotoShareLabel);
+
 if(photoShare){
-  photoShare.addEventListener('click',async()=>{
+  photoShare.addEventListener('click',()=>{
     if(!photoFile){
       if(photoStatus)photoStatus.textContent='Bitte wähle zuerst ein Foto aus.';
       return;
     }
 
-    const shareText='Hallo Vlora, ich möchte ungefähr dieses Nageldesign. Kannst du mir sagen, was das bei MR Beauty kosten würde?';
+    const shareText='Hallo Vlora, ich möchte ungefähr dieses Nageldesign. Kannst du mir sagen, was das bei MR Beauty kosten würde? Ich füge das Foto gleich hinzu.';
+    const url='https://wa.me/41763235996?text='+encodeURIComponent(shareText);
 
-    try{
-      if(navigator.share&&navigator.canShare&&navigator.canShare({files:[photoFile]})){
-        photoStatus.textContent='Wähle im Teilen-Menü WhatsApp und sende das Foto an Vlora.';
-        await navigator.share({
-          title:'Nageldesign für MR Beauty',
-          text:shareText,
-          files:[photoFile]
-        });
-        photoStatus.textContent='Foto wurde über die Geräte-Teilen-Funktion weitergegeben.';
-        return;
-      }
-    }catch(error){
-      if(error&&error.name==='AbortError'){
-        photoStatus.textContent='Teilen abgebrochen. Das Foto bleibt nur auf deinem Gerät.';
-        return;
-      }
+    if(useMobileWhatsAppFlow()){
+      if(photoStatus)photoStatus.textContent='WhatsApp wird direkt mit Vlora geöffnet. Füge dort das ausgewählte Foto aus deiner Mediathek hinzu.';
+      window.location.href=url;
+      return;
     }
 
-    const url='https://wa.me/41763235996?text='+encodeURIComponent(shareText+'\n\nBitte füge das ausgewählte Foto in WhatsApp hinzu.');
+    const waDialog=document.getElementById('waDialog');
+    if(waDialog&&typeof waDialog.showModal==='function'){
+      const directLink=waDialog.querySelector('[data-direct-wa]');
+      if(directLink)directLink.href=url;
+      if(!waDialog.open)waDialog.showModal();
+      if(photoStatus)photoStatus.textContent='QR-Code geöffnet. Scanne ihn mit dem Handy. Wenn das Foto nur auf diesem PC liegt, öffne WhatsApp am PC und hänge dieselbe Datei dort an.';
+      return;
+    }
+
     window.open(url,'_blank','noopener,noreferrer');
-    photoStatus.textContent='WhatsApp wurde geöffnet. Bitte hänge dort das ausgewählte Foto an.';
+    if(photoStatus)photoStatus.textContent='WhatsApp wurde geöffnet. Bitte hänge dort das ausgewählte Foto an.';
   });
 }
 
