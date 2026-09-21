@@ -1,10 +1,10 @@
 'use strict';
 
 const {onRequest}=require('firebase-functions/v2/https');
-const {defineSecret}=require('firebase-functions/params');
-const OpenAI=require('openai');
+const {GoogleGenAI}=require('@google/genai');
 
-const OPENAI_API_KEY=defineSecret('OPENAI_API_KEY');
+const PROJECT_ID='mr-beauty-apps';
+const MODEL='gemini-3.5-flash-lite';
 
 const ALLOWED_ORIGINS=new Set([
   'https://www.mrbeauty.ch',
@@ -41,7 +41,7 @@ Regulaere Preise:
 - Augenbrauen faerben: CHF 15.
 - Wimpernlifting & Faerben: CHF 60.
 
-Lehrlingspreise fuer berechtigte Kundinnen:
+Lehrlingspreise:
 - Gel-Neumodellage mit Tips: CHF 55.
 - Gel-Neumodellage Naturnagel: CHF 45.
 - Auffuellen Natur: CHF 45.
@@ -80,15 +80,15 @@ function sanitizeHistory(value){
   if(!Array.isArray(value))return [];
   return value.slice(-6).flatMap(item=>{
     if(!item||typeof item!=='object')return [];
-    const role=item.role==='assistant'?'assistant':item.role==='user'?'user':null;
-    const content=typeof item.content==='string'?item.content.trim().slice(0,900):'';
-    return role&&content?[{role,content}]:[];
+    const role=item.role==='assistant'?'model':item.role==='user'?'user':null;
+    const text=typeof item.content==='string'?item.content.trim().slice(0,900):'';
+    return role&&text?[{role,parts:[{text}]}]:[];
   });
 }
 
 exports.mrBeautyChat=onRequest({
   region:'europe-west6',
-  secrets:[OPENAI_API_KEY],
+  serviceAccount:'mr-beauty-ai-chat@mr-beauty-apps.iam.gserviceaccount.com',
   cors:[/^https:\/\/(www\.)?mrbeauty\.ch$/],
   timeoutSeconds:30,
   memory:'256MiB',
@@ -121,24 +121,26 @@ exports.mrBeautyChat=onRequest({
   const history=sanitizeHistory(body.history);
 
   try{
-    const client=new OpenAI({
-      apiKey:OPENAI_API_KEY.value(),
-      timeout:20000,
-      maxRetries:1
+    const client=new GoogleGenAI({
+      vertexai:true,
+      project:PROJECT_ID,
+      location:'global'
     });
 
-    const response=await client.responses.create({
-      model:'gpt-5.6-luna',
-      store:false,
-      instructions:SYSTEM_INSTRUCTIONS,
-      input:[
+    const response=await client.models.generateContent({
+      model:MODEL,
+      contents:[
         ...history,
-        {role:'user',content:message}
+        {role:'user',parts:[{text:message}]}
       ],
-      max_output_tokens:320
+      config:{
+        systemInstruction:SYSTEM_INSTRUCTIONS,
+        temperature:0.2,
+        maxOutputTokens:320
+      }
     });
 
-    const answer=(response.output_text||'').trim();
+    const answer=(response.text||'').trim();
     if(!answer)throw new Error('empty_model_response');
 
     return res.status(200).json({answer});
