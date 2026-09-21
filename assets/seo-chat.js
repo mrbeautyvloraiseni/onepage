@@ -94,32 +94,5 @@ quick.forEach(button=>button.addEventListener('click',()=>{
   ask(button.getAttribute('data-question')||button.textContent);
 }));
 
-const designSend=document.getElementById('mrAiDesignSend');
-
-function useMobileWhatsAppFlow(){
-  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.matchMedia('(max-width:900px)').matches;
-}
-
-if(designSend){
-  designSend.addEventListener('click',()=>{
-    const shareText='Hallo Vlora, ich möchte dir ein Nageldesign zeigen. Kannst du mir sagen, was das bei MR Beauty kosten würde? Ich füge das Foto gleich in WhatsApp hinzu.';
-    const url='https://wa.me/41763235996?text='+encodeURIComponent(shareText);
-
-    if(useMobileWhatsAppFlow()){
-      window.location.href=url;
-      return;
-    }
-
-    const waDialog=document.getElementById('waDialog');
-    if(waDialog&&typeof waDialog.showModal==='function'){
-      const directLink=waDialog.querySelector('[data-direct-wa]');
-      if(directLink)directLink.href=url;
-      if(!waDialog.open)waDialog.showModal();
-      return;
-    }
-
-    window.open(url,'_blank','noopener,noreferrer');
-  });
-}
 
 })();
