@@ -93,4 +93,96 @@ input.addEventListener('keydown',event=>{
 quick.forEach(button=>button.addEventListener('click',()=>{
   ask(button.getAttribute('data-question')||button.textContent);
 }));
+
+const photoInput=document.getElementById('mrAiPhotoInput');
+const photoPick=document.getElementById('mrAiPhotoPick');
+const photoPreview=document.getElementById('mrAiPhotoPreview');
+const photoImage=document.getElementById('mrAiPhotoImage');
+const photoShare=document.getElementById('mrAiPhotoShare');
+const photoClear=document.getElementById('mrAiPhotoClear');
+const photoStatus=document.getElementById('mrAiPhotoStatus');
+let photoFile=null;
+let photoUrl='';
+
+function clearPhoto(){
+  photoFile=null;
+  if(photoUrl){
+    URL.revokeObjectURL(photoUrl);
+    photoUrl='';
+  }
+  if(photoInput)photoInput.value='';
+  if(photoImage)photoImage.removeAttribute('src');
+  if(photoPreview)photoPreview.hidden=true;
+  if(photoStatus)photoStatus.textContent='';
+  if(photoPick)photoPick.textContent='Foto auswählen';
+}
+
+if(photoPick&&photoInput){
+  photoPick.addEventListener('click',()=>photoInput.click());
+
+  photoInput.addEventListener('change',()=>{
+    const file=photoInput.files&&photoInput.files[0];
+    if(!file)return;
+
+    const allowed=new Set(['image/jpeg','image/png','image/webp']);
+    if(!allowed.has(file.type)){
+      clearPhoto();
+      if(photoStatus)photoStatus.textContent='Bitte wähle ein JPG-, PNG- oder WEBP-Bild.';
+      return;
+    }
+
+    if(file.size>25*1024*1024){
+      clearPhoto();
+      if(photoStatus)photoStatus.textContent='Das Foto ist zu gross. Bitte wähle ein Bild unter 25 MB.';
+      return;
+    }
+
+    if(photoUrl)URL.revokeObjectURL(photoUrl);
+    photoFile=file;
+    photoUrl=URL.createObjectURL(file);
+    photoImage.src=photoUrl;
+    photoPreview.hidden=false;
+    photoPick.textContent='Anderes Foto wählen';
+    photoStatus.textContent='';
+  });
+}
+
+if(photoClear)photoClear.addEventListener('click',clearPhoto);
+
+if(photoShare){
+  photoShare.addEventListener('click',async()=>{
+    if(!photoFile){
+      if(photoStatus)photoStatus.textContent='Bitte wähle zuerst ein Foto aus.';
+      return;
+    }
+
+    const shareText='Hallo Vlora, ich möchte ungefähr dieses Nageldesign. Kannst du mir sagen, was das bei MR Beauty kosten würde?';
+
+    try{
+      if(navigator.share&&navigator.canShare&&navigator.canShare({files:[photoFile]})){
+        photoStatus.textContent='Wähle im Teilen-Menü WhatsApp und sende das Foto an Vlora.';
+        await navigator.share({
+          title:'Nageldesign für MR Beauty',
+          text:shareText,
+          files:[photoFile]
+        });
+        photoStatus.textContent='Foto wurde über die Geräte-Teilen-Funktion weitergegeben.';
+        return;
+      }
+    }catch(error){
+      if(error&&error.name==='AbortError'){
+        photoStatus.textContent='Teilen abgebrochen. Das Foto bleibt nur auf deinem Gerät.';
+        return;
+      }
+    }
+
+    const url='https://wa.me/41763235996?text='+encodeURIComponent(shareText+'\n\nBitte füge das ausgewählte Foto in WhatsApp hinzu.');
+    window.open(url,'_blank','noopener,noreferrer');
+    photoStatus.textContent='WhatsApp wurde geöffnet. Bitte hänge dort das ausgewählte Foto an.';
+  });
+}
+
+window.addEventListener('pagehide',()=>{
+  if(photoUrl)URL.revokeObjectURL(photoUrl);
+});
 })();
