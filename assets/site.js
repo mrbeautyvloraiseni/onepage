@@ -234,6 +234,30 @@ if(phoneContact&&phoneDialog&&phoneQr){
    openDialog(phoneDialog);
  });
 }
+// Externe Kontaktlinks (z. B. E-Mail-Signatur): mobil direkt, Desktop mit vorhandenem QR-Dialog.
+const mrExternalContact=new URLSearchParams(location.search).get('mrcontact');
+if(mrExternalContact==='whatsapp'||mrExternalContact==='phone'){
+ const cleanUrl=new URL(location.href);
+ cleanUrl.searchParams.delete('mrcontact');
+ history.replaceState(history.state,'',cleanUrl.pathname+cleanUrl.search+cleanUrl.hash);
+ const desktop=matchMedia('(hover:hover) and (pointer:fine)').matches;
+ if(!desktop){
+   location.href=mrExternalContact==='whatsapp'?'https://wa.me/41763235996':'tel:+41763235996';
+ }else if(mrExternalContact==='whatsapp'&&waDialog){
+   requestAnimationFrame(()=>openDialog(waDialog));
+ }else if(mrExternalContact==='phone'&&phoneDialog&&phoneQr){
+   loadQrCode().then(()=>{
+     if(typeof qrcode!=='function')return;
+     if(!phoneQr.firstElementChild){
+       const code=qrcode(0,'M');
+       code.addData('tel:+41763235996');
+       code.make();
+       phoneQr.innerHTML=code.createSvgTag({cellSize:6,margin:4,alt:'QR-Code: MR Beauty unter +41 76 323 59 96 anrufen'});
+     }
+     openDialog(phoneDialog);
+   }).catch(error=>console.error(error));
+ }
+}
 })();
 
 /* Touch: Kontaktknopf und Logo nicht als Link-/Bildvorschau ziehen */
