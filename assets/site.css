@@ -1196,7 +1196,6 @@ img {
     height:100% !important;
     object-fit:cover !important;
     object-position:center center !important;
-    transform:none !important;
   }
 }
 
@@ -1225,7 +1224,6 @@ img {
     height:100% !important;
     object-fit:cover !important;
     object-position:center center !important;
-    transform:none !important;
   }
 
   #standort .locCard.mapOnly,
@@ -1288,20 +1286,6 @@ img {
   }
 }
 
-
-/* MR Beauty: iPhone Gebaeudebild Zoom wie Galerie */
-@media (hover:none) and (pointer:coarse) {
-  html.appleTouch #standort .buildingPreview img {
-    transition:transform .65s cubic-bezier(.2,.65,.3,1),filter .65s !important;
-    transform-origin:center center;
-  }
-
-  html.appleTouch #standort .buildingPreview.isTouchPressed img,
-  html.appleTouch #standort .buildingPreview.isLightboxSourceActive img {
-    transform:scale(1.045) !important;
-  }
-}
-/* Ende iPhone Gebaeudebild Zoom */
 
 /* iPhone Querformat: Startseiten-Kleintitel wie übrige Eyebrows */
 @media (orientation:landscape) and (max-height:600px) and (any-pointer:coarse) {
