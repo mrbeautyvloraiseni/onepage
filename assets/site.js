@@ -81,16 +81,46 @@ function showImage(){
  detail.textContent=description;
  detail.hidden=!description;
 }
-function openImage(source,list){
+let imageOpenRequest=0;
+function waitForLargeImage(image){
+  const finish=()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+
+  const decodeAndFinish=()=>{
+    if(typeof image.decode==='function'){
+      return image.decode().catch(()=>{}).then(finish);
+    }
+    return finish();
+  };
+
+  if(image.complete&&image.naturalWidth>0){
+    return decodeAndFinish();
+  }
+
+  return new Promise(resolve=>{
+    const done=()=>{
+      image.removeEventListener('load',done);
+      image.removeEventListener('error',done);
+      decodeAndFinish().then(resolve);
+    };
+    image.addEventListener('load',done,{once:true});
+    image.addEventListener('error',done,{once:true});
+  });
+}
+async function openImage(source,list){
   activeImages=list||[source];
   activeIndex=Math.max(0,activeImages.indexOf(source));
+  const request=++imageOpenRequest;
   showImage();
+  const large=$('#largeImage');
+  if(large)await waitForLargeImage(large);
+  if(request!==imageOpenRequest)return;
   closeMenu();
   imageLightbox.hidden=false;
   imageLightbox.classList.add("isOpen");
   document.body.classList.add("modalOpen");
 }
 function closeImage(){
+  imageOpenRequest++;
   if(!imageLightbox||imageLightbox.hidden)return;
   imageLightbox.classList.remove("isOpen");
   imageLightbox.hidden=true;
