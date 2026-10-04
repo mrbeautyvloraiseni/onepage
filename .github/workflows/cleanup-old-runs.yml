@@ -19,40 +19,30 @@ jobs:
           script: |
             const cutoff = Date.now() - (5 * 24 * 60 * 60 * 1000);
             const currentRunId = Number(context.runId);
+            const MAX_DELETIONS = 50;
 
-            const runs = await github.paginate(
-              github.rest.actions.listWorkflowRunsForRepo,
-              {
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                per_page: 100
-              }
-            );
+            const response = await github.rest.actions.listWorkflowRunsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100
+            });
+            const runs = response.data.workflow_runs;
 
             const newestRunByWorkflow = new Map();
-
             for (const run of runs) {
-              const key = run.workflow_id;
-              const existing = newestRunByWorkflow.get(key);
-
-              if (
-                !existing ||
-                new Date(run.created_at).getTime() >
-                  new Date(existing.created_at).getTime()
-              ) {
-                newestRunByWorkflow.set(key, run);
+              if (!newestRunByWorkflow.has(run.workflow_id)) {
+                newestRunByWorkflow.set(run.workflow_id, run);
               }
             }
 
             const protectedRunIds = new Set(
               [...newestRunByWorkflow.values()].map(run => run.id)
             );
-
             protectedRunIds.add(currentRunId);
 
             let deleted = 0;
-
             for (const run of runs) {
+              if (deleted >= MAX_DELETIONS) break;
               if (protectedRunIds.has(run.id)) continue;
               if (run.status !== "completed") continue;
               if (new Date(run.created_at).getTime() >= cutoff) continue;
@@ -67,5 +57,5 @@ jobs:
             }
 
             core.info(
-              `Deleted ${deleted} completed workflow run(s) older than 5 days. Kept the newest run of each workflow.`
+              `Deleted ${deleted} old completed workflow run(s). Kept the newest run of each workflow.`
             );
