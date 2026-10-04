@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /q/
-Disallow: /bewertung/
 
 Sitemap: https://www.mrbeauty.ch/sitemap.xml
