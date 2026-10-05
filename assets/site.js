@@ -53,7 +53,15 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.classList.cont
 matchMedia('(min-width:921px)').addEventListener('change',closeMenu);
 // Preserve old incoming links while using native anchors for all new links.
 const legacy=new URLSearchParams(location.search).get('mrsection');
-if(legacy&&document.getElementById(legacy)){requestAnimationFrame(()=>document.getElementById(legacy).scrollIntoView());}
+if(legacy&&document.getElementById(legacy)){
+ requestAnimationFrame(()=>{
+  document.getElementById(legacy).scrollIntoView();
+  const cleanUrl=new URL(location.href);
+  cleanUrl.searchParams.delete('mrsection');
+  cleanUrl.hash='#'+legacy;
+  history.replaceState(history.state,'',cleanUrl.pathname+cleanUrl.search+cleanUrl.hash);
+ });
+}
 const motion=matchMedia('(prefers-reduced-motion: reduce)');
 if(!motion.matches&&'IntersectionObserver'in window){
  const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('isPending');observer.unobserve(e.target);}}),{threshold:.08});
