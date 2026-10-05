@@ -47,7 +47,22 @@ document.addEventListener('click',event=>{
   const [id,path]=entry;
   history.pushState(history.state,'',path);
   scrollToId(id,'smooth');
-},true);
+});
+
+let topUrlScheduled=false;
+addEventListener('scroll',()=>{
+  if(topUrlScheduled)return;
+  topUrlScheduled=true;
+  requestAnimationFrame(()=>{
+    topUrlScheduled=false;
+    if(scrollY<=4){
+      const current=normalizePath();
+      if(pathMap[current]&&current!=='/startseite'){
+        history.replaceState(history.state,'','/startseite');
+      }
+    }
+  });
+},{passive:true});
 
 addEventListener('popstate',()=>{
   const id=pathMap[normalizePath()];
