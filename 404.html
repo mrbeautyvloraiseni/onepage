@@ -19,7 +19,7 @@
       };
       const section=routes[path];
       if(section){
-        location.replace('/#'+section);
+        location.replace('/?mrsection='+encodeURIComponent(section));
       }
     })();
   </script>
