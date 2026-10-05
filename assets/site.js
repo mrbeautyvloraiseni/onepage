@@ -1,40 +1,3 @@
-/* MR Beauty: saubere Onepage-Pfade ohne Hash-URLs */
-(function(){
-  'use strict';
-  const sectionToPath={
-    'startseite':'/startseite',
-    'ueber-uns':'/ueber-uns',
-    'leistungen':'/leistungen',
-    'galerie':'/galerie',
-    'preise':'/preise',
-    'standort':'/standort',
-    'kontakt':'/kontakt'
-  };
-  const pathToSection=Object.fromEntries(Object.entries(sectionToPath).map(([section,path])=>[path,section]));
-  const cleanPath=()=>location.pathname.replace(/\/+$/,'')||'/';
-  const scrollToSection=(section,behavior='auto')=>{
-    const target=document.getElementById(section);
-    if(target) target.scrollIntoView({behavior,block:'start'});
-  };
-  const initial=pathToSection[cleanPath()]||null;
-  if(initial) requestAnimationFrame(()=>requestAnimationFrame(()=>scrollToSection(initial,'auto')));
-  document.addEventListener('click',event=>{
-    const link=event.target.closest('a[data-onepage-section]');
-    if(!link)return;
-    if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||link.target==='_blank')return;
-    const section=link.dataset.onepageSection;
-    const path=sectionToPath[section];
-    if(!path)return;
-    event.preventDefault();
-    history.pushState(history.state,'',path);
-    scrollToSection(section,'smooth');
-  });
-  addEventListener('popstate',()=>{
-    const section=pathToSection[cleanPath()];
-    if(section) scrollToSection(section,'auto');
-    else if(cleanPath()==='/') scrollTo({top:0,behavior:'auto'});
-  });
-})();
 /* MR Beauty — navigation, optional motion and accessible dialogs. */
 (()=>{'use strict';
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -240,7 +203,7 @@ function loadQrCode(){
  if(qrCodeLoader)return qrCodeLoader;
  qrCodeLoader=new Promise((resolve,reject)=>{
    const script=document.createElement('script');
-   script.src='assets/qrcode-generator.js';
+   script.src='/assets/qrcode-generator.js';
    script.async=true;
    script.onload=()=>resolve();
    script.onerror=reject;
