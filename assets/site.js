@@ -1,7 +1,6 @@
-/* MR Beauty: eine Onepage, saubere URLs ohne # auf Desktop und iPhone */
+/* MR Beauty: saubere Onepage-Pfade ohne Hash-URLs */
 (function(){
   'use strict';
-
   const sectionToPath={
     'startseite':'/startseite',
     'ueber-uns':'/ueber-uns',
@@ -11,65 +10,28 @@
     'standort':'/standort',
     'kontakt':'/kontakt'
   };
-  const pathToSection=Object.fromEntries(
-    Object.entries(sectionToPath).map(([section,path])=>[path,section])
-  );
-  const hashToSection={
-    '#startseite':'startseite',
-    '#ueber-uns':'ueber-uns',
-    '#leistungen':'leistungen',
-    '#galerie':'galerie',
-    '#preise':'preise',
-    '#standort':'standort',
-    '#kontakt':'kontakt',
-    '#about':'ueber-uns',
-    '#services':'leistungen',
-    '#gallery':'galerie',
-    '#prices':'preise'
-  };
-
+  const pathToSection=Object.fromEntries(Object.entries(sectionToPath).map(([section,path])=>[path,section]));
   const cleanPath=()=>location.pathname.replace(/\/+$/,'')||'/';
-  const scrollSection=(section,behavior='auto')=>{
+  const scrollToSection=(section,behavior='auto')=>{
     const target=document.getElementById(section);
     if(target) target.scrollIntoView({behavior,block:'start'});
   };
-  const setPath=(section,mode='replace')=>{
-    const path=sectionToPath[section];
-    if(path) history[mode+'State'](history.state,'',path);
-  };
-
-  let initial=null;
-  const legacyQuery=new URLSearchParams(location.search).get('mrsection');
-  if(legacyQuery&&sectionToPath[legacyQuery]){
-    initial=legacyQuery;
-    setPath(initial,'replace');
-  }else if(hashToSection[location.hash]){
-    initial=hashToSection[location.hash];
-    setPath(initial,'replace');
-  }else{
-    initial=pathToSection[cleanPath()]||null;
-  }
-
-  if(initial){
-    requestAnimationFrame(()=>requestAnimationFrame(()=>scrollSection(initial,'auto')));
-  }
-
+  const initial=pathToSection[cleanPath()]||null;
+  if(initial) requestAnimationFrame(()=>requestAnimationFrame(()=>scrollToSection(initial,'auto')));
   document.addEventListener('click',event=>{
     const link=event.target.closest('a[data-onepage-section]');
     if(!link)return;
     if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||link.target==='_blank')return;
-
     const section=link.dataset.onepageSection;
-    if(!sectionToPath[section])return;
-
+    const path=sectionToPath[section];
+    if(!path)return;
     event.preventDefault();
-    setPath(section,'push');
-    scrollSection(section,'smooth');
+    history.pushState(history.state,'',path);
+    scrollToSection(section,'smooth');
   });
-
   addEventListener('popstate',()=>{
     const section=pathToSection[cleanPath()];
-    if(section) scrollSection(section,'auto');
+    if(section) scrollToSection(section,'auto');
     else if(cleanPath()==='/') scrollTo({top:0,behavior:'auto'});
   });
 })();
