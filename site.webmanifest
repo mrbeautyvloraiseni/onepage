@@ -6,13 +6,7 @@
       "purpose": "any",
       "type": "image/png",
       "sizes": "512x512",
-      "src": "images/MR-Beauty-Favicon-512.png"
-    },
-    {
-      "purpose": "any",
-      "type": "image/png",
-      "sizes": "512x512",
-      "src": "images/MR-Beauty-Favicon-512.png"
+      "src": "images/favicon-google.png"
     }
   ],
   "theme_color": "#000000",
