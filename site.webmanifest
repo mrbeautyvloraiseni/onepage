@@ -6,7 +6,7 @@
       "purpose": "any",
       "type": "image/png",
       "sizes": "512x512",
-      "src": "images/favicon-google.png"
+      "src": "images/favicon-google.png?v=20261010-1228"
     }
   ],
   "theme_color": "#000000",
