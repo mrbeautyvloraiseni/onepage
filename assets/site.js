@@ -272,7 +272,7 @@ function closeImage(){
   document.body.classList.remove("modalOpen");
 }
 gallery.forEach(img=>img.closest('button').addEventListener('click',e=>{e.preventDefault();openImage(img,gallery);}));
-$('#galleryTrack > .galleryClone').forEach(button=>{
+document.querySelectorAll('#galleryTrack > .galleryClone').forEach(button=>{
  button.addEventListener('click',event=>{
   event.preventDefault();
   const original=gallery[Number(button.dataset.originalIndex)];
