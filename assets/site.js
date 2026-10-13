@@ -86,12 +86,18 @@ if(galleryTrack&&galleryPrev&&galleryNext){
   const before=document.createDocumentFragment(),after=document.createDocumentFragment();
   function makeClone(source,index){
    const item=source.cloneNode(true);
+   item.querySelectorAll('img').forEach(img=>{img.loading='eager';img.decoding='sync';});
    item.classList.add('galleryClone');
    item.dataset.originalIndex=String(index);
    item.setAttribute('aria-hidden','true');
    item.tabIndex=-1;
    return item;
   }
+  // Preload every carousel photo, including off-screen copies, to avoid black gaps on iOS Safari.
+  originals.forEach(item=>item.querySelectorAll('img').forEach(img=>{
+   img.loading='eager';
+   img.decoding='sync';
+  }));
   originals.forEach((item,index)=>{
    before.appendChild(makeClone(item,index));
    after.appendChild(makeClone(item,index));
@@ -101,7 +107,7 @@ if(galleryTrack&&galleryPrev&&galleryNext){
   const allSlides=[...galleryTrack.children];
   const count=originals.length;
   const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
-  let cycle=0,base=0,mouseDrag=null,suppressClickUntil=0,animationFrame=0;
+  let cycle=0,base=0,mouseDrag=null,touching=false,suppressClickUntil=0,animationFrame=0,loopTimer=0;
   let loopCleanupFrame=0;
   function instantScroll(left){
    galleryTrack.classList.add('isLoopJump');
@@ -123,7 +129,8 @@ if(galleryTrack&&galleryPrev&&galleryNext){
   }
   startPosition();
   function normalizeLoop(){
-   if(cycle<=0)return;
+   // Never jump between copies during an active swipe, drag or arrow animation.
+   if(cycle<=0||mouseDrag||touching||animationFrame)return;
    const current=galleryTrack.scrollLeft;
    let target=current;
    if(current<base-1)target=current+cycle;
@@ -151,15 +158,36 @@ if(galleryTrack&&galleryPrev&&galleryNext){
   }
   if('ResizeObserver'in window)new ResizeObserver(updateLayout).observe(galleryTrack);
   else addEventListener('resize',updateLayout,{passive:true});
-  galleryTrack.addEventListener('scroll',normalizeLoop,{passive:true});
+  function scheduleNormalize(delay=260){
+   clearTimeout(loopTimer);
+   loopTimer=setTimeout(()=>{loopTimer=0;normalizeLoop();},delay);
+  }
+  // Reposition only after the native inertial scrolling has come to rest.
+  galleryTrack.addEventListener('scroll',()=>scheduleNormalize(300),{passive:true});
+  if('onscrollend' in galleryTrack){
+   galleryTrack.addEventListener('scrollend',()=>scheduleNormalize(70),{passive:true});
+  }
+  galleryTrack.addEventListener('touchstart',()=>{
+   touching=true;
+   clearTimeout(loopTimer);
+  },{passive:true});
+  galleryTrack.addEventListener('touchend',()=>{
+   touching=false;
+   scheduleNormalize(350);
+  },{passive:true});
+  galleryTrack.addEventListener('touchcancel',()=>{
+   touching=false;
+   scheduleNormalize(350);
+  },{passive:true});
   function moveGallery(direction){
    cancelAnimationFrame(animationFrame);
+   animationFrame=0;
    galleryTrack.classList.remove('isGalleryAnimating');
    normalizeLoop();
    const from=galleryTrack.scrollLeft;
    const delta=slideStep()*direction;
    if(reducedMotion.matches){
-    instantScroll(from+delta);normalizeLoop();return;
+    instantScroll(from+delta);scheduleNormalize(120);return;
    }
    galleryTrack.classList.add('isGalleryAnimating');
    const begun=performance.now();
@@ -167,12 +195,11 @@ if(galleryTrack&&galleryPrev&&galleryNext){
     const portion=Math.min(1,(now-begun)/300);
     const eased=1-Math.pow(1-portion,3);
     galleryTrack.scrollLeft=from+delta*eased;
-    normalizeLoop();
     if(portion<1)animationFrame=requestAnimationFrame(animate);
     else{
      animationFrame=0;
      galleryTrack.classList.remove('isGalleryAnimating');
-     normalizeLoop();
+     scheduleNormalize(130);
     }
    }
    animationFrame=requestAnimationFrame(animate);
@@ -188,6 +215,8 @@ if(galleryTrack&&galleryPrev&&galleryNext){
   galleryTrack.addEventListener('pointerdown',event=>{
    if(event.pointerType!=='mouse'||event.button!==0)return;
    cancelAnimationFrame(animationFrame);
+   animationFrame=0;
+   clearTimeout(loopTimer);
    galleryTrack.classList.remove('isGalleryAnimating');
    mouseDrag={id:event.pointerId,x:event.clientX,start:galleryTrack.scrollLeft,moved:false};
   });
@@ -200,7 +229,6 @@ if(galleryTrack&&galleryPrev&&galleryNext){
     galleryTrack.classList.add('isDragging');
    }
    galleryTrack.scrollLeft=mouseDrag.start-dx;
-   normalizeLoop();
    event.preventDefault();
   },{passive:false});
   function finishDrag(event){
@@ -208,7 +236,7 @@ if(galleryTrack&&galleryPrev&&galleryNext){
    if(mouseDrag.moved)suppressClickUntil=performance.now()+450;
    galleryTrack.classList.remove('isDragging');
    mouseDrag=null;
-   normalizeLoop();
+   scheduleNormalize(260);
   }
   window.addEventListener('pointerup',finishDrag);
   window.addEventListener('pointercancel',finishDrag);
