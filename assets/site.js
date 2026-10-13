@@ -98,14 +98,16 @@ if(galleryTrack&&galleryPrev&&galleryNext){
    img.loading='eager';
    img.decoding='sync';
   }));
-  originals.forEach((item,index)=>{
-   before.appendChild(makeClone(item,index));
-   after.appendChild(makeClone(item,index));
-  });
+  // Buffer two complete extra rounds on each side to avoid ever hitting the physical scroll limit.
+  for(let round=0;round<2;round++){
+   originals.forEach((item,index)=>before.appendChild(makeClone(item,index)));
+   originals.forEach((item,index)=>after.appendChild(makeClone(item,index)));
+  }
   galleryTrack.insertBefore(before,originals[0]);
   galleryTrack.appendChild(after);
   const allSlides=[...galleryTrack.children];
   const count=originals.length;
+  const middleRound=2;
   const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
   let cycle=0,base=0,mouseDrag=null,touching=false,suppressClickUntil=0,animationFrame=0,loopTimer=0;
   let loopCleanupFrame=0;
@@ -120,11 +122,11 @@ if(galleryTrack&&galleryPrev&&galleryNext){
   }
   function centerOffset(){
    if(!matchMedia('(max-width:600px) and (orientation:portrait)').matches)return 0;
-   return Math.max(0,(galleryTrack.clientWidth-allSlides[count].getBoundingClientRect().width)/2);
+   return Math.max(0,(galleryTrack.clientWidth-allSlides[count*middleRound].getBoundingClientRect().width)/2);
   }
   function startPosition(){
    cycle=measureCycle();
-   base=cycle-centerOffset();
+   base=middleRound*cycle-centerOffset();
    if(cycle>0)instantScroll(base);
   }
   startPosition();
@@ -133,8 +135,10 @@ if(galleryTrack&&galleryPrev&&galleryNext){
    if(cycle<=0||mouseDrag||touching||animationFrame)return;
    const current=galleryTrack.scrollLeft;
    let target=current;
-   if(current<base-1)target=current+cycle;
-   else if(current>=base+cycle-1)target=current-cycle;
+   // Shift identical copies only when idle and well before a physical edge.
+   const tolerance=cycle*0.88;
+   if(current<base-tolerance)target=current+cycle;
+   else if(current>=base+tolerance)target=current-cycle;
    if(target!==current){
     instantScroll(target);
     if(mouseDrag)mouseDrag.start+=target-current;
@@ -151,21 +155,21 @@ if(galleryTrack&&galleryPrev&&galleryNext){
     if(next<=0)return;
     const progress=cycle>0?(galleryTrack.scrollLeft-base)/cycle:0;
     cycle=next;
-    base=cycle-centerOffset();
+    base=middleRound*cycle-centerOffset();
     instantScroll(base+cycle*progress);
     normalizeLoop();
    });
   }
   if('ResizeObserver'in window)new ResizeObserver(updateLayout).observe(galleryTrack);
   else addEventListener('resize',updateLayout,{passive:true});
-  function scheduleNormalize(delay=260){
+  function scheduleNormalize(delay=160){
    clearTimeout(loopTimer);
    loopTimer=setTimeout(()=>{loopTimer=0;normalizeLoop();},delay);
   }
   // Reposition only after the native inertial scrolling has come to rest.
-  galleryTrack.addEventListener('scroll',()=>scheduleNormalize(300),{passive:true});
+  galleryTrack.addEventListener('scroll',()=>scheduleNormalize(160),{passive:true});
   if('onscrollend' in galleryTrack){
-   galleryTrack.addEventListener('scrollend',()=>scheduleNormalize(70),{passive:true});
+   galleryTrack.addEventListener('scrollend',()=>scheduleNormalize(0),{passive:true});
   }
   galleryTrack.addEventListener('touchstart',()=>{
    touching=true;
@@ -173,11 +177,11 @@ if(galleryTrack&&galleryPrev&&galleryNext){
   },{passive:true});
   galleryTrack.addEventListener('touchend',()=>{
    touching=false;
-   scheduleNormalize(350);
+   scheduleNormalize(180);
   },{passive:true});
   galleryTrack.addEventListener('touchcancel',()=>{
    touching=false;
-   scheduleNormalize(350);
+   scheduleNormalize(180);
   },{passive:true});
   function moveGallery(direction){
    cancelAnimationFrame(animationFrame);
@@ -236,7 +240,7 @@ if(galleryTrack&&galleryPrev&&galleryNext){
    if(mouseDrag.moved)suppressClickUntil=performance.now()+450;
    galleryTrack.classList.remove('isDragging');
    mouseDrag=null;
-   scheduleNormalize(260);
+   scheduleNormalize(120);
   }
   window.addEventListener('pointerup',finishDrag);
   window.addEventListener('pointercancel',finishDrag);
