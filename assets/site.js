@@ -78,7 +78,77 @@ $$('dialog').forEach(d=>{
  const close=$('.dialogClose',d); if(close)close.addEventListener('click',()=>d.close());
  d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});
 });
-const gallery=$$('.shot img');let activeImages=[],activeIndex=0;
+// MR Beauty horizontal gallery controls: drag versus click is handled separately.
+const galleryTrack=$('#galleryTrack'),galleryPrev=$('#galleryPrev'),
+      galleryNext=$('#galleryNext'),galleryCounter=$('#galleryCounter');
+if(galleryTrack&&galleryPrev&&galleryNext){
+ const slides=$('.shot',galleryTrack);
+ const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+ let mouseDrag=null,blockNextClick=false,clickBlockTimer=0,scrollPending=false;
+ function slideStep(){
+  if(slides.length<2)return galleryTrack.clientWidth;
+  return Math.max(1,slides[1].offsetLeft-slides[0].offsetLeft);
+ }
+ function updateGalleryControls(){
+  scrollPending=false;
+  const remaining=galleryTrack.scrollWidth-galleryTrack.clientWidth;
+  galleryPrev.disabled=galleryTrack.scrollLeft<=2;
+  galleryNext.disabled=remaining-galleryTrack.scrollLeft<=2;
+  if(galleryCounter){
+   const index=Math.min(slides.length,Math.max(1,Math.round(galleryTrack.scrollLeft/slideStep())+1));
+   galleryCounter.textContent=String(index)+' / '+String(slides.length);
+  }
+ }
+ function requestGalleryUpdate(){
+  if(!scrollPending){scrollPending=true;requestAnimationFrame(updateGalleryControls);}
+ }
+ function moveGallery(direction){
+  galleryTrack.scrollBy({left:slideStep()*direction,behavior:reducedMotion.matches?'auto':'smooth'});
+ }
+ galleryPrev.addEventListener('click',()=>moveGallery(-1));
+ galleryNext.addEventListener('click',()=>moveGallery(1));
+ galleryTrack.addEventListener('keydown',e=>{
+  if(e.target!==galleryTrack)return;
+  if(e.key==='ArrowRight'||e.key==='ArrowLeft'){
+   e.preventDefault();moveGallery(e.key==='ArrowRight'?1:-1);
+  }
+ });
+ galleryTrack.addEventListener('scroll',requestGalleryUpdate,{passive:true});
+ if('ResizeObserver'in window)new ResizeObserver(requestGalleryUpdate).observe(galleryTrack);
+ else addEventListener('resize',requestGalleryUpdate,{passive:true});
+ galleryTrack.addEventListener('pointerdown',e=>{
+  if(e.pointerType!=='mouse'||e.button!==0)return;
+  mouseDrag={id:e.pointerId,x:e.clientX,start:galleryTrack.scrollLeft,moved:false};
+ });
+ window.addEventListener('pointermove',e=>{
+  if(!mouseDrag||e.pointerId!==mouseDrag.id)return;
+  const dx=e.clientX-mouseDrag.x;
+  if(!mouseDrag.moved&&Math.abs(dx)<=7)return;
+  if(!mouseDrag.moved){mouseDrag.moved=true;galleryTrack.classList.add('isDragging');}
+  galleryTrack.scrollLeft=mouseDrag.start-dx;
+  e.preventDefault();
+ },{passive:false});
+ function finishGalleryDrag(e){
+  if(!mouseDrag||(e&&e.pointerId!==mouseDrag.id))return;
+  if(mouseDrag.moved){
+   blockNextClick=true;
+   clearTimeout(clickBlockTimer);
+   clickBlockTimer=setTimeout(()=>{blockNextClick=false;},0);
+  }
+  galleryTrack.classList.remove('isDragging');
+  mouseDrag=null;requestGalleryUpdate();
+ }
+ window.addEventListener('pointerup',finishGalleryDrag);
+ window.addEventListener('pointercancel',finishGalleryDrag);
+ window.addEventListener('blur',()=>finishGalleryDrag());
+ galleryTrack.addEventListener('click',e=>{
+  if(!blockNextClick)return;
+  e.preventDefault();e.stopImmediatePropagation();
+  blockNextClick=false;clearTimeout(clickBlockTimer);
+ },true);
+ requestGalleryUpdate();
+}
+const gallery=$('.shot img');let activeImages=[],activeIndex=0;
 function showImage(){
  const source=activeImages[activeIndex];
  const large=$('#largeImage'),caption=$('#imageCaptionText'),detail=$('#imageCaptionDetail');
