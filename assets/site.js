@@ -101,7 +101,7 @@ if(galleryTrack&&galleryPrev&&galleryNext){
   const allSlides=[...galleryTrack.children];
   const count=originals.length;
   const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
-  let cycle=0,mouseDrag=null,suppressClickUntil=0,animationFrame=0;
+  let cycle=0,base=0,mouseDrag=null,suppressClickUntil=0,animationFrame=0;
   let loopCleanupFrame=0;
   function instantScroll(left){
    galleryTrack.classList.add('isLoopJump');
@@ -112,17 +112,22 @@ if(galleryTrack&&galleryPrev&&galleryNext){
   function measureCycle(){
    return allSlides[count].offsetLeft-allSlides[0].offsetLeft;
   }
+  function centerOffset(){
+   if(!matchMedia('(max-width:600px) and (orientation:portrait)').matches)return 0;
+   return Math.max(0,(galleryTrack.clientWidth-allSlides[count].getBoundingClientRect().width)/2);
+  }
   function startPosition(){
    cycle=measureCycle();
-   if(cycle>0)instantScroll(cycle);
+   base=cycle-centerOffset();
+   if(cycle>0)instantScroll(base);
   }
   startPosition();
   function normalizeLoop(){
    if(cycle<=0)return;
    const current=galleryTrack.scrollLeft;
    let target=current;
-   if(current<cycle-1)target=current+cycle;
-   else if(current>=cycle*2-1)target=current-cycle;
+   if(current<base-1)target=current+cycle;
+   else if(current>=base+cycle-1)target=current-cycle;
    if(target!==current){
     instantScroll(target);
     if(mouseDrag)mouseDrag.start+=target-current;
@@ -137,9 +142,10 @@ if(galleryTrack&&galleryPrev&&galleryNext){
    layoutFrame=requestAnimationFrame(()=>{
     const next=measureCycle();
     if(next<=0)return;
-    const progress=cycle>0?(galleryTrack.scrollLeft-cycle)/cycle:0;
+    const progress=cycle>0?(galleryTrack.scrollLeft-base)/cycle:0;
     cycle=next;
-    instantScroll(cycle*(1+progress));
+    base=cycle-centerOffset();
+    instantScroll(base+cycle*progress);
     normalizeLoop();
    });
   }

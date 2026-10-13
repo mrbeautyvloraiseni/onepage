@@ -1344,3 +1344,23 @@ img {
  #galerie .gallery{scroll-behavior:auto}
  #galerie .galleryArrow{transition:none}
 }
+
+/* MR Beauty gallery responsiveness: centered portrait image, smaller landscape cards, balanced text spacing. */
+/* The spacing above the gallery equals the spacing below the gallery on mobile. */
+#galerie .gallery{padding:0}
+#galerie .gallerySocial{margin-top:38px}
+@media(max-width:600px){
+ #galerie .galleryIntro{margin-bottom:28px}
+ #galerie .gallerySocial{margin-top:28px}
+}
+/* One complete centered nail photo, with equal preview of neighbouring photos. */
+@media(max-width:600px) and (orientation:portrait){
+ #galerie .gallery{grid-auto-columns:76%;scroll-snap-type:x mandatory}
+ #galerie .gallery .shot{scroll-snap-align:center}
+}
+/* Landscape phones should show compact cards rather than giant cropped images. */
+@media(orientation:landscape) and (max-height:600px) and (any-pointer:coarse){
+ #galerie .gallery{grid-auto-columns:clamp(112px,18vw,180px);gap:12px}
+ #galerie .gallery .shot{aspect-ratio:4/5;scroll-snap-align:start}
+ #galerie .gallerySocial{margin-top:28px}
+}
