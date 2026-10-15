@@ -185,35 +185,37 @@ if(coverflow&&coverflowPrev&&coverflowNext){
    shiftCoverflow(event.key==='ArrowRight'?1:-1);
   }
  });
- // Only swipe/drag, not taps, moves the photos. A tap opens the existing lightbox.
- coverflow.addEventListener('pointerdown',event=>{
-  if(event.pointerType==='mouse'&&event.button!==0)return;
-  if(!event.target.closest('.shot'))return;
-  gesture={id:event.pointerId,x:event.clientX,y:event.clientY,lastX:event.clientX,
-   startedAt:performance.now(),dragged:false};
- });
- coverflow.addEventListener('pointermove',event=>{
-  if(!gesture||gesture.id!==event.pointerId)return;
-  const dx=event.clientX-gesture.x,dy=event.clientY-gesture.y;
+ // Separate mouse drag from touch swipes for Safari on iPhone.
+ function beginGesture(type,id,x,y){
+  gesture={type,id,x,y,lastX:x,startedAt:performance.now(),dragged:false};
+ }
+ function updateGesture(x,y){
+  if(!gesture)return false;
+  const dx=x-gesture.x,dy=y-gesture.y;
   if(!gesture.dragged){
-   if(Math.abs(dy)>12&&Math.abs(dy)>Math.abs(dx)*1.2){gesture=null;return;}
-   if(Math.abs(dx)<9||Math.abs(dx)<Math.abs(dy)*1.1)return;
+   // Normal vertical page scrolling remains available.
+   if(Math.abs(dy)>12&&Math.abs(dy)>Math.abs(dx)*1.2){
+    gesture=null;
+    coverflow.classList.remove('isGalleryDragging');
+    renderCoverflow();
+    return false;
+   }
+   if(Math.abs(dx)<9||Math.abs(dx)<Math.abs(dy)*1.1)return false;
    gesture.dragged=true;
    coverflow.classList.add('isGalleryDragging');
-   try{coverflow.setPointerCapture(event.pointerId);}catch(error){}
   }
-  gesture.lastX=event.clientX;
+  gesture.lastX=x;
   renderCoverflow(dx);
-  if(event.cancelable)event.preventDefault();
- },{passive:false});
- function finishCoverflowGesture(event,cancelled=false){
-  if(!gesture||gesture.id!==event.pointerId)return;
+  return true;
+ }
+ function finishGesture(x,cancelled=false){
+  if(!gesture)return;
   const drag=gesture;
   gesture=null;
   coverflow.classList.remove('isGalleryDragging');
-  if(!drag.dragged){return;}
-  ignoreClickUntil=performance.now()+550;
-  const distance=(cancelled?drag.lastX:event.clientX)-drag.x;
+  if(!drag.dragged){renderCoverflow();return;}
+  ignoreClickUntil=performance.now()+500;
+  const distance=(typeof x==='number'?x:drag.lastX)-drag.x;
   const step=(slides[0]?.offsetWidth||280)*.89;
   const elapsed=Math.max(1,performance.now()-drag.startedAt);
   const speed=Math.abs(distance)/elapsed;
@@ -225,9 +227,52 @@ if(coverflow&&coverflowPrev&&coverflowNext){
   }
   renderCoverflow();
  }
- coverflow.addEventListener('pointerup',e=>finishCoverflowGesture(e));
- coverflow.addEventListener('pointercancel',e=>finishCoverflowGesture(e,true));
- coverflow.addEventListener('lostpointercapture',e=>finishCoverflowGesture(e,true));
+ // Desktop: drag with a held left mouse button, or click to enlarge.
+ coverflow.addEventListener('pointerdown',event=>{
+  if(event.pointerType!=='mouse'||event.button!==0)return;
+  beginGesture('mouse',event.pointerId,event.clientX,event.clientY);
+ });
+ coverflow.addEventListener('pointermove',event=>{
+  if(!gesture||gesture.type!=='mouse'||event.pointerId!==gesture.id)return;
+  if(updateGesture(event.clientX,event.clientY)){
+   if(!coverflow.hasPointerCapture(event.pointerId)){
+    try{coverflow.setPointerCapture(event.pointerId);}catch(error){}
+   }
+   if(event.cancelable)event.preventDefault();
+  }
+ },{passive:false});
+ coverflow.addEventListener('pointerup',event=>{
+  if(gesture&&gesture.type==='mouse'&&gesture.id===event.pointerId)finishGesture(event.clientX);
+ });
+ coverflow.addEventListener('pointercancel',event=>{
+  if(gesture&&gesture.type==='mouse'&&gesture.id===event.pointerId)finishGesture(gesture.lastX,true);
+ });
+ coverflow.addEventListener('lostpointercapture',event=>{
+  if(gesture&&gesture.type==='mouse'&&gesture.id===event.pointerId)finishGesture(gesture.lastX,true);
+ });
+ // iOS Safari: Touch Events avoid pointercancel interrupting a finger swipe.
+ coverflow.addEventListener('touchstart',event=>{
+  if(event.touches.length!==1)return;
+  const touch=event.touches[0];
+  beginGesture('touch',touch.identifier,touch.clientX,touch.clientY);
+ },{passive:true});
+ coverflow.addEventListener('touchmove',event=>{
+  if(!gesture||gesture.type!=='touch')return;
+  if(event.touches.length!==1){finishGesture(gesture.lastX,true);return;}
+  const touch=Array.from(event.touches).find(t=>t.identifier===gesture.id);
+  if(!touch)return;
+  if(updateGesture(touch.clientX,touch.clientY)&&event.cancelable){
+   event.preventDefault();
+  }
+ },{passive:false});
+ coverflow.addEventListener('touchend',event=>{
+  if(!gesture||gesture.type!=='touch')return;
+  const touch=Array.from(event.changedTouches).find(t=>t.identifier===gesture.id);
+  if(touch)finishGesture(touch.clientX);
+ },{passive:true});
+ coverflow.addEventListener('touchcancel',()=>{
+  if(gesture&&gesture.type==='touch')finishGesture(gesture.lastX,true);
+ },{passive:true});
  // Stop browser-generated "click" after a drag, but let ordinary taps bubble to lightbox.
  coverflow.addEventListener('click',event=>{
   if(performance.now()>ignoreClickUntil)return;
