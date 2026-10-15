@@ -538,99 +538,89 @@ document.querySelectorAll(".gallery, .buildingPreview, .imageLightbox, .portrait
 });
 
 
-/* MR Beauty – iPhone: align incoming legal-page anchors after the Onepage loads.
-   Normal in-page smooth scrolling, history restoration and desktop stay untouched. */
+/* MR Beauty: iPhone-only navigation, one smooth scroll to the final section.
+   No delayed correction, no desktop changes, no modifications to Coverflow. */
 (()=>{
  'use strict';
  if(!/iPhone|iPod/.test(navigator.userAgent))return;
 
- const key='mrbeauty-legal-anchor-v1';
- const legalPath=/^\/(?:impressum|datenschutz)\/?$/.test(location.pathname);
- const homepage=location.pathname==='/'||location.pathname==='/index.html';
- const supported=new Set(['ueber-uns','leistungen','galerie','preise','standort','kontakt']);
- const anchorId=value=>{
-  try{return decodeURIComponent(value.replace(/^#/,'')).toLowerCase();}
+ const key='mriphoneanchor';
+ const sections=new Set(['startseite','ueber-uns','leistungen','galerie','preise','standort','kontakt']);
+ const onLegal=/^\/(?:impressum|datenschutz)\/?$/.test(location.pathname);
+ const onHome=location.pathname==='/'||location.pathname==='/index.html';
+ const idFor=hash=>{
+  try{return decodeURIComponent(hash.replace(/^#/,''));}
   catch(error){return '';}
  };
+ const ordinaryClick=e=>!e.defaultPrevented&&!e.metaKey&&!e.ctrlKey&&
+  !e.shiftKey&&!e.altKey&&(e.button===0||e.button===undefined);
 
- // Persist the chosen section through an iPhone Safari page navigation.
- // Never prevent the normal link navigation or alter its smooth scrolling.
- if(legalPath){
+ if(onLegal){
+  // The normal href is kept as fallback; Safari receives a hash-free URL
+  // so it cannot first scroll to a wrong anchor position during page loading.
   document.querySelectorAll('.nav a[href^="/#"]').forEach(link=>{
+   const destination=new URL(link.href,location.href);
+   const id=idFor(destination.hash);
+   if(destination.origin!==location.origin||destination.pathname!=='/'||!sections.has(id))return;
    link.addEventListener('click',event=>{
-    if(event.defaultPrevented||event.metaKey||event.ctrlKey||
-       event.shiftKey||event.altKey)return;
-    const id=anchorId(new URL(link.href).hash);
-    if(!supported.has(id))return;
-    try{sessionStorage.setItem(key,JSON.stringify({id,time:Date.now()}));}
-    catch(error){} // Safari private mode may restrict storage.
+    if(!ordinaryClick(event))return;
+    event.preventDefault();
+    const next=new URL(destination.href);
+    next.hash='';
+    next.searchParams.set(key,id);
+    location.assign(next.pathname+next.search);
    });
   });
   return;
  }
- if(!homepage)return;
+ if(!onHome)return;
 
- function fromLegalReferrer(){
-  if(!document.referrer)return false;
-  try{
-   const ref=new URL(document.referrer);
-   return ref.origin===location.origin &&
-    /^\/(?:impressum|datenschutz)\/?$/.test(ref.pathname);
-  }catch(error){return false;}
- }
- function consumeLegalMarker(id){
-  try{
-   const raw=sessionStorage.getItem(key);
-   if(raw)sessionStorage.removeItem(key);
-   if(!raw)return false;
-   const marker=JSON.parse(raw);
-   const age=Date.now()-marker.time;
-   return marker.id===id&&age>=0&&age<30000;
-  }catch(error){return false;}
- }
-
- // pageshow also covers the Safari back-forward cache.
- window.addEventListener('pageshow',event=>{
-  const id=anchorId(location.hash);
-  if(!supported.has(id))return;
-  const marked=consumeLegalMarker(id);
-  if(!marked&&(event.persisted||!fromLegalReferrer()))return;
-  const target=document.getElementById(id),nav=document.querySelector('.nav');
+ function scrollToSection(id){
+  const target=document.getElementById(id);
+  const nav=document.querySelector('.nav');
   if(!target||!nav)return;
+  const offset=Math.max(0,Math.round(nav.getBoundingClientRect().bottom)-1);
+  document.documentElement.style.setProperty('--menu-anchor-offset',offset+'px');
+  const maxY=Math.max(0,document.documentElement.scrollHeight-innerHeight);
+  const rawY=id==='startseite'?0:scrollY+target.getBoundingClientRect().top-offset;
+  const targetY=Math.max(0,Math.min(maxY,rawY));
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({top:targetY,behavior:reduce?'auto':'smooth'});
+ }
 
-  let interrupted=false;
-  const timers=[];
-  const gestures=['touchstart','wheel','keydown'];
-  const stop=()=>{
-   interrupted=true;
-   timers.forEach(clearTimeout);
-   gestures.forEach(type=>window.removeEventListener(type,stop));
-  };
-  gestures.forEach(type=>window.addEventListener(type,stop,{passive:true}));
-
-  const correct=()=>{
-   if(interrupted||anchorId(location.hash)!==id)return;
-   // Use precisely the same anchor offset as the existing navigation.
-   const offset=Math.max(0,Math.round(nav.getBoundingClientRect().bottom)-1);
-   document.documentElement.style.setProperty('--menu-anchor-offset',offset+'px');
-   const maxY=Math.max(0,document.documentElement.scrollHeight-innerHeight);
-   const y=Math.max(0,Math.min(maxY,scrollY+target.getBoundingClientRect().top-offset));
-   if(Math.abs(y-scrollY)>4){
-    window.scrollTo({top:y,behavior:'smooth'});
+ // Onepage iPhone menu: closeMenu() runs in the existing click handler first.
+ // Update the URL without a native hash jump; then scroll only once.
+ let skipIncoming=false;
+ document.querySelectorAll('.nav a[href^="#"]').forEach(link=>{
+  const id=idFor(new URL(link.href,location.href).hash);
+  if(!sections.has(id))return;
+  link.addEventListener('click',event=>{
+   if(!ordinaryClick(event))return;
+   event.preventDefault();
+   skipIncoming=true;
+   const next=new URL(location.href);
+   next.searchParams.delete(key);
+   next.hash='#'+id;
+   if(location.hash!==next.hash||location.search!==next.search){
+    history.pushState(history.state,'',next.pathname+next.search+next.hash);
    }
-  };
-
-  // Wait until fonts and Safari's initial hash scroll have settled.
-  // A second check covers late layout changes; both are no-ops if aligned.
-  const fonts=document.fonts?document.fonts.ready:Promise.resolve();
-  fonts.then(()=>{
-   if(interrupted)return;
-   requestAnimationFrame(()=>requestAnimationFrame(()=>{
-    if(interrupted)return;
-    timers.push(setTimeout(correct,650));
-    timers.push(setTimeout(correct,1550));
-    timers.push(setTimeout(stop,1950));
-   }));
-  }).catch(()=>{});
+   requestAnimationFrame(()=>scrollToSection(id));
+  });
  });
+
+ // An incoming legal-page selection has no hash, so Safari cannot make an
+ // early, inaccurate fragment jump. Wait for Montserrat font/layout readiness,
+ // restore the canonical URL and start exactly one smooth scroll.
+ const initial=new URLSearchParams(location.search).get(key);
+ if(!sections.has(initial))return;
+ const ready=document.fonts?document.fonts.ready:Promise.resolve();
+ ready.then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  if(skipIncoming)return;
+  const url=new URL(location.href);
+  if(url.searchParams.get(key)!==initial)return;
+  url.searchParams.delete(key);
+  url.hash='#'+initial;
+  history.replaceState(history.state,'',url.pathname+url.search+url.hash);
+  scrollToSection(initial);
+ }))).catch(()=>{});
 })();
