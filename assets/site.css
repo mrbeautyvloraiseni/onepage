@@ -1345,6 +1345,11 @@ img {
   width:100%;
   height:100%;
   object-fit:cover;
+  /* The rounded gallery window clips the photo, not an inner moving clip-path.
+     This keeps zoom-in and zoom-out smooth, including in iPhone Safari. */
+  border-radius:0;
+  clip-path:none;
+  -webkit-clip-path:none;
   transform:scale(1);
   transform-origin:center center;
   transition:transform .65s cubic-bezier(.2,.65,.3,1),filter .65s;
@@ -1413,7 +1418,7 @@ img {
  #galerie .galleryCoverflow .shot{border-radius:16px}
 }
 @media(max-width:600px) and (orientation:portrait){
- #galerie .galleryCoverflow{--mr-card-width:min(70vw,290px)}
+ #galerie .galleryCoverflow{--mr-card-width:min(60vw,250px)}
  #galerie .galleryIntro{margin-bottom:28px}
  #galerie .gallerySocial{margin-top:28px}
 }

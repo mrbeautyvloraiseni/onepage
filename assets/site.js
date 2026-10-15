@@ -145,7 +145,7 @@ if(coverflow&&coverflowPrev&&coverflowNext){
  const count=slides.length;
  const mod=(n)=>((n%count)+count)%count;
  let current=0,gesture=null,ignoreClickUntil=0;
- // Enable loading for the eight real photos so that repeated cycles have no gaps.
+ // Load the real gallery photos so that repeated cycles have no gaps.
  slides.forEach(slide=>{
   slide.querySelectorAll('img').forEach(img=>{img.loading='eager';});
  });
@@ -153,9 +153,12 @@ if(coverflow&&coverflowPrev&&coverflowNext){
   // Desktop: fit all five visible cards within the carousel width.
   // Their centres are positioned using their actual scaled widths plus clear gaps,
   // so neither outer photo gets cropped or hidden behind its neighbour.
-  const fitFive=matchMedia('(min-width:701px) and (pointer:fine)').matches;
-  const gap=14;
-  if(fitFive){
+  const desktopFive=matchMedia('(min-width:701px) and (pointer:fine)').matches;
+  const landscapeFive=matchMedia('(orientation:landscape) and (max-height:600px) and (any-pointer:coarse)').matches;
+  const fitFive=desktopFive||landscapeFive;
+  // Five fully visible images with regular gaps, even in iPhone landscape.
+  const gap=landscapeFive?10:14;
+  if(desktopFive){
    const target=Math.min(330,Math.max(140,Math.floor((coverflow.clientWidth-4*gap-28)/4)));
    const value=target+'px';
    if(coverflow.style.getPropertyValue('--mr-card-width')!==value){
