@@ -536,3 +536,101 @@ document.querySelectorAll(".gallery, .buildingPreview, .imageLightbox, .portrait
   element.addEventListener("selectstart",event=>event.preventDefault());
   element.addEventListener("dragstart",event=>event.preventDefault());
 });
+
+
+/* MR Beauty – iPhone: align incoming legal-page anchors after the Onepage loads.
+   Normal in-page smooth scrolling, history restoration and desktop stay untouched. */
+(()=>{
+ 'use strict';
+ if(!/iPhone|iPod/.test(navigator.userAgent))return;
+
+ const key='mrbeauty-legal-anchor-v1';
+ const legalPath=/^\/(?:impressum|datenschutz)\/?$/.test(location.pathname);
+ const homepage=location.pathname==='/'||location.pathname==='/index.html';
+ const supported=new Set(['ueber-uns','leistungen','galerie','preise','standort','kontakt']);
+ const anchorId=value=>{
+  try{return decodeURIComponent(value.replace(/^#/,'')).toLowerCase();}
+  catch(error){return '';}
+ };
+
+ // Persist the chosen section through an iPhone Safari page navigation.
+ // Never prevent the normal link navigation or alter its smooth scrolling.
+ if(legalPath){
+  document.querySelectorAll('.nav a[href^="/#"]').forEach(link=>{
+   link.addEventListener('click',event=>{
+    if(event.defaultPrevented||event.metaKey||event.ctrlKey||
+       event.shiftKey||event.altKey)return;
+    const id=anchorId(new URL(link.href).hash);
+    if(!supported.has(id))return;
+    try{sessionStorage.setItem(key,JSON.stringify({id,time:Date.now()}));}
+    catch(error){} // Safari private mode may restrict storage.
+   });
+  });
+  return;
+ }
+ if(!homepage)return;
+
+ function fromLegalReferrer(){
+  if(!document.referrer)return false;
+  try{
+   const ref=new URL(document.referrer);
+   return ref.origin===location.origin &&
+    /^\/(?:impressum|datenschutz)\/?$/.test(ref.pathname);
+  }catch(error){return false;}
+ }
+ function consumeLegalMarker(id){
+  try{
+   const raw=sessionStorage.getItem(key);
+   if(raw)sessionStorage.removeItem(key);
+   if(!raw)return false;
+   const marker=JSON.parse(raw);
+   const age=Date.now()-marker.time;
+   return marker.id===id&&age>=0&&age<30000;
+  }catch(error){return false;}
+ }
+
+ // pageshow also covers the Safari back-forward cache.
+ window.addEventListener('pageshow',event=>{
+  const id=anchorId(location.hash);
+  if(!supported.has(id))return;
+  const marked=consumeLegalMarker(id);
+  if(!marked&&(event.persisted||!fromLegalReferrer()))return;
+  const target=document.getElementById(id),nav=document.querySelector('.nav');
+  if(!target||!nav)return;
+
+  let interrupted=false;
+  const timers=[];
+  const gestures=['touchstart','wheel','keydown'];
+  const stop=()=>{
+   interrupted=true;
+   timers.forEach(clearTimeout);
+   gestures.forEach(type=>window.removeEventListener(type,stop));
+  };
+  gestures.forEach(type=>window.addEventListener(type,stop,{passive:true}));
+
+  const correct=()=>{
+   if(interrupted||anchorId(location.hash)!==id)return;
+   // Use precisely the same anchor offset as the existing navigation.
+   const offset=Math.max(0,Math.round(nav.getBoundingClientRect().bottom)-1);
+   document.documentElement.style.setProperty('--menu-anchor-offset',offset+'px');
+   const maxY=Math.max(0,document.documentElement.scrollHeight-innerHeight);
+   const y=Math.max(0,Math.min(maxY,scrollY+target.getBoundingClientRect().top-offset));
+   if(Math.abs(y-scrollY)>4){
+    window.scrollTo({top:y,behavior:'smooth'});
+   }
+  };
+
+  // Wait until fonts and Safari's initial hash scroll have settled.
+  // A second check covers late layout changes; both are no-ops if aligned.
+  const fonts=document.fonts?document.fonts.ready:Promise.resolve();
+  fonts.then(()=>{
+   if(interrupted)return;
+   requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    if(interrupted)return;
+    timers.push(setTimeout(correct,650));
+    timers.push(setTimeout(correct,1550));
+    timers.push(setTimeout(stop,1950));
+   }));
+  }).catch(()=>{});
+ });
+})();
