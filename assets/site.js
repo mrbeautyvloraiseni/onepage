@@ -150,7 +150,24 @@ if(coverflow&&coverflowPrev&&coverflowNext){
   slide.querySelectorAll('img').forEach(img=>{img.loading='eager';});
  });
  function renderCoverflow(dragPixels=0){
-  const step=(slides[0]?.offsetWidth||280)*.89;
+  // Desktop: fit all five visible cards within the carousel width.
+  // Their centres are positioned using their actual scaled widths plus clear gaps,
+  // so neither outer photo gets cropped or hidden behind its neighbour.
+  const fitFive=matchMedia('(min-width:701px) and (pointer:fine)').matches;
+  const gap=14;
+  if(fitFive){
+   const target=Math.min(330,Math.max(140,Math.floor((coverflow.clientWidth-4*gap-28)/4)));
+   const value=target+'px';
+   if(coverflow.style.getPropertyValue('--mr-card-width')!==value){
+    coverflow.style.setProperty('--mr-card-width',value);
+   }
+  }else if(coverflow.style.getPropertyValue('--mr-card-width')){
+   coverflow.style.removeProperty('--mr-card-width');
+  }
+  const cardWidth=slides[0]?.offsetWidth||280;
+  const step=cardWidth*.89;
+  const neighbourCentre=cardWidth*.91+gap;
+  const outerCentre=cardWidth*1.66+gap*2;
   slides.forEach((slide,i)=>{
    let diff=mod(i-current);
    if(diff>count/2)diff-=count;
@@ -160,7 +177,9 @@ if(coverflow&&coverflowPrev&&coverflowNext){
    const focus=distance===0;
    const scale=focus?1:(distance===1?.82:.68);
    const opacity=focus?1:(distance===1?.79:.43);
-   const shift=diff*step+dragPixels;
+   const shift=(fitFive&&visible
+    ? Math.sign(diff)*(distance===1?neighbourCentre:distance===2?outerCentre:0)
+    : diff*step)+dragPixels;
    slide.style.setProperty('--mr-offset',Math.round(shift)+'px');
    slide.style.setProperty('--mr-scale',String(scale));
    slide.style.setProperty('--mr-opacity',visible?String(opacity):'0');

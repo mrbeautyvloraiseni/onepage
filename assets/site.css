@@ -1398,7 +1398,7 @@ img {
  #galerie .galleryCoverflow .shot{border-radius:16px}
 }
 @media(max-width:600px) and (orientation:portrait){
- #galerie .galleryCoverflow{--mr-card-width:min(76vw,310px)}
+ #galerie .galleryCoverflow{--mr-card-width:min(70vw,290px)}
  #galerie .galleryIntro{margin-bottom:28px}
  #galerie .gallerySocial{margin-top:28px}
 }
