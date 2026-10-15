@@ -1345,11 +1345,17 @@ img {
   width:100%;
   height:100%;
   object-fit:cover;
-  transform:none!important;
-  transition:none!important;
+  transform:scale(1)!important;
+  transition:transform .65s cubic-bezier(.2,.65,.3,1)!important;
   pointer-events:none;
 }
-#galerie .galleryCoverflow .shot:hover img{transform:none!important}
+/* Same subtle 4.5% zoom as the building photo, contained within each nail card.
+   Apply to desktop hover only; dragging and touch-swiping do not zoom. */
+@media (hover:hover) and (pointer:fine){
+  #galerie .galleryCoverflow:not(.isGalleryDragging) .shot:hover img{
+    transform:scale(1.045)!important;
+  }
+}
 #galerie .galleryCoverflow .shot[data-gallery-far="true"]{
   transition:none;
 }
