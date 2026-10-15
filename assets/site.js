@@ -141,13 +141,13 @@ gallery.forEach(img=>img.closest('button').addEventListener('click',e=>{e.preven
 const coverflow=$('#galleryCoverflow');
 const coverflowPrev=$('#galleryCoverflowPrev'),coverflowNext=$('#galleryCoverflowNext');
 if(coverflow&&coverflowPrev&&coverflowNext){
- const slides=$('.shot',coverflow);
+ const slides=Array.from(coverflow.querySelectorAll('.shot'));
  const count=slides.length;
  const mod=(n)=>((n%count)+count)%count;
  let current=0,gesture=null,ignoreClickUntil=0;
  // Enable loading for the eight real photos so that repeated cycles have no gaps.
  slides.forEach(slide=>{
-  $('img',slide).forEach(img=>{img.loading='eager';});
+  slide.querySelectorAll('img').forEach(img=>{img.loading='eager';});
  });
  function renderCoverflow(dragPixels=0){
   const step=(slides[0]?.offsetWidth||280)*.89;
