@@ -174,7 +174,7 @@ if(coverflow&&coverflowPrev&&coverflowNext){
   slides.forEach((slide,i)=>{
    let diff=mod(i-current);
    if(diff>count/2)diff-=count;
-   // For eight photos the opposite one is never displayed.
+   // With nine photos, only the five nearest photos are visible.
    const distance=Math.abs(diff);
    const visible=distance<=2;
    const focus=distance===0;
