@@ -90,9 +90,6 @@ function showImage(){
  detail.hidden=!description;
 }
 let imageOpenRequest=0;
-let imageCloseTimer=0;
-let lastGalleryPreview=null;
-let galleryReturnZoomTimer=0;
 function waitForLargeImage(image){
   const finish=()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
 
@@ -118,10 +115,6 @@ function waitForLargeImage(image){
   });
 }
 async function openImage(source,list){
-  clearTimeout(imageCloseTimer);
-  clearTimeout(galleryReturnZoomTimer);
-  if(lastGalleryPreview)lastGalleryPreview.classList.remove('isGalleryReturnZoom');
-  lastGalleryPreview=source.closest('#galleryCoverflow .shot');
   activeImages=list||[source];
   activeIndex=Math.max(0,activeImages.indexOf(source));
   const request=++imageOpenRequest;
@@ -130,42 +123,16 @@ async function openImage(source,list){
   if(large)await waitForLargeImage(large);
   if(request!==imageOpenRequest)return;
   closeMenu();
-  imageLightbox.classList.remove('isOpen','isClosing','isGalleryImage');
   imageLightbox.hidden=false;
-  imageLightbox.classList.toggle('isGalleryImage',Boolean(lastGalleryPreview));
-  // Establish the first (slightly zoomed) frame before starting the transition.
-  // This avoids Safari treating both states as a single paint.
-  void imageLightbox.offsetWidth;
-  imageLightbox.classList.add('isOpen');
-  document.body.classList.add('modalOpen');
-}
-function finishCloseImage(){
-  clearTimeout(imageCloseTimer);
-  imageLightbox.classList.remove('isOpen','isClosing','isGalleryImage');
-  imageLightbox.hidden=true;
-  document.body.classList.remove('modalOpen');
-  if(lastGalleryPreview){
-    const preview=lastGalleryPreview;
-    preview.classList.remove('isTouchPressed');
-    preview.classList.add('isGalleryReturnZoom');
-    clearTimeout(galleryReturnZoomTimer);
-    galleryReturnZoomTimer=setTimeout(()=>{
-      preview.classList.remove('isGalleryReturnZoom');
-      if(lastGalleryPreview===preview)lastGalleryPreview=null;
-    },850);
-  }
+  imageLightbox.classList.add("isOpen");
+  document.body.classList.add("modalOpen");
 }
 function closeImage(){
   imageOpenRequest++;
-  if(!imageLightbox||imageLightbox.hidden||imageLightbox.classList.contains('isClosing'))return;
-  if(imageLightbox.classList.contains('isGalleryImage')&&
-     !matchMedia('(prefers-reduced-motion: reduce)').matches){
-    imageLightbox.classList.add('isClosing');
-    clearTimeout(imageCloseTimer);
-    imageCloseTimer=setTimeout(finishCloseImage,380);
-  }else{
-    finishCloseImage();
-  }
+  if(!imageLightbox||imageLightbox.hidden)return;
+  imageLightbox.classList.remove("isOpen");
+  imageLightbox.hidden=true;
+  document.body.classList.remove("modalOpen");
 }
 gallery.forEach(img=>img.closest('button').addEventListener('click',e=>{e.preventDefault();openImage(img,gallery);}));
 

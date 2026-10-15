@@ -1357,10 +1357,6 @@ img {
   pointer-events:none;
 }
 /* Same bidirectional zoom as the building image. The slide stays in place. */
-/* Temporary return zoom after closing the existing lightbox (including touch devices). */
-#galerie .galleryCoverflow .shot.isGalleryReturnZoom img {
-  transform:scale(1.045);
-}
 @media (hover:hover) and (pointer:fine){
   #galerie .galleryCoverflow:not(.isGalleryDragging) .shot:hover img{
     transform:scale(1.045);
@@ -1412,19 +1408,6 @@ img {
 }
 #galerie .galleryCoverflowArrow:active{transform:scale(.94)}
 #galerie .galleryCoverflowArrow:focus-visible{outline:2px solid #C8CF04;outline-offset:4px}
-/* Zoom the enlarged GALLERY photo out on opening and back in on closing.
-   The building photo and the caption card keep their existing behaviour. */
-#imageLightbox.isGalleryImage #largeImage {
-  transform:translateZ(0) scale(1.055);
-  transition:transform .38s cubic-bezier(.2,.65,.3,1),opacity .38s ease;
-}
-#imageLightbox.isGalleryImage.isOpen:not(.isClosing) #largeImage {
-  transform:translateZ(0) scale(1);
-}
-#imageLightbox.isGalleryImage.isClosing #largeImage {
-  transform:translateZ(0) scale(1.055);
-  opacity:.8;
-}
 /* iPhone and other touch-first devices swipe the photos, so they need no arrows. */
 @media (hover:none) and (pointer:coarse){
  #galerie .galleryCoverflowNav{display:none}
@@ -1446,5 +1429,4 @@ img {
 @media(prefers-reduced-motion:reduce){
  #galerie .galleryCoverflow .shot,
  #galerie .galleryCoverflowArrow{transition:none!important}
- #imageLightbox.isGalleryImage #largeImage{transition:none!important}
 }
