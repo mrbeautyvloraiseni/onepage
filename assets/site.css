@@ -1321,7 +1321,7 @@ img {
   margin:0;
   padding:0;
   background:#0d0d0d;
-  border:0;
+  border:1px solid rgba(200,207,4,.20);
   border-radius:20px;
   overflow:hidden;
   cursor:crosshair;
@@ -1345,15 +1345,24 @@ img {
   width:100%;
   height:100%;
   object-fit:cover;
-  transform:scale(1)!important;
-  transition:transform .65s cubic-bezier(.2,.65,.3,1)!important;
+  transform:scale(1);
+  transform-origin:center center;
+  transition:transform .65s cubic-bezier(.2,.65,.3,1),filter .65s;
+  will-change:transform;
   pointer-events:none;
 }
-/* Same subtle 4.5% zoom as the building photo, contained within each nail card.
-   Apply to desktop hover only; dragging and touch-swiping do not zoom. */
+/* Same bidirectional zoom as the building image. The slide stays in place. */
 @media (hover:hover) and (pointer:fine){
   #galerie .galleryCoverflow:not(.isGalleryDragging) .shot:hover img{
-    transform:scale(1.045)!important;
+    transform:scale(1.045);
+  }
+}
+/* iPhone cannot hover: provide the same subtle zoom while a finger presses
+   a photo, and reset it on release. Swipe gestures cancel the press state. */
+@media (hover:none) and (pointer:coarse){
+  #galerie .galleryCoverflow:not(.isGalleryDragging) .shot.isTouchPressed img,
+  #galerie .galleryCoverflow:not(.isGalleryDragging) .shot:active img {
+    transform:scale(1.045);
   }
 }
 #galerie .galleryCoverflow .shot[data-gallery-far="true"]{
