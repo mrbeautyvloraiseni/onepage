@@ -135,6 +135,111 @@ function closeImage(){
   document.body.classList.remove("modalOpen");
 }
 gallery.forEach(img=>img.closest('button').addEventListener('click',e=>{e.preventDefault();openImage(img,gallery);}));
+
+// MR Beauty: visual Coverflow (no native horizontal scroll, no cloned images).
+// Keeping the existing gallery image click handlers preserves the original lightbox.
+const coverflow=$('#galleryCoverflow');
+const coverflowPrev=$('#galleryCoverflowPrev'),coverflowNext=$('#galleryCoverflowNext');
+if(coverflow&&coverflowPrev&&coverflowNext){
+ const slides=$('.shot',coverflow);
+ const count=slides.length;
+ const mod=(n)=>((n%count)+count)%count;
+ let current=0,gesture=null,ignoreClickUntil=0;
+ // Enable loading for the eight real photos so that repeated cycles have no gaps.
+ slides.forEach(slide=>{
+  $('img',slide).forEach(img=>{img.loading='eager';});
+ });
+ function renderCoverflow(dragPixels=0){
+  const step=(slides[0]?.offsetWidth||280)*.89;
+  slides.forEach((slide,i)=>{
+   let diff=mod(i-current);
+   if(diff>count/2)diff-=count;
+   // For eight photos the opposite one is never displayed.
+   const distance=Math.abs(diff);
+   const visible=distance<=2;
+   const focus=distance===0;
+   const scale=focus?1:(distance===1?.82:.68);
+   const opacity=focus?1:(distance===1?.79:.43);
+   const shift=diff*step+dragPixels;
+   slide.style.setProperty('--mr-offset',Math.round(shift)+'px');
+   slide.style.setProperty('--mr-scale',String(scale));
+   slide.style.setProperty('--mr-opacity',visible?String(opacity):'0');
+   slide.style.setProperty('--mr-z',String(10-distance));
+   slide.style.setProperty('--mr-visibility',visible?'visible':'hidden');
+   slide.style.setProperty('--mr-events',visible?'auto':'none');
+   slide.dataset.galleryFar=visible?'false':'true';
+   slide.setAttribute('aria-hidden',visible?'false':'true');
+   slide.tabIndex=visible?0:-1;
+  });
+ }
+ function shiftCoverflow(direction){
+  current=mod(current+direction);
+  renderCoverflow();
+ }
+ coverflowPrev.addEventListener('click',()=>shiftCoverflow(-1));
+ coverflowNext.addEventListener('click',()=>shiftCoverflow(1));
+ coverflow.addEventListener('keydown',event=>{
+  if(event.target!==coverflow)return;
+  if(event.key==='ArrowLeft'||event.key==='ArrowRight'){
+   event.preventDefault();
+   shiftCoverflow(event.key==='ArrowRight'?1:-1);
+  }
+ });
+ // Only swipe/drag, not taps, moves the photos. A tap opens the existing lightbox.
+ coverflow.addEventListener('pointerdown',event=>{
+  if(event.pointerType==='mouse'&&event.button!==0)return;
+  if(!event.target.closest('.shot'))return;
+  gesture={id:event.pointerId,x:event.clientX,y:event.clientY,lastX:event.clientX,
+   startedAt:performance.now(),dragged:false};
+ });
+ coverflow.addEventListener('pointermove',event=>{
+  if(!gesture||gesture.id!==event.pointerId)return;
+  const dx=event.clientX-gesture.x,dy=event.clientY-gesture.y;
+  if(!gesture.dragged){
+   if(Math.abs(dy)>12&&Math.abs(dy)>Math.abs(dx)*1.2){gesture=null;return;}
+   if(Math.abs(dx)<9||Math.abs(dx)<Math.abs(dy)*1.1)return;
+   gesture.dragged=true;
+   coverflow.classList.add('isGalleryDragging');
+   try{coverflow.setPointerCapture(event.pointerId);}catch(error){}
+  }
+  gesture.lastX=event.clientX;
+  renderCoverflow(dx);
+  if(event.cancelable)event.preventDefault();
+ },{passive:false});
+ function finishCoverflowGesture(event,cancelled=false){
+  if(!gesture||gesture.id!==event.pointerId)return;
+  const drag=gesture;
+  gesture=null;
+  coverflow.classList.remove('isGalleryDragging');
+  if(!drag.dragged){return;}
+  ignoreClickUntil=performance.now()+550;
+  const distance=(cancelled?drag.lastX:event.clientX)-drag.x;
+  const step=(slides[0]?.offsetWidth||280)*.89;
+  const elapsed=Math.max(1,performance.now()-drag.startedAt);
+  const speed=Math.abs(distance)/elapsed;
+  let number=Math.max(1,Math.round(Math.abs(distance)/step));
+  if(speed>1.5&&Math.abs(distance)<step*.95)number=1;
+  number=Math.min(3,number);
+  if(!cancelled&&Math.abs(distance)>8){
+   current=mod(current+(distance<0?number:-number));
+  }
+  renderCoverflow();
+ }
+ coverflow.addEventListener('pointerup',e=>finishCoverflowGesture(e));
+ coverflow.addEventListener('pointercancel',e=>finishCoverflowGesture(e,true));
+ coverflow.addEventListener('lostpointercapture',e=>finishCoverflowGesture(e,true));
+ // Stop browser-generated "click" after a drag, but let ordinary taps bubble to lightbox.
+ coverflow.addEventListener('click',event=>{
+  if(performance.now()>ignoreClickUntil)return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  ignoreClickUntil=0;
+ },true);
+ if('ResizeObserver'in window)new ResizeObserver(()=>renderCoverflow()).observe(coverflow);
+ else addEventListener('resize',()=>renderCoverflow(),{passive:true});
+ renderCoverflow();
+}
+
 const building=$('.buildingPreview');if(building)building.addEventListener('click',e=>{
   e.preventDefault();
   openImage($('img',building),[$('img',building)]);
