@@ -1410,13 +1410,21 @@ img {
  #galerie .galleryCoverflowArrow{transition:none!important}
 }
 
-/* Kontakt-Dialoge: beim Maus-Hover sowohl Schliesskreis als auch X in Logo-Gelb. */
+/* Kontakt-Dialoge: Schliessknopf wie die Galerie-Pfeile, mit derselben Druckanimation. */
 .waDialog .dialogClose{
-  transition:color .2s ease,border-color .2s ease;
+  border:2px solid var(--muted);
+  color:var(--muted);
+  background:#000;
+  transition:color .2s,border-color .2s,background-color .2s,transform .2s;
 }
 @media (hover:hover) and (pointer:fine){
   .waDialog .dialogClose:hover{
     color:var(--accent);
     border-color:var(--accent);
+    background:#101104;
   }
+}
+.waDialog .dialogClose:active{transform:scale(.94)}
+@media (prefers-reduced-motion:reduce){
+  .waDialog .dialogClose{transition:none!important}
 }
