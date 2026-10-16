@@ -145,10 +145,24 @@ if(coverflow&&coverflowPrev&&coverflowNext){
  const count=slides.length;
  const mod=(n)=>((n%count)+count)%count;
  let current=0,gesture=null,ignoreClickUntil=0;
- // Load the real gallery photos so that repeated cycles have no gaps.
- slides.forEach(slide=>{
-  slide.querySelectorAll('img').forEach(img=>{img.loading='eager';});
- });
+ // Keep the gallery's nine photos lazy at page start. Load them all before
+ // the visitor reaches this section, so coverflow swipes keep their images.
+ const preloadGalleryPhotos=()=>{
+  slides.forEach(slide=>{
+   slide.querySelectorAll('img').forEach(img=>{img.loading='eager';});
+  });
+ };
+ if('IntersectionObserver' in window){
+  const preloadObserver=new IntersectionObserver((entries,observer)=>{
+   if(entries.some(entry=>entry.isIntersecting)){
+    preloadGalleryPhotos();
+    observer.disconnect();
+   }
+  },{rootMargin:'1200px 0px'});
+  preloadObserver.observe(coverflow);
+ }else{
+  preloadGalleryPhotos();
+ }
  function renderCoverflow(dragPixels=0){
   // Desktop: fit all five visible cards within the carousel width.
   // Their centres are positioned using their actual scaled widths plus clear gaps,
