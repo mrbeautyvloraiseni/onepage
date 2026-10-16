@@ -774,6 +774,13 @@ html.appleTouch .links a.isTouchPressed {
   }
 }
 
+/* Desktop: dezenter, besser sichtbarer gelber Rahmen; iPhone bleibt bei 1 px. */
+@media (min-width:921px) and (hover:hover) and (pointer:fine) {
+  .googleReviewButton {
+    border-width:1.5px;
+  }
+}
+
 html.appleTouch .googleReviewButton:hover {
   background:#000;
   color:#fff;
