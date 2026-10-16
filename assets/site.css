@@ -1409,3 +1409,14 @@ img {
  #galerie .galleryCoverflow .shot,
  #galerie .galleryCoverflowArrow{transition:none!important}
 }
+
+/* Kontakt-Dialoge: beim Maus-Hover sowohl Schliesskreis als auch X in Logo-Gelb. */
+.waDialog .dialogClose{
+  transition:color .2s ease,border-color .2s ease;
+}
+@media (hover:hover) and (pointer:fine){
+  .waDialog .dialogClose:hover{
+    color:var(--accent);
+    border-color:var(--accent);
+  }
+}
