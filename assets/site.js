@@ -53,7 +53,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.classList.cont
 matchMedia('(min-width:921px)').addEventListener('change',closeMenu);
 // Preserve old incoming links while using native anchors for all new links.
 const legacy=new URLSearchParams(location.search).get('mrsection');
-if(legacy&&document.getElementById(legacy)&&!(legacy==='preise'&&/iPhone|iPod/.test(navigator.userAgent))){
+if(legacy&&document.getElementById(legacy)){
  requestAnimationFrame(()=>{
   document.getElementById(legacy).scrollIntoView();
   const cleanUrl=new URL(location.href);
@@ -589,7 +589,7 @@ document.querySelectorAll(".gallery, .buildingPreview, .imageLightbox, .portrait
  }
  if(!onHome)return;
 
- function scrollToSection(id,immediate=false){
+ function scrollToSection(id){
   const target=document.getElementById(id);
   const nav=document.querySelector('.nav');
   if(!target||!nav)return;
@@ -598,17 +598,8 @@ document.querySelectorAll(".gallery, .buildingPreview, .imageLightbox, .portrait
   const maxY=Math.max(0,document.documentElement.scrollHeight-innerHeight);
   const rawY=id==='startseite'?0:scrollY+target.getBoundingClientRect().top-offset;
   const targetY=Math.max(0,Math.min(maxY,rawY));
-  if(immediate){
-   // Incoming links must land at the final position without an interrupted smooth scroll.
-   const root=document.documentElement;
-   const previous=root.style.scrollBehavior;
-   root.style.scrollBehavior='auto';
-   window.scrollTo(0,targetY);
-   root.style.scrollBehavior=previous;
-  }else{
-   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-   window.scrollTo({top:targetY,behavior:reduce?'auto':'smooth'});
-  }
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({top:targetY,behavior:reduce?'auto':'smooth'});
  }
 
  // Onepage iPhone menu: closeMenu() runs in the existing click handler first.
@@ -631,41 +622,19 @@ document.querySelectorAll(".gallery, .buildingPreview, .imageLightbox, .portrait
   });
  });
 
- // Existing legal-page return logic remains unchanged.
+ // An incoming legal-page selection has no hash, so Safari cannot make an
+ // early, inaccurate fragment jump. Wait for Montserrat font/layout readiness,
+ // restore the canonical URL and start exactly one smooth scroll.
  const initial=new URLSearchParams(location.search).get(key);
- if(sections.has(initial)){
-  const ready=document.fonts?document.fonts.ready:Promise.resolve();
-  ready.then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
-   if(skipIncoming)return;
-   const url=new URL(location.href);
-   if(url.searchParams.get(key)!==initial)return;
-   url.searchParams.delete(key);
-   url.hash='#'+initial;
-   history.replaceState(history.state,'',url.pathname+url.search+url.hash);
-   scrollToSection(initial);
-  }))).catch(()=>{});
-  return;
- }
-
- // Only external iPhone links to the PRICE section need a landing correction.
- // Safari's early #preise jump and the old ?mrsection=preise jump can occur
- // before photos and fonts have settled; the normal in-page menu is untouched.
- const externalPrice= new URLSearchParams(location.search).get('mrsection')==='preise'||idFor(location.hash)==='preise';
- if(!externalPrice)return;
- const pageReady=new Promise(resolve=>{
-  if(document.readyState==='complete')resolve();
-  else addEventListener('pageshow',resolve,{once:true});
- });
- const fonts=document.fonts?document.fonts.ready:Promise.resolve();
- Promise.all([pageReady,fonts]).then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
+ if(!sections.has(initial))return;
+ const ready=document.fonts?document.fonts.ready:Promise.resolve();
+ ready.then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
   if(skipIncoming)return;
   const url=new URL(location.href);
-  if(url.searchParams.get('mrsection')!=='preise'&&idFor(url.hash)!=='preise')return;
-  url.searchParams.delete('mrsection');
-  url.hash='#preise';
-  if(url.pathname+url.search+url.hash!==location.pathname+location.search+location.hash){
-   history.replaceState(history.state,'',url.pathname+url.search+url.hash);
-  }
-  scrollToSection('preise',true);
+  if(url.searchParams.get(key)!==initial)return;
+  url.searchParams.delete(key);
+  url.hash='#'+initial;
+  history.replaceState(history.state,'',url.pathname+url.search+url.hash);
+  scrollToSection(initial);
  }))).catch(()=>{});
 })();
