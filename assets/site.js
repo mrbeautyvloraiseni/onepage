@@ -53,7 +53,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.classList.cont
 matchMedia('(min-width:921px)').addEventListener('change',closeMenu);
 // Preserve old incoming links while using native anchors for all new links.
 const legacy=new URLSearchParams(location.search).get('mrsection');
-if(legacy&&document.getElementById(legacy)&&!/iPhone|iPod/.test(navigator.userAgent)){
+if(legacy&&document.getElementById(legacy)&&!(legacy==='preise'&&/iPhone|iPod/.test(navigator.userAgent))){
  requestAnimationFrame(()=>{
   document.getElementById(legacy).scrollIntoView();
   const cleanUrl=new URL(location.href);
@@ -631,27 +631,41 @@ document.querySelectorAll(".gallery, .buildingPreview, .imageLightbox, .portrait
   });
  });
 
- // Use the same final-position calculation as the working iPhone menu for
- // external #section links, older ?mrsection= links and legal-page returns.
- // Unlike in-page menu clicks, an incoming link must wait for page layout.
- const params=new URLSearchParams(location.search);
- const initial=params.get(key)||params.get('mrsection')||idFor(location.hash);
- if(!sections.has(initial))return;
- const shown=new Promise(resolve=>{
+ // Existing legal-page return logic remains unchanged.
+ const initial=new URLSearchParams(location.search).get(key);
+ if(sections.has(initial)){
+  const ready=document.fonts?document.fonts.ready:Promise.resolve();
+  ready.then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
+   if(skipIncoming)return;
+   const url=new URL(location.href);
+   if(url.searchParams.get(key)!==initial)return;
+   url.searchParams.delete(key);
+   url.hash='#'+initial;
+   history.replaceState(history.state,'',url.pathname+url.search+url.hash);
+   scrollToSection(initial);
+  }))).catch(()=>{});
+  return;
+ }
+
+ // Only external iPhone links to the PRICE section need a landing correction.
+ // Safari's early #preise jump and the old ?mrsection=preise jump can occur
+ // before photos and fonts have settled; the normal in-page menu is untouched.
+ const externalPrice= new URLSearchParams(location.search).get('mrsection')==='preise'||idFor(location.hash)==='preise';
+ if(!externalPrice)return;
+ const pageReady=new Promise(resolve=>{
   if(document.readyState==='complete')resolve();
   else addEventListener('pageshow',resolve,{once:true});
  });
  const fonts=document.fonts?document.fonts.ready:Promise.resolve();
- Promise.all([shown,fonts]).then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
+ Promise.all([pageReady,fonts]).then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
   if(skipIncoming)return;
   const url=new URL(location.href);
-  if(url.searchParams.get(key)!==initial&&url.searchParams.get('mrsection')!==initial&&idFor(url.hash)!==initial)return;
-  url.searchParams.delete(key);
+  if(url.searchParams.get('mrsection')!=='preise'&&idFor(url.hash)!=='preise')return;
   url.searchParams.delete('mrsection');
-  url.hash='#'+initial;
+  url.hash='#preise';
   if(url.pathname+url.search+url.hash!==location.pathname+location.search+location.hash){
    history.replaceState(history.state,'',url.pathname+url.search+url.hash);
   }
-  scrollToSection(initial,true);
+  scrollToSection('preise',true);
  }))).catch(()=>{});
 })();
