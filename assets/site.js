@@ -53,7 +53,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.classList.cont
 matchMedia('(min-width:921px)').addEventListener('change',closeMenu);
 // Preserve old incoming links while using native anchors for all new links.
 const legacy=new URLSearchParams(location.search).get('mrsection');
-if(legacy&&document.getElementById(legacy)){
+if(legacy&&document.getElementById(legacy)&&!/iPhone|iPod/.test(navigator.userAgent)){
  requestAnimationFrame(()=>{
   document.getElementById(legacy).scrollIntoView();
   const cleanUrl=new URL(location.href);
@@ -589,7 +589,7 @@ document.querySelectorAll(".gallery, .buildingPreview, .imageLightbox, .portrait
  }
  if(!onHome)return;
 
- function scrollToSection(id){
+ function scrollToSection(id,immediate=false){
   const target=document.getElementById(id);
   const nav=document.querySelector('.nav');
   if(!target||!nav)return;
@@ -598,8 +598,17 @@ document.querySelectorAll(".gallery, .buildingPreview, .imageLightbox, .portrait
   const maxY=Math.max(0,document.documentElement.scrollHeight-innerHeight);
   const rawY=id==='startseite'?0:scrollY+target.getBoundingClientRect().top-offset;
   const targetY=Math.max(0,Math.min(maxY,rawY));
-  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  window.scrollTo({top:targetY,behavior:reduce?'auto':'smooth'});
+  if(immediate){
+   // Incoming links must land at the final position without an interrupted smooth scroll.
+   const root=document.documentElement;
+   const previous=root.style.scrollBehavior;
+   root.style.scrollBehavior='auto';
+   window.scrollTo(0,targetY);
+   root.style.scrollBehavior=previous;
+  }else{
+   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+   window.scrollTo({top:targetY,behavior:reduce?'auto':'smooth'});
+  }
  }
 
  // Onepage iPhone menu: closeMenu() runs in the existing click handler first.
@@ -622,19 +631,27 @@ document.querySelectorAll(".gallery, .buildingPreview, .imageLightbox, .portrait
   });
  });
 
- // An incoming legal-page selection has no hash, so Safari cannot make an
- // early, inaccurate fragment jump. Wait for Montserrat font/layout readiness,
- // restore the canonical URL and start exactly one smooth scroll.
- const initial=new URLSearchParams(location.search).get(key);
+ // Use the same final-position calculation as the working iPhone menu for
+ // external #section links, older ?mrsection= links and legal-page returns.
+ // Unlike in-page menu clicks, an incoming link must wait for page layout.
+ const params=new URLSearchParams(location.search);
+ const initial=params.get(key)||params.get('mrsection')||idFor(location.hash);
  if(!sections.has(initial))return;
- const ready=document.fonts?document.fonts.ready:Promise.resolve();
- ready.then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
+ const shown=new Promise(resolve=>{
+  if(document.readyState==='complete')resolve();
+  else addEventListener('pageshow',resolve,{once:true});
+ });
+ const fonts=document.fonts?document.fonts.ready:Promise.resolve();
+ Promise.all([shown,fonts]).then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
   if(skipIncoming)return;
   const url=new URL(location.href);
-  if(url.searchParams.get(key)!==initial)return;
+  if(url.searchParams.get(key)!==initial&&url.searchParams.get('mrsection')!==initial&&idFor(url.hash)!==initial)return;
   url.searchParams.delete(key);
+  url.searchParams.delete('mrsection');
   url.hash='#'+initial;
-  history.replaceState(history.state,'',url.pathname+url.search+url.hash);
-  scrollToSection(initial);
+  if(url.pathname+url.search+url.hash!==location.pathname+location.search+location.hash){
+   history.replaceState(history.state,'',url.pathname+url.search+url.hash);
+  }
+  scrollToSection(initial,true);
  }))).catch(()=>{});
 })();
