@@ -1444,104 +1444,129 @@ img {
 }
 
 
-/* MR Beauty Standort: Neue 850x850-Bilder durchgehend 1:1.
-   Änderungen sind strikt auf #standort begrenzt. */
-#standort .location {
+/* Standort 850x530: einzige aktuelle Layout-Basis, alte quadratische
+   Regeln sind entfernt. Nur #standort wird angepasst. */
+#standort .location,
+html.appleTouch #standort .location {
   display:grid !important;
   grid-template-columns:repeat(2,minmax(0,1fr)) !important;
   align-items:start !important;
-  gap:22px;
+  gap:22px !important;
 }
 #standort .buildingPreview,
-#standort .locCard.mapOnly {
+html.appleTouch #standort .buildingPreview,
+#standort .locCard.mapOnly,
+html.appleTouch #standort .locCard.mapOnly {
   position:relative !important;
   display:block !important;
   width:100% !important;
   height:auto !important;
   min-height:0 !important;
-  aspect-ratio:1 / 1 !important;
+  aspect-ratio:85 / 53 !important;
   overflow:hidden !important;
 }
-#standort .buildingPreview picture {
+#standort .buildingPreview picture,
+html.appleTouch #standort .buildingPreview picture,
+#standort .locCard.mapOnly .pic,
+html.appleTouch #standort .locCard.mapOnly .pic {
   position:absolute !important;
-  inset:0;
+  inset:0 !important;
   display:block !important;
   width:100% !important;
   height:100% !important;
+  min-height:0 !important;
+  overflow:hidden !important;
 }
 #standort .buildingPreview img,
-#standort .locCard.mapOnly .pic img {
+html.appleTouch #standort .buildingPreview img,
+#standort .locCard.mapOnly .pic img,
+html.appleTouch #standort .locCard.mapOnly .pic img {
   position:absolute !important;
   inset:0 !important;
   display:block !important;
   width:100% !important;
   height:100% !important;
   max-width:none !important;
-  object-fit:contain !important;
+  object-fit:fill !important;
   object-position:center center !important;
-}
-#standort .locCard.mapOnly .pic {
-  position:absolute !important;
-  inset:0 !important;
-  display:block !important;
-  width:100% !important;
-  height:100% !important;
-  min-height:0 !important;
-  overflow:hidden !important;
-}
-#standort .locCard.mapOnly .pic img {
   transform:none !important;
 }
-#standort .locCard.mapOnly .mapButtonOnly {
+@media (hover:hover) and (pointer:fine) {
+  #standort .buildingPreview:hover img {transform:scale(1.045) !important;}
+}
+#standort .locCard.mapOnly .pic img,
+html.appleTouch #standort .locCard.mapOnly .pic img {
+  pointer-events:none !important;
+  transition:none !important;
+}
+#standort .locCard.mapOnly .mapButtonOnly,
+html.appleTouch #standort .locCard.mapOnly .mapButtonOnly {
   position:absolute !important;
+  z-index:2 !important;
   left:0 !important;
   right:0 !important;
-  bottom:clamp(10px,3%,22px) !important;
-  z-index:2 !important;
-  padding:0 16px !important;
+  bottom:clamp(8px,2.4%,18px) !important;
+  padding:0 10px !important;
+  text-align:center !important;
   background:transparent !important;
+}
+#standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line,
+html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex-flow:row wrap !important;
+  gap:0 .3em !important;
+  width:min(92%,520px) !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  height:auto !important;
+  min-height:44px !important;
+  margin:0 auto !important;
+  padding:9px 12px !important;
+  font-size:clamp(9px,1.1vw,12px) !important;
+  line-height:1.3 !important;
+  white-space:normal !important;
+  overflow-wrap:normal !important;
   text-align:center !important;
 }
-#standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line {
-  display:flex !important;
-  width:82% !important;
-  max-width:520px !important;
-  min-height:46px !important;
-  margin:0 auto !important;
-  padding:10px 12px !important;
+#standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line .maps-line-1,
+#standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line .maps-line-2,
+html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line .maps-line-1,
+html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line .maps-line-2 {
+  display:inline !important;
+  width:auto !important;
+  min-width:0 !important;
+  flex:0 1 auto !important;
+  white-space:normal !important;
+  text-align:center !important;
 }
 @media (max-width:600px) and (orientation:portrait) {
-  #standort .location {
+  #standort .location,
+  html.appleTouch #standort .location {
     grid-template-columns:minmax(0,1fr) !important;
   }
-  #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line {
-    width:92% !important;
-    max-width:340px !important;
+  #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line,
+  html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line {
+    font-size:clamp(9px,2.5vw,11px) !important;
   }
 }
 @media (orientation:landscape) and (max-height:600px) and (any-pointer:coarse) {
-  #standort .location {
+  #standort .location,
+  html.appleTouch #standort .location {
     grid-template-columns:repeat(2,minmax(0,1fr)) !important;
     gap:12px !important;
   }
-  #standort .locCard.mapOnly .mapButtonOnly {
-    bottom:8px !important;
-    padding:0 7px !important;
+  #standort .locCard.mapOnly .mapButtonOnly,
+  html.appleTouch #standort .locCard.mapOnly .mapButtonOnly {
+    bottom:7px !important;
+    padding:0 6px !important;
   }
-  #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line {
-    width:92% !important;
+  #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line,
+  html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line {
+    width:96% !important;
     min-height:34px !important;
-    height:auto !important;
     font-size:9px !important;
-    padding:6px 5px !important;
-    flex-direction:row !important;
-    flex-wrap:nowrap !important;
-    gap:.3em !important;
-  }
-  #standort .locCard.mapOnly .maps-button-two-line .maps-line-1,
-  #standort .locCard.mapOnly .maps-button-two-line .maps-line-2 {
-    display:inline !important;
-    width:auto !important;
-    white-space:nowrap !important;
+    padding:5px 6px !important;
   }
 }
