@@ -1442,3 +1442,106 @@ img {
 @media(max-height:500px) and (orientation:landscape){
   .waDialog .qr{width:150px;padding:25px}
 }
+
+
+/* MR Beauty Standort: Neue 850x850-Bilder durchgehend 1:1.
+   Änderungen sind strikt auf #standort begrenzt. */
+#standort .location {
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  align-items:start !important;
+  gap:22px;
+}
+#standort .buildingPreview,
+#standort .locCard.mapOnly {
+  position:relative !important;
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  min-height:0 !important;
+  aspect-ratio:1 / 1 !important;
+  overflow:hidden !important;
+}
+#standort .buildingPreview picture {
+  position:absolute !important;
+  inset:0;
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+}
+#standort .buildingPreview img,
+#standort .locCard.mapOnly .pic img {
+  position:absolute !important;
+  inset:0 !important;
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+}
+#standort .locCard.mapOnly .pic {
+  position:absolute !important;
+  inset:0 !important;
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-height:0 !important;
+  overflow:hidden !important;
+}
+#standort .locCard.mapOnly .pic img {
+  transform:none !important;
+}
+#standort .locCard.mapOnly .mapButtonOnly {
+  position:absolute !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:clamp(10px,3%,22px) !important;
+  z-index:2 !important;
+  padding:0 16px !important;
+  background:transparent !important;
+  text-align:center !important;
+}
+#standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line {
+  display:flex !important;
+  width:82% !important;
+  max-width:520px !important;
+  min-height:46px !important;
+  margin:0 auto !important;
+  padding:10px 12px !important;
+}
+@media (max-width:600px) and (orientation:portrait) {
+  #standort .location {
+    grid-template-columns:minmax(0,1fr) !important;
+  }
+  #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line {
+    width:92% !important;
+    max-width:340px !important;
+  }
+}
+@media (orientation:landscape) and (max-height:600px) and (any-pointer:coarse) {
+  #standort .location {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:12px !important;
+  }
+  #standort .locCard.mapOnly .mapButtonOnly {
+    bottom:8px !important;
+    padding:0 7px !important;
+  }
+  #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line {
+    width:92% !important;
+    min-height:34px !important;
+    height:auto !important;
+    font-size:9px !important;
+    padding:6px 5px !important;
+    flex-direction:row !important;
+    flex-wrap:nowrap !important;
+    gap:.3em !important;
+  }
+  #standort .locCard.mapOnly .maps-button-two-line .maps-line-1,
+  #standort .locCard.mapOnly .maps-button-two-line .maps-line-2 {
+    display:inline !important;
+    width:auto !important;
+    white-space:nowrap !important;
+  }
+}
