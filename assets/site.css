@@ -1545,3 +1545,138 @@ img {
     white-space:nowrap !important;
   }
 }
+
+
+/* Standort Responsive Korrektur 2026-10-29:
+   Alte iPhone-Spezialregeln hatten höhere Spezifität und haben das
+   quadratische 1:1-Layout auf Touch-Geräten übersteuert.
+   Nur #standort; Galerie und alle anderen Bereiche bleiben unverändert. */
+#standort .location,
+html.appleTouch #standort .location {
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:22px !important;
+  align-items:start !important;
+}
+#standort .buildingPreview,
+html.appleTouch #standort .buildingPreview,
+#standort .locCard.mapOnly,
+html.appleTouch #standort .locCard.mapOnly {
+  position:relative !important;
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  min-height:0 !important;
+  aspect-ratio:1 / 1 !important;
+  overflow:hidden !important;
+}
+#standort .buildingPreview picture,
+html.appleTouch #standort .buildingPreview picture,
+#standort .locCard.mapOnly .pic,
+html.appleTouch #standort .locCard.mapOnly .pic {
+  position:absolute !important;
+  inset:0 !important;
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-height:0 !important;
+  overflow:hidden !important;
+}
+#standort .buildingPreview img,
+html.appleTouch #standort .buildingPreview img,
+#standort .locCard.mapOnly .pic img,
+html.appleTouch #standort .locCard.mapOnly .pic img {
+  position:absolute !important;
+  inset:0 !important;
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+}
+#standort .locCard.mapOnly .pic img,
+html.appleTouch #standort .locCard.mapOnly .pic img {
+  transform:none !important;
+}
+#standort .locCard.mapOnly .mapButtonOnly,
+html.appleTouch #standort .locCard.mapOnly .mapButtonOnly {
+  position:absolute !important;
+  z-index:2 !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:clamp(10px,3%,22px) !important;
+  padding:0 12px !important;
+  background:transparent !important;
+  text-align:center !important;
+}
+#standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line,
+html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line {
+  display:flex !important;
+  flex-flow:row wrap !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:0 .3em !important;
+  width:min(94%,520px) !important;
+  max-width:calc(100% - 8px) !important;
+  min-width:0 !important;
+  height:auto !important;
+  min-height:44px !important;
+  box-sizing:border-box !important;
+  margin:0 auto !important;
+  padding:10px 12px !important;
+  font-size:clamp(10px,calc(0.8vw + 4px),12px) !important;
+  line-height:1.25 !important;
+  white-space:normal !important;
+  text-align:center !important;
+}
+#standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line .maps-line-1,
+#standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line .maps-line-2,
+html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line .maps-line-1,
+html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line .maps-line-2 {
+  display:inline !important;
+  flex:0 1 auto !important;
+  width:auto !important;
+  min-width:0 !important;
+  white-space:normal !important;
+  text-align:center !important;
+}
+@media (max-width:600px) and (orientation:portrait) {
+  #standort .location,
+  html.appleTouch #standort .location {
+    grid-template-columns:minmax(0,1fr) !important;
+  }
+  /* Das Gebäude darf dezent grösser wirken; Studio- und
+     Eingangsmarkierung bleiben innerhalb des quadratischen Bildes. */
+  #standort .buildingPreview img,
+  html.appleTouch #standort .buildingPreview img {
+    transform:scale(1.09) !important;
+    transform-origin:center center !important;
+  }
+  #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line,
+  html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line {
+    font-size:11px !important;
+    width:min(94%,340px) !important;
+    padding:9px 8px !important;
+  }
+}
+@media (orientation:landscape) and (max-height:600px) and (any-pointer:coarse) {
+  #standort .location,
+  html.appleTouch #standort .location {
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:12px !important;
+  }
+  #standort .locCard.mapOnly .mapButtonOnly,
+  html.appleTouch #standort .locCard.mapOnly .mapButtonOnly {
+    bottom:8px !important;
+    padding:0 7px !important;
+  }
+  #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line,
+  html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line {
+    width:96% !important;
+    max-width:100% !important;
+    padding:7px 5px !important;
+    min-height:34px !important;
+    font-size:10px !important;
+  }
+}
