@@ -336,72 +336,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&imageLightbox&&!ima
 
 
 
-// Google Maps – KEIN ZOOM, KEINE ABDECKUNG.
-// Das Bild bleibt immer exakt 100% breit.
-// Es wird nur nach oben verschoben, bis der gelbe Pfeil vollständig
-// oberhalb des weissen ROUTE-Buttons endet.
-const mrMapCard=document.querySelector('#standort .mapOnly');
-const mrMapImage=mrMapCard&&mrMapCard.querySelector('.pic img');
-const mrMapRouteButton=mrMapCard&&mrMapCard.querySelector('.maps-button-two-line');
-
-function positionMrBeautyMapNoZoom(){
- if(!mrMapCard||!mrMapImage||!mrMapRouteButton||
-    !mrMapImage.naturalWidth||!mrMapImage.naturalHeight)return;
-
- const cardW=mrMapCard.clientWidth;
- const cardH=mrMapCard.clientHeight;
- if(!cardW||!cardH)return;
-
- // Niemals zoomen: Bildbreite = exakt Fensterbreite.
- const scale=cardW/mrMapImage.naturalWidth;
- const renderedH=mrMapImage.naturalHeight*scale;
-
- // Original googlemap.jpg:
- // MR-Beauty-Bereich ca. Y=590
- // unterstes sichtbares Ende des gelben Pfeils ca. Y=940
- const mrBeautyY=590;
- const arrowBottomY=940;
-
- const cardRect=mrMapCard.getBoundingClientRect();
- const buttonRect=mrMapRouteButton.getBoundingClientRect();
- const buttonTop=buttonRect.top-cardRect.top;
-
- // Wunsch 1: MR Beauty möglichst mittig im Kartenbereich oberhalb des Buttons.
- const centreTarget=buttonTop/2;
- const centreTop=centreTarget-(mrBeautyY*scale);
-
- // Wunsch 2: Pfeilende muss vollständig oberhalb des Buttons liegen.
- const gap=8;
- const arrowTop=(buttonTop-gap)-(arrowBottomY*scale);
-
- // Falls beides gleichzeitig nicht möglich ist, hat "kein Pfeil unter dem Button"
- // Vorrang. Es wird ausschließlich nach oben verschoben.
- let top=Math.min(centreTop,arrowTop)+30;
-
- // Das Bild ist hoch genug; trotzdem verhindern wir vorsichtshalber leere Flächen.
- const minTop=Math.min(0,cardH-renderedH);
- top=Math.max(minTop,Math.min(0,top));
-
- mrMapImage.style.width='100%';
- mrMapImage.style.height='auto';
- mrMapImage.style.left='0px';
- mrMapImage.style.top=`${top}px`;
-}
-
-if(mrMapImage){
- if(mrMapImage.complete)requestAnimationFrame(positionMrBeautyMapNoZoom);
- else mrMapImage.addEventListener('load',positionMrBeautyMapNoZoom,{once:true});
-
- if('ResizeObserver'in window){
-   const mrMapNoZoomResizeObserver=new ResizeObserver(
-     ()=>requestAnimationFrame(positionMrBeautyMapNoZoom)
-   );
-   mrMapNoZoomResizeObserver.observe(mrMapCard);
-   mrMapNoZoomResizeObserver.observe(mrMapRouteButton);
- }else{
-   addEventListener('resize',positionMrBeautyMapNoZoom,{passive:true});
- }
-}
+// Standort-Bilder 850x850: Das CSS stellt Bild und Kartenansicht quadratisch dar.
+// Die alten pixelgebundenen Kartenpositionen dürfen nicht mehr angewandt werden.
 
 // On roomy two-column layouts, both contact cards match the tall price card.
 // The two seven-row grids in CSS keep corresponding separator lines aligned.
