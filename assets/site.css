@@ -1724,3 +1724,114 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
 #preise .priceRow .priceAmount {
   font-size:11px;
 }
+
+/* MR Beauty – einheitliches Schriftsystem, alle Ansichten.
+   Feste Stufen: Copyright 11px, kleine Labels/Preise 12px,
+   Fliesstexte 14px, kleinere Kartenueberschriften 16px.
+   Grosse H1/H2, Galerie-Pfeile und Bedienelement-Symbole bleiben flexibel. */
+body {
+  font-size:14px;
+}
+
+/* Kleine gelbe Bereichstitel und kurze Zusatzinformationen */
+.eyebrow,
+.legalEyebrow,
+.heroTextIntro .eyebrow,
+.btn,
+.googleReviewButton,
+.legalBack,
+.apprenticeNote,
+.floatWhats > span,
+.floatWhats small,
+.imageLightbox .imageCaptionText,
+#imageCaptionText,
+.imageLightbox figcaption small {
+  font-size:12px;
+}
+
+/* Normale Texte, Links, Beschreibungen und Kontaktdaten */
+.nav .links a,
+.mobile a,
+.footerLinks a,
+#leistungen .serviceCard p,
+#ueber-uns .mini p,
+#kontakt .contactList > a,
+#kontakt .hoursRow,
+.waDialog p,
+.imageLightbox .imageCaptionDetail,
+#imageCaptionDetail,
+.legalCard p {
+  font-size:14px;
+}
+
+/* Kleine Kartenueberschriften: ueberall gleich gross und halb-fett */
+h3,
+#leistungen .serviceCard h3,
+#preise .priceOpenHeader h3,
+#kontakt .contactBox h3,
+#kontakt .hours h3,
+#ueber-uns .mini b {
+  font-size:16px;
+  font-weight:600;
+}
+
+/* Die grosse Bewertungs-Ueberschrift bleibt weiterhin responsiv. */
+.googleReview h3 {
+  font-size:clamp(22px,2.5vw,32px);
+  font-weight:500;
+}
+
+/* Preisangaben inklusive Behandlung, CHF und Betrag auf jedem Geraet 12px. */
+#preise .priceRow,
+#preise .priceRow .priceCurrency,
+#preise .priceRow .priceAmount {
+  font-size:12px;
+}
+
+/* Auf schmalen Displays den Lehrlingshinweis vollständig umbrechen lassen. */
+@media (max-width:600px) {
+  #preise .apprenticeNote {
+    white-space:normal;
+  }
+}
+
+/* Karten koennen mit dem laengeren Text wachsen; sechs Karten bleiben
+   durch gleich hohe Grid-Reihen auf jeder Ansicht einheitlich. */
+#leistungen .serviceGrid {
+  grid-auto-rows:1fr;
+  align-items:stretch;
+}
+#leistungen .serviceCard {
+  height:auto;
+  min-height:170px;
+}
+@media (max-width:1100px) {
+  #leistungen .serviceCard {
+    min-height:160px;
+  }
+}
+@media (max-width:600px) and (orientation:portrait) {
+  #leistungen .serviceCard {
+    min-height:0;
+  }
+}
+
+/* Sondertexte in Dialog und Foto-Grossansicht */
+.phoneDialog .phoneNumber {
+  font-size:16px;
+}
+#standort .mapButtonOnly a,
+#standort .mapButtonOnly a.maps-button-two-line,
+#standort .locCard.mapOnly .mapButtonOnly a,
+html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a,
+#standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line,
+html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line,
+#standort .location > .mapButtonOnly a.maps-button-two-line,
+html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line {
+  font-size:12px !important;
+}
+
+/* Einzige normale Schrift unter 12px: das Copyright. */
+.copyright {
+  font-size:11px;
+}
