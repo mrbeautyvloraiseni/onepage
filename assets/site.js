@@ -321,10 +321,7 @@ if(coverflow&&coverflowPrev&&coverflowNext){
  renderCoverflow();
 }
 
-const building=$('.buildingPreview');if(building)building.addEventListener('click',e=>{
-  e.preventDefault();
-  openImage($('img',building),[$('img',building)]);
-});
+// Das Standort-Gebäudebild ist ein statisches Bild ohne Grossansicht.
 const largeImage=$('#largeImage');
 if(largeImage){
  largeImage.addEventListener('click',closeImage);
