@@ -1657,8 +1657,8 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
 
 /* Über mich: beide Textabsätze auf schmalen Hochformat-Displays natürlich umbrechen. */
 @media (max-width:600px) and (orientation:portrait) {
-  #aboutText > p.lead,
-  #aboutText > p.aboutExtra {
+  #aboutText .aboutCopy > p.lead,
+  #aboutText .aboutCopy > p.aboutExtra {
     text-wrap:wrap;
   }
 }
@@ -1674,5 +1674,45 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
   html.appleTouch #galerie .galleryIntro > p br.iphoneLandscapeSentenceBreak,
   html.appleTouch #preise .galleryIntro > p br.iphoneLandscapeSentenceBreak {
     display:inline !important;
+  }
+}
+
+/* Über mich: die zusätzliche Textgruppe bleibt auf allen bisherigen Ansichten layoutneutral. */
+#ueber-uns .aboutCopy {
+  display:contents;
+}
+
+/* Nur iPhone im Querformat: Bild links zur oberen Textgruppe zentrieren,
+   Garantie/Hygiene/Erfahrung als drei Spalten unter BEIDEN oberen Spalten. */
+@media (orientation:landscape) and (min-width:601px) and (max-width:980px) and (max-height:600px) and (hover:none) and (pointer:coarse) {
+  html.appleTouch #ueber-uns .split {
+    display:grid;
+    grid-template-columns:minmax(0,.85fr) minmax(0,1fr);
+    grid-template-rows:auto auto;
+    column-gap:28px;
+    row-gap:28px;
+    align-items:center;
+  }
+  html.appleTouch #ueber-uns .portrait {
+    grid-column:1;
+    grid-row:1;
+    align-self:center;
+  }
+  html.appleTouch #ueber-uns #aboutText {
+    display:contents;
+  }
+  html.appleTouch #ueber-uns .aboutCopy {
+    display:block;
+    grid-column:2;
+    grid-row:1;
+    min-width:0;
+  }
+  html.appleTouch #ueber-uns .miniGrid {
+    grid-column:1 / -1;
+    grid-row:2;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:22px;
+    margin-top:0;
   }
 }
