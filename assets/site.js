@@ -65,7 +65,7 @@ if(legacy&&document.getElementById(legacy)){
 const motion=matchMedia('(prefers-reduced-motion: reduce)');
 if(!motion.matches&&'IntersectionObserver'in window){
  const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('isPending');observer.unobserve(e.target);}}),{threshold:.08});
- $('.reveal').forEach(el=>{if(el.getBoundingClientRect().top>innerHeight*.9){el.classList.add('isPending');observer.observe(el);}});
+ document.querySelectorAll('.reveal').forEach(el=>{if(el.getBoundingClientRect().top>innerHeight*.9){el.classList.add('isPending');observer.observe(el);}});
  motion.addEventListener('change',()=>{if(motion.matches){$$('.isPending').forEach(e=>e.classList.remove('isPending'));observer.disconnect();}});
 }
 let scheduled=false;function progress(){scheduled=false;const height=document.documentElement.scrollHeight-innerHeight;$('.scrollProgress').style.transform=`scaleX(${height>0?Math.min(1,scrollY/height):0})`;}
