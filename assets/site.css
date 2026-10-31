@@ -1676,3 +1676,11 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
     display:inline !important;
   }
 }
+
+/* Nur iPhone-Querformat: Bild im Über-mich-Abschnitt oben mit der Überschrift ausrichten.
+   Bildgrösse, Rundung und rechter Text bleiben unverändert. */
+@media (orientation:landscape) and (max-height:600px) and (hover:none) and (pointer:coarse) {
+  html.appleTouch #ueber-uns .split {
+    align-items:start;
+  }
+}
