@@ -1585,3 +1585,59 @@ html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line
   max-width:100%;
   text-wrap:wrap;
 }
+
+/* Standort: Routen-Button zentriert unter den beiden Bildern.
+   Das bestehende 850x530-Bildlayout sowie die übrigen Buttons bleiben unverändert. */
+#standort .location > .mapButtonOnly,
+html.appleTouch #standort .location > .mapButtonOnly {
+  grid-column:1 / -1 !important;
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  width:100% !important;
+  position:relative !important;
+  z-index:1 !important;
+  margin:0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  text-align:center !important;
+}
+#standort .location > .mapButtonOnly a.maps-button-two-line,
+html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line {
+  display:flex !important;
+  flex-direction:row !important;
+  flex-wrap:wrap !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:0 .35em !important;
+  box-sizing:border-box !important;
+  width:min(100%,400px) !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  height:auto !important;
+  min-height:50px !important;
+  margin:0 auto !important;
+  padding:11px 18px !important;
+  font-size:12px !important;
+  line-height:1.35 !important;
+  white-space:normal !important;
+  text-align:center !important;
+}
+#standort .location > .mapButtonOnly a.maps-button-two-line .maps-line-1,
+#standort .location > .mapButtonOnly a.maps-button-two-line .maps-line-2,
+html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .maps-line-1,
+html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .maps-line-2 {
+  display:inline !important;
+  flex:0 1 auto !important;
+  width:auto !important;
+  white-space:nowrap !important;
+  text-align:center !important;
+}
+@media (max-width:600px) {
+  #standort .location > .mapButtonOnly a.maps-button-two-line,
+  html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line {
+    min-height:46px !important;
+    padding:10px 12px !important;
+    font-size:clamp(10px,2.9vw,11px) !important;
+  }
+}
