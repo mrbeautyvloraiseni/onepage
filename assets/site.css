@@ -1691,7 +1691,7 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
     grid-template-columns:minmax(0,.85fr) minmax(0,1fr);
     grid-template-rows:auto auto auto;
     column-gap:28px;
-    row-gap:28px;
+    row-gap:0;
     align-items:center;
   }
   html.appleTouch #ueber-uns .portrait {
@@ -1707,7 +1707,6 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
   html.appleTouch #ueber-uns .aboutCopy > .eyebrow {
     grid-column:2;
     grid-row:1;
-    margin-bottom:0;
   }
   html.appleTouch #ueber-uns .aboutIntroText {
     grid-column:2;
@@ -1721,7 +1720,7 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
     display:grid;
     grid-template-columns:repeat(3,minmax(0,1fr));
     gap:22px;
-    margin-top:0;
+    margin-top:28px;
   }
 }
 
