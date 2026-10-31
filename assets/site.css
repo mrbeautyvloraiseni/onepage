@@ -1654,3 +1654,11 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
     word-break:normal;
   }
 }
+
+/* Über mich: beide Textabsätze auf schmalen Hochformat-Displays natürlich umbrechen. */
+@media (max-width:600px) and (orientation:portrait) {
+  #aboutText > p.lead,
+  #aboutText > p.aboutExtra {
+    text-wrap:wrap;
+  }
+}
