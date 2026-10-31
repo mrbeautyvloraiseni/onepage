@@ -166,7 +166,20 @@
 <p class="heroText">Ein Moment nur für dich – bei MR Beauty Vlora Iseni, deinem Nagel- und Beautystudio in Regensdorf. Ob natürliche Gelnägel, feines French, eleganter Babyboomer oder dein ganz persönliches Nageldesign – Vlora nimmt sich Zeit für deine Wünsche und berät dich persönlich. Ergänzende Behandlungen für Augenbrauen und Wimpern runden dein Beauty-Erlebnis ab. Freu dich auf sorgfältige Arbeit, liebevolle Details und eine entspannte Auszeit.</p>
 </div>
 <div class="heroMedia reveal">
-<div class="mainPhoto"><picture><source media="(min-width:921px) and (hover:hover) and (pointer:fine)" srcset="images/mr-beauty-hero-desktop-erweitert.webp" type="image/webp"><img alt="French-Nägel in Pastellfarben" src="images/Colorful-french-nails.jpg" width="1206" height="1587" decoding="async" fetchpriority="high"></picture></div>
+<div class="mainPhoto"><img id="mrBeautyHeroImage" alt="French-Nägel in Pastellfarben" src="images/Colorful-french-nails.jpg" width="1206" height="1587" decoding="async" fetchpriority="high"></div>
+<script>
+(function(){
+  const photo=document.getElementById("mrBeautyHeroImage");
+  const desktop=window.matchMedia("(min-width:921px) and (hover:hover) and (pointer:fine)");
+  function updateHeroSource(){
+    const src=desktop.matches?"images/mr-beauty-hero-desktop-erweitert.webp":"images/Colorful-french-nails.jpg";
+    if(photo.getAttribute("src")!==src)photo.setAttribute("src",src);
+  }
+  updateHeroSource();
+  if(desktop.addEventListener)desktop.addEventListener("change",updateHeroSource);
+  else if(desktop.addListener)desktop.addListener(updateHeroSource);
+})();
+</script>
 
 </div>
 </div>
