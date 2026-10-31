@@ -1574,3 +1574,14 @@ html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line
 /* Standort-Gebäudefoto statisch: keine Klick- oder Zoom-Andeutung. */
 #standort .buildingPreview {cursor:default !important;}
 #standort .buildingPreview:hover img {transform:none !important;}
+
+/* Textfluss: nur die drei Beschreibungen unter Leistungen, Galerie, Preise.
+   Desktop darf die gesamte verfügbare Inhaltsbreite nutzen.
+   Auf kleinen Bildschirmen bleibt der automatische Umbruch erhalten. */
+#leistungen .serviceHead > p,
+#galerie .galleryIntro > p,
+#preise .galleryIntro > p.priceIntroText {
+  width:100%;
+  max-width:100%;
+  text-wrap:wrap;
+}
