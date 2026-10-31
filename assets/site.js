@@ -90,6 +90,7 @@ function showImage(){
  detail.hidden=!description;
 }
 let imageOpenRequest=0;
+let imageLightboxReturnFocus=null;
 function waitForLargeImage(image){
   const finish=()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
 
@@ -115,6 +116,7 @@ function waitForLargeImage(image){
   });
 }
 async function openImage(source,list){
+  imageLightboxReturnFocus=source.closest('button')||document.activeElement;
   activeImages=list||[source];
   activeIndex=Math.max(0,activeImages.indexOf(source));
   const request=++imageOpenRequest;
@@ -126,6 +128,7 @@ async function openImage(source,list){
   imageLightbox.hidden=false;
   imageLightbox.classList.add("isOpen");
   document.body.classList.add("modalOpen");
+  large?.focus({preventScroll:true});
 }
 function closeImage(){
   imageOpenRequest++;
@@ -133,6 +136,10 @@ function closeImage(){
   imageLightbox.classList.remove("isOpen");
   imageLightbox.hidden=true;
   document.body.classList.remove("modalOpen");
+  if(imageLightboxReturnFocus?.isConnected){
+    imageLightboxReturnFocus.focus({preventScroll:true});
+  }
+  imageLightboxReturnFocus=null;
 }
 gallery.forEach(img=>img.closest('button').addEventListener('click',e=>{e.preventDefault();openImage(img,gallery);}));
 
@@ -328,7 +335,15 @@ if(largeImage){
  largeImage.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();closeImage();}});
 }
 if(imageLightbox)imageLightbox.addEventListener('click',e=>{if(e.target===imageLightbox)closeImage();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&imageLightbox&&!imageLightbox.hidden){e.preventDefault();closeImage();}});
+document.addEventListener('keydown',e=>{
+ if(!imageLightbox||imageLightbox.hidden)return;
+ if(e.key==='Escape'){e.preventDefault();closeImage();}
+ else if(e.key==='Tab'){
+  // Only the large image is keyboard-focusable in this custom dialog.
+  e.preventDefault();
+  largeImage?.focus({preventScroll:true});
+ }
+});
 
 
 
