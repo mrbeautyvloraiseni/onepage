@@ -1662,3 +1662,17 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
     text-wrap:wrap;
   }
 }
+
+/* Satzumbrueche nur im iPhone-Querformat: Leistungen, Galerie und Preise. */
+#leistungen .serviceHead > p br.iphoneLandscapeSentenceBreak,
+#galerie .galleryIntro > p br.iphoneLandscapeSentenceBreak,
+#preise .galleryIntro > p br.iphoneLandscapeSentenceBreak {
+  display:none !important;
+}
+@media (orientation:landscape) and (max-height:600px) and (hover:none) and (pointer:coarse) {
+  html.appleTouch #leistungen .serviceHead > p br.iphoneLandscapeSentenceBreak,
+  html.appleTouch #galerie .galleryIntro > p br.iphoneLandscapeSentenceBreak,
+  html.appleTouch #preise .galleryIntro > p br.iphoneLandscapeSentenceBreak {
+    display:inline !important;
+  }
+}
