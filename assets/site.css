@@ -1835,3 +1835,12 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line {
 .copyright {
   font-size:11px;
 }
+
+/* iPhone-Hochformat: die drei Infotexte mit 14px nicht in winzige Spalten zwingen.
+   Querformat-Regel mit drei Spalten bleibt davon unberuehrt. */
+@media (max-width:600px) and (orientation:portrait) {
+  #ueber-uns .miniGrid {
+    grid-template-columns:minmax(0,1fr);
+    gap:20px;
+  }
+}
