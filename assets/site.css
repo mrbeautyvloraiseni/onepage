@@ -1654,3 +1654,6 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
     word-break:normal;
   }
 }
+
+/* Hero-Bildquelle: picture belegt exakt das unveränderte Bildfenster. */
+#home .mainPhoto picture{display:block;width:100%;height:100%}
