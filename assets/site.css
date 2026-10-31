@@ -1657,8 +1657,8 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
 
 /* Über mich: beide Textabsätze auf schmalen Hochformat-Displays natürlich umbrechen. */
 @media (max-width:600px) and (orientation:portrait) {
-  #aboutText .aboutCopy > p.lead,
-  #aboutText .aboutCopy > p.aboutExtra {
+  #aboutText .aboutIntroText > p.lead,
+  #aboutText .aboutIntroText > p.aboutExtra {
     text-wrap:wrap;
   }
 }
