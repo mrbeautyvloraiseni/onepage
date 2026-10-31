@@ -1717,3 +1717,10 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
     margin-top:0;
   }
 }
+
+/* Preisliste: Behandlung, CHF und Betrag auf allen Bildschirmgroessen einheitlich 11px. */
+#preise .priceRow,
+#preise .priceRow .priceCurrency,
+#preise .priceRow .priceAmount {
+  font-size:11px;
+}
