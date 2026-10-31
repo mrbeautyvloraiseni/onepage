@@ -1570,3 +1570,7 @@ html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line
     padding:5px 6px !important;
   }
 }
+
+/* Standort-Gebäudefoto statisch: keine Klick- oder Zoom-Andeutung. */
+#standort .buildingPreview {cursor:default !important;}
+#standort .buildingPreview:hover img {transform:none !important;}
