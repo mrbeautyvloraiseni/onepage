@@ -92,7 +92,7 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   box-shadow:none!important;
 }
 
-/* STARTBILD-FENSTER – 10% flacher, weiterhin bis zum oberen Rand reichend. */
+/* STARTBILD-FENSTER – unten unverändert, nur nach oben bis zum oberen Rand vergrössert */
 #home.hero{
   padding-top:0!important;
 }
@@ -100,7 +100,7 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   margin-top:0!important;
 }
 #home .mainPhoto{
-  height:clamp(345.6px,calc(27.9vw + 93.6px),512.1px)!important;
+  height:calc(clamp(280px,31vw,465px) + 104px)!important;
 }
 /* Bildausschnitt aus Version 46 beibehalten: 30px nach oben */
 #home .mainPhoto img{
@@ -111,17 +111,17 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
     padding-top:0!important;
   }
   #home .mainPhoto{
-    height:390.6px!important;
+    height:calc(340px + 94px)!important;
   }
 }
 @media(max-width:600px){
   #home .mainPhoto{
-    height:341.1px!important;
+    height:calc(285px + 94px)!important;
   }
 }
 @media(max-height:500px) and (orientation:landscape){
   #home .mainPhoto{
-    height:306px!important;
+    height:calc(260px + 80px)!important;
   }
 }
 
@@ -217,13 +217,15 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
 }
 
 /* IPHONE HOCHFORMAT
-   Navigation unverändert, Startbildhöhe testweise um 10% reduziert. */
+   Navigation bleibt 1:1 wie Onepage(52).
+   Nur das Startbild-Fenster wird nach oben erweitert.
+   Alte Unterkante bleibt an derselben Stelle. */
 @media(max-width:600px) and (orientation:portrait){
   #home.hero{
     padding-top:0!important;
   }
   #home .mainPhoto{
-    height:350.1px!important; /* 90% der bisherigen 389px Startbildhöhe */
+    height:389px!important; /* 285px Originalhöhe + 104px ursprünglicher oberer Abstand */
   }
 }
 
