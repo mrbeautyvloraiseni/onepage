@@ -1697,6 +1697,7 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
     grid-column:1;
     grid-row:1;
     align-self:center;
+    top:28px; /* Nur optische Feinpositionierung; kein Einfluss auf die drei Spalten darunter. */
   }
   html.appleTouch #ueber-uns #aboutText {
     display:contents;
