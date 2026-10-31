@@ -1642,8 +1642,8 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
   }
 }
 
-/* MR Beauty: Leistungskarten auf Touch-Geräten – Titel bündig oben, natürlicher Textumbruch. */
-@media (any-pointer:coarse) {
+/* MR Beauty: Leistungskarten auf Geräten mit Touch als primärer Eingabe – Titel oben, natürlicher Textumbruch. */
+@media (hover:none) and (pointer:coarse) {
   #leistungen .serviceCard {
     justify-content:flex-start;
   }
