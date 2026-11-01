@@ -1743,3 +1743,11 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
   width:100%;
   height:100%;
 }
+/* Desktop: Die neue picture-Ebene übernimmt exakt die alte 120px-Rundung
+   des Hero-Fensters. Keine Änderung von Radius, Höhe oder Bildausschnitt. */
+@media (min-width:921px) and (hover:hover) and (pointer:fine) {
+  #home .mainPhoto > picture.heroPicture {
+    border-radius:inherit;
+    overflow:hidden;
+  }
+}
