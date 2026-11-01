@@ -1750,4 +1750,9 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
     border-radius:inherit;
     overflow:hidden;
   }
+  /* Das -30px-Offset stammt vom alten Hochformatbild und laesst beim
+     neuen Breitbild unten eine ungedeckte Kante. Nur Desktop neutralisieren. */
+  #home .mainPhoto > picture.heroPicture > img {
+    object-position:center center !important;
+  }
 }
