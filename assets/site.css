@@ -1480,9 +1480,6 @@ html.appleTouch #standort .locCard.mapOnly .pic img {
   object-position:center center !important;
   transform:none !important;
 }
-@media (hover:hover) and (pointer:fine) {
-  #standort .buildingPreview:hover img {transform:scale(1.045) !important;}
-}
 #standort .locCard.mapOnly .pic img,
 html.appleTouch #standort .locCard.mapOnly .pic img {
   pointer-events:none !important;
