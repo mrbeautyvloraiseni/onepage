@@ -1405,10 +1405,6 @@ img {
  #galerie .galleryCoverflow{--mr-card-width:clamp(120px,18vw,180px)}
  #galerie .gallerySocial{margin-top:24px}
 }
-@media(prefers-reduced-motion:reduce){
- #galerie .galleryCoverflow .shot,
- #galerie .galleryCoverflowArrow{transition:none!important}
-}
 
 /* Kontakt-Dialoge: Schliessknopf wie die Galerie-Pfeile, mit derselben Druckanimation. */
 .waDialog .dialogClose{
