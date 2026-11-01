@@ -107,9 +107,6 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
   object-position:center calc(47% - 30px)!important;
 }
 @media(max-width:920px){
-  #home.hero{
-    padding-top:0!important;
-  }
   #home .mainPhoto{
     height:calc(340px + 94px)!important;
   }
@@ -221,9 +218,6 @@ dialog{color:#fff;border:1px solid var(--line);border-radius:24px;background:#0b
    Nur das Startbild-Fenster wird nach oben erweitert.
    Alte Unterkante bleibt an derselben Stelle. */
 @media(max-width:600px) and (orientation:portrait){
-  #home.hero{
-    padding-top:0!important;
-  }
   #home .mainPhoto{
     height:389px!important; /* 285px Originalhöhe + 104px ursprünglicher oberer Abstand */
   }
@@ -1406,7 +1400,6 @@ img {
 @media(max-width:600px) and (orientation:portrait){
  #galerie .galleryCoverflow{--mr-card-width:min(60vw,250px)}
  #galerie .galleryIntro{margin-bottom:28px}
- #galerie .gallerySocial{margin-top:28px}
 }
 @media(orientation:landscape) and (max-height:600px) and (any-pointer:coarse){
  #galerie .galleryCoverflow{--mr-card-width:clamp(120px,18vw,180px)}
