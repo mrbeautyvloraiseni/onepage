@@ -1756,3 +1756,17 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
     object-position:center center !important;
   }
 }
+
+/* Hero-Bildausschnitt: auf allen Geraeten optisch um 10% der Fensterhoehe
+   nach oben verschoben. Das Bild hat 20% zusaetzlichen Ueberstand nach oben;
+   unten bleibt es stets buendig. Fenster, Radius und Bogen sind unveraendert. */
+#home .mainPhoto > picture.heroPicture {
+  position:relative;
+}
+#home .mainPhoto > picture.heroPicture > img {
+  position:absolute;
+  top:-20%;
+  left:0;
+  width:100%;
+  height:120%;
+}
