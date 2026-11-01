@@ -1730,3 +1730,16 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
 #preise .priceRow .priceAmount {
   font-size:11px;
 }
+
+/* Desktop-Hero: neues Bild im bisherigen Fenster, Rundung links unten unveraendert.
+   Tablet und iPhone behalten per picture-fallback das Originalbild. */
+#home .mainPhoto > picture.heroPicture {
+  display:block;
+  width:100%;
+  height:100%;
+}
+#home .mainPhoto > picture.heroPicture > img {
+  display:block;
+  width:100%;
+  height:100%;
+}
