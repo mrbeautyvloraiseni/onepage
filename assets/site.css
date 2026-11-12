@@ -1563,7 +1563,8 @@ html.appleTouch #standort .locCard.mapOnly .mapButtonOnly a.maps-button-two-line
    Auf kleinen Bildschirmen bleibt der automatische Umbruch erhalten. */
 #leistungen .serviceHead > p,
 #galerie .galleryIntro > p,
-#preise .galleryIntro > p.priceIntroText {
+#preise .galleryIntro > p.priceIntroText,
+#standort .galleryIntro > p {
   width:100%;
   max-width:100%;
   text-wrap:wrap;
