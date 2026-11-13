@@ -1751,3 +1751,10 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
 #ueber-uns .miniGrid .mini p {
   text-wrap: wrap;
 }
+
+/* Leistungskarten: Titel und Beschreibung je Reihe oben einheitlich ausrichten. */
+@media (min-width:601px) {
+  #leistungen .serviceCard {
+    justify-content:flex-start;
+  }
+}
