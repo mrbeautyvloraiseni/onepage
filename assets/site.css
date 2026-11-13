@@ -1776,3 +1776,9 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
 .heroText .heroParagraph,.aboutExtra .aboutParagraph{display:block}
 .heroText .heroParagraph + .heroParagraph,.aboutExtra .aboutParagraph + .aboutParagraph{margin-top:22px}
 .galleryIntro .gallerySocial{display:block;margin-top:22px}
+
+/* Kurze, gut lesbare Leistungsübersicht */
+.serviceCard .servicePoints{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.serviceCard .servicePoints li{position:relative;padding-left:15px;color:var(--muted);font-size:13px;line-height:1.55}
+.serviceCard .servicePoints li::before{content:"";position:absolute;left:0;top:.67em;width:5px;height:5px;border-radius:50%;background:#c8cf04}
+@media(max-width:700px){.serviceCard .servicePoints{gap:6px}.serviceCard .servicePoints li{font-size:11px;padding-left:12px}}
