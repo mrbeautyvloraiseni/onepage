@@ -1794,3 +1794,14 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
   #leistungen .serviceCard .servicePoints li {font-size:10.5px;line-height:1.45;padding-left:10px;overflow-wrap:normal;word-break:normal}
   #leistungen .serviceCard .servicePoints li::before {width:4px;height:4px}
 }
+
+/* Schmaleres, zentriertes Kartenraster auf breiten Bildschirmen. */
+@media (min-width:1100px) {
+  #leistungen .serviceGrid {width:72%;max-width:1200px;margin-inline:auto}
+}
+@media (min-width:601px) and (max-width:1099px), (max-width:600px) and (orientation:landscape) {
+  #leistungen .serviceGrid {width:88%;margin-inline:auto}
+}
+@media (max-width:600px) and (orientation:portrait) {
+  #leistungen .serviceGrid {width:100%;margin-inline:0}
+}
