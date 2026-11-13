@@ -1767,3 +1767,7 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
 /* Nur Desktop: zweiter Gedanke der Hero-Einleitung beginnt auf neuer Zeile. */
 .heroDesktopBreak{display:none}
 @media (min-width:921px) and (hover:hover) and (pointer:fine){.heroDesktopBreak{display:block}}
+
+/* Hero: Satzbeginn „Ob“ nur im iPhone-Hochformat in neuer Zeile. */
+.heroPortraitBreak{display:none}
+@media (max-width:600px) and (orientation:portrait){.heroPortraitBreak{display:block}}
