@@ -1752,9 +1752,14 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
   text-wrap: wrap;
 }
 
-/* Leistungskarten: Titel und Beschreibung je Reihe oben einheitlich ausrichten. */
-@media (min-width:601px) {
-  #leistungen .serviceCard {
-    justify-content:flex-start;
-  }
+/* Leistungskarten: alle Titel und Texte beginnen je Reihe auf gleicher Hoehe. */
+#leistungen .serviceGrid .serviceCard {
+  justify-content:flex-start;
+}
+#leistungen .serviceGrid .serviceCard h3 {
+  margin-top:0;
+  margin-bottom:10px;
+}
+#leistungen .serviceGrid .serviceCard p {
+  margin-top:0;
 }
