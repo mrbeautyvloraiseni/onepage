@@ -1771,3 +1771,8 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
 /* Hero: Satzbeginn „Ob“ nur im iPhone-Hochformat in neuer Zeile. */
 .heroPortraitBreak{display:none}
 @media (max-width:600px) and (orientation:portrait){.heroPortraitBreak{display:block}}
+
+/* Gleichmässige Textabsätze auf allen Bildschirmgrössen. */
+.heroText .heroParagraph,.aboutExtra .aboutParagraph{display:block}
+.heroText .heroParagraph + .heroParagraph,.aboutExtra .aboutParagraph + .aboutParagraph{margin-top:22px}
+.galleryIntro .gallerySocial{display:block;margin-top:22px}
