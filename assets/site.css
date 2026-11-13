@@ -1782,3 +1782,15 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
 .serviceCard .servicePoints li{position:relative;padding-left:15px;color:var(--muted);font-size:13px;line-height:1.55}
 .serviceCard .servicePoints li::before{content:"";position:absolute;left:0;top:.67em;width:5px;height:5px;border-radius:50%;background:#c8cf04}
 @media(max-width:700px){.serviceCard .servicePoints{gap:6px}.serviceCard .servicePoints li{font-size:11px;padding-left:12px}}
+
+/* Kompakte Leistungskarten: einheitlicher Inhalt auf allen Geräten. */
+@media (min-width:601px), (orientation:landscape) {
+  #leistungen .serviceGrid .serviceCard {height:auto;min-height:142px;padding:17px 22px;justify-content:center}
+  #leistungen .serviceCard .servicePoints {gap:5px}
+}
+@media (max-width:600px) and (orientation:portrait) {
+  #leistungen .serviceGrid .serviceCard {height:auto;min-height:0;padding:14px 11px;justify-content:flex-start}
+  #leistungen .serviceCard .servicePoints {gap:5px}
+  #leistungen .serviceCard .servicePoints li {font-size:10.5px;line-height:1.45;padding-left:10px;overflow-wrap:normal;word-break:normal}
+  #leistungen .serviceCard .servicePoints li::before {width:4px;height:4px}
+}
