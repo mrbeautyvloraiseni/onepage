@@ -1745,3 +1745,6 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
   }
 }
 
+
+/* Erfahrung: Text nutzt die volle Breite der dritten Spalte. */
+#ueber-uns .miniGrid .mini:last-child p { width:100%; text-align:justify; text-align-last:left; }
