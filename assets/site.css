@@ -1795,7 +1795,9 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
   #leistungen .serviceCard .servicePoints li::before {width:4px;height:4px}
 }
 
-/* Einheitliche Kartenbreite wie vor der letzten Desktop-Aenderung. */
+/* Einheitliche Kartenbreite wie in der Referenz (ca. 387 px).
+   Auf schmaleren Querformaten weniger Spalten statt breitere Karten.
+   Smartphone-Hochformat bleibt unveraendert. */
 @media (min-width:601px), (orientation:landscape) {
   #leistungen .serviceGrid {
     width:100%;
