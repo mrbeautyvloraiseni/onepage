@@ -1746,3 +1746,8 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
 }
 
 
+
+/* Drei Infospalten: normale Zeilenumbrueche statt globalem text-wrap: pretty. */
+#ueber-uns .miniGrid .mini p {
+  text-wrap: wrap;
+}
