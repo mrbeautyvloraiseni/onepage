@@ -1795,15 +1795,17 @@ html.appleTouch #standort .location > .mapButtonOnly a.maps-button-two-line .map
   #leistungen .serviceCard .servicePoints li::before {width:4px;height:4px}
 }
 
-/* Desktop: sechs identisch breite Karten, maximal 387px.
-   Tablet und iPhone bleiben wie bisher. */
-@media (min-width:1100px) {
+/* Einheitliche Kartenbreite wie vor der letzten Desktop-Aenderung. */
+@media (min-width:601px), (orientation:landscape) {
   #leistungen .serviceGrid {
     width:100%;
     max-width:none;
     margin-inline:auto;
-    grid-template-columns:repeat(3, minmax(0, 387px));
+    grid-template-columns:repeat(auto-fit,minmax(min(100%,350px),387px));
     justify-content:center;
     gap:18px 28px;
   }
+}
+@media (max-width:600px) and (orientation:portrait) {
+  #leistungen .serviceGrid {width:100%;max-width:none;margin-inline:0;grid-template-columns:repeat(2,minmax(0,1fr));}
 }
