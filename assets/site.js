@@ -375,7 +375,7 @@ function loadQrCode(){
  if(qrCodeLoader)return qrCodeLoader;
  qrCodeLoader=new Promise((resolve,reject)=>{
    const script=document.createElement('script');
-   script.src='assets/qrcode-generator.js';
+   script.src='/assets/qrcode-generator.js';
    script.async=true;
    script.onload=()=>resolve();
    script.onerror=reject;
